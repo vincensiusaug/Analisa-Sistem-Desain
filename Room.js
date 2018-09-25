@@ -4,6 +4,7 @@ function Room(id, number, capacity){
     this.capacity = capacity;
     this.schedule = [];
     this.bookId = null;
+    
 
     this.reserve = function(bookId, time){
         this.bookId = bookId;
