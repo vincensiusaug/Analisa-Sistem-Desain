@@ -1,12 +1,9 @@
 import java.sql.*;
 import java.util.*;
 
-public class Main{
+public class DBReader{
 
-    private static final String FILE_HEADER = "Id,Name";
-
-
-    public Main(){
+    public DBReader(){
         String url = "jdbc:sqlite:user.db";
         Connection conn = null;
         try {
@@ -29,6 +26,6 @@ public class Main{
     }
 
     public static void main(String[] args) {
-        new Main();
+        new DBReader();
     }
 }
