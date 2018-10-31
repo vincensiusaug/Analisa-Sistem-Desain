@@ -1,3 +1,6 @@
+def UserLoader():
+    pass
+
 def ItemLoader():
     pass
 
