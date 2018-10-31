@@ -22,5 +22,9 @@ def UserCheck(email, password):
     return -1
 
 def ReadUser(code):
-    pass
+    connection = sqlite3.connect('Database/E-Commerce.db')
+    cursor = connection.cursor()
 
+    for name in cursor.execute('SELECT * FROM user WHERE code='+str(code)):
+        return name
+    return -1
