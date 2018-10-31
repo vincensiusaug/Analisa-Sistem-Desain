@@ -1,6 +1,6 @@
 import sqlite3
 
-connection = sqlite3.connect('E-Commerce.db')
+connection = sqlite3.connect('Database/E-Commerce.db')
 cursor = connection.cursor()
 
 pformat = "| {:^4} | {:^4} | {:^10} | {:^10} | {:^10} |"
