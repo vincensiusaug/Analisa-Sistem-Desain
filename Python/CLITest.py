@@ -3,9 +3,9 @@ from DBReader import ReadDB, UserCheck
 def UserAuth(email, password):
     AuthResult = UserCheck(email, password)
     if AuthResult == -1:
-        print("Wrong Email or password")
+        print("The Email or Password you entered is incorrect")
     else:
-        print(AuthResult)
+        print("\nLogged in\nCode = "+str(AuthResult))
 
 def ShowAllUser():
     allUser = ReadDB("user")
@@ -19,10 +19,11 @@ def ShowAllUser():
     for row in allUser:
         print(pformat.format(row[0], row[1], row[2], row[3], row[4]))
     print(pformat1.format("-","-","-","-","-"))
+    print()
 
 ShowAllUser()
-
-email = input("Masukan email = ")
-password = input("Masukan password = ")
+print("Login")
+email = input("Email = ")
+password = input("Password = ")
 print("Checking...")
 UserAuth(email, password)
