@@ -35,11 +35,15 @@ def UserCheck(email, password):
     with sqlite3.connect(db) as connection:
         cursor = connection.cursor()
 
-        for record in cursor.execute('SELECT * FROM user'):
-            if record[3] == email and record[4] == password:
-                return record[0]
+        for code in cursor.execute("SELECT code FROM user WHERE email LIKE'"+email+"' AND password LIKE '"+password+"'"):
+            return code
+        # if code[0]:
+        #     print(code[0])
+        #     print(email)
+        #     print(password)
+        #     return code
     
-    return -1
+    return False
 
 def ReadUserCodeInfo(code):
     with sqlite3.connect(db) as connection:

@@ -1,5 +1,5 @@
 from flask import Flask, url_for, render_template, flash, redirect
-from DBHandler import ReadUsernameInfo, ReadAllUser, NewUser
+from DBHandler import ReadUsernameInfo, ReadAllUser, NewUser, UserCheck
 from Forms import RegistrationForm, LoginForm
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '12h9817ywd198whd918hw10921027109wjd109284vu12fn10'
@@ -27,9 +27,15 @@ def Register():
         return redirect(url_for('Login'))
     return render_template('register.html', title=title+' - Register', form=form)
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def Login():
     form = LoginForm()
+    if form.validate_on_submit():
+        if UserCheck(form.email.data, form.password.data):
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('Home'))
+        else:
+            flash('Wrong email or password!', 'danger')
     return render_template('login.html', title=title+' - Login', form=form)
 
 @app.route('/allUser')
