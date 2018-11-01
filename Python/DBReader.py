@@ -1,6 +1,6 @@
 import sqlite3
 
-def ReadDB(table):
+def ReadField(table):
 
     connection = sqlite3.connect('Database/E-Commerce.db')
     cursor = connection.cursor()

@@ -1,4 +1,4 @@
-from DBReader import ReadDB, UserCheck, ReadUser
+from DBReader import ReadField, UserCheck, ReadUser
 
 def UserAuth(email, password):
     AuthResult = UserCheck(email, password)
@@ -17,7 +17,7 @@ def UserAuth(email, password):
         print(pformat1.format("-","-","-","-","-"))
 
 def ShowAllUser():
-    allUser = ReadDB("user")
+    allUser = ReadField("user")
 
     pformat = "| {:^5} | {:^4} | {:^20} | {:^20} | {:^10} |"
     pformat1 = "| {:-^5} | {:-^4} | {:-^20} | {:-^20} | {:-^10} |"
