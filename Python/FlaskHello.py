@@ -36,12 +36,12 @@ def show_subpath(subpath):
     # show the subpath after /path/
     return 'Subpath %s' % subpath
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        return do_the_login()
-    else:
-        return show_the_login_form()
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     if request.method == 'POST':
+#         return do_the_login()
+#     else:
+#         return show_the_login_form()
 
 @app.route('/user/<username>')
 def profile(username):
