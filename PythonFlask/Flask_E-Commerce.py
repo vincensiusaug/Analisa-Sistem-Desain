@@ -1,7 +1,23 @@
 from flask import Flask, url_for, render_template
-from DBReader import ReadUserNameInfo
 app = Flask(__name__)
 title = 'VT Shop'
+
+dummyData = [
+    {
+        'name' : 'Vincensius Augustino',
+        'permission' : '1',
+        'email' : 'vin',
+        'username' : 'vincensius',
+        'password' : 'vin'
+    },
+    {
+        'name' : 'Feriawan',
+        'permission' : '1',
+        'email' : 'fer',
+        'username' : 'feriawan',
+        'password' : 'fer'
+    }
+    ]
 
 @app.route('/')
 @app.route('/home')
@@ -15,6 +31,14 @@ def About():
 @app.route('/login')
 def Login():
     return render_template('login.html', title=title+' - Login')
+
+@app.route('/user/')
+@app.route('/user/<username>')
+def hello(username=None):
+    for i in dummyData:
+        if i['username'] == username:
+            return render_template('userInfo.html',title=title+' - '+i['name'], info=i)
+    return render_template('userInfo.html', title=title+' - None', info=None)
 
 if __name__ == '__main__':
     app.run(debug=True)
