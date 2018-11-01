@@ -1,6 +1,6 @@
 *.odt#
 *.lck
 __pychache__
-.pyc
+*.pyc
 tempCodeRunnerFile.py
 .vscode
