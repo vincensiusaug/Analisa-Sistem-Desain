@@ -35,9 +35,25 @@
         </nav>
     </header>
 
-    <div class="container">
-        {% block content %}{% endblock %}
-    </div>
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-8">
+            {% block content %}{% endblock %}
+            </div>
+            <div class="col-md-4">
+            <div class="content-section">
+                <h3>Categories</h3>
+                <p class='text-muted'>All Categories
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">Computer</li>
+                    <li class="list-group-item list-group-item-light">Laptop</li>
+                    <li class="list-group-item list-group-item-light">Etc</li>
+                </ul>
+                </p>
+            </div>
+            </div>
+        </div>
+    </main>
 
      <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
