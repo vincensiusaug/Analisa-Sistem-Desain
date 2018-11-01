@@ -6,5 +6,6 @@ $ source bin/activate
 $ pip3 install Flask
 
 $ export FLASK_APP=PythonFlask/Main.py
+$ export FLASK_ENV=development
 $ flask run
 untuk keluar $ deactivate

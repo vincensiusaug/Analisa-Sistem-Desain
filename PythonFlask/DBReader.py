@@ -1,37 +1,39 @@
 import sqlite3
 
-def ReadField(table):
 
-    connection = sqlite3.connect('../Database/E-Commerce.db')
+def Cursor():
+    db = '../Database/E-Commerce.db'
+    connection = sqlite3.connect(db)
     cursor = connection.cursor()
+    return cursor
+
+def ReadField(table):
+    cursor = Cursor()
 
     result = []
-    for row in cursor.execute('SELECT * FROM ' + table):
-        result.append(row)
+    for record in cursor.execute('SELECT * FROM ' + table):
+        result.append(record)
     
     return result
 
 def UserCheck(email, password):
-    connection = sqlite3.connect('../Database/E-Commerce.db')
-    cursor = connection.cursor()
+    cursor = Cursor()
 
-    for row in cursor.execute('SELECT * FROM User'):
-        if row[3] == email and row[4] == password:
-            return row[0]
+    for record in cursor.execute('SELECT * FROM User'):
+        if record[3] == email and record[4] == password:
+            return record[0]
     
     return -1
 
-def ReadUserCode(code):
-    connection = sqlite3.connect('../Database/E-Commerce.db')
-    cursor = connection.cursor()
+def ReadUserCodeInfo(code):
+    cursor = Cursor()
 
-    for name in cursor.execute('SELECT * FROM user WHERE code='+str(code)):
-        return name
+    for record in cursor.execute('SELECT * FROM user WHERE code='+str(code)):
+        return record
     return -1
 
 def ReadUserNameInfo(name):
-    connection = sqlite3.connect('../Database/E-Commerce.db')
-    cursor = connection.cursor()
+    cursor = Cursor()
 
     for record in cursor.execute('SELECT * FROM user WHERE name='+str(name)):
         return record
