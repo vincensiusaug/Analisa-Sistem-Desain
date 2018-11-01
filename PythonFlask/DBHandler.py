@@ -37,11 +37,6 @@ def UserCheck(email, password):
 
         for code in cursor.execute("SELECT code FROM user WHERE email LIKE'"+email+"' AND password LIKE '"+password+"'"):
             return code
-        # if code[0]:
-        #     print(code[0])
-        #     print(email)
-        #     print(password)
-        #     return code
     
     return False
 
