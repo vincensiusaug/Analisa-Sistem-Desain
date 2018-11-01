@@ -32,9 +32,14 @@ def About():
 def Login():
     return render_template('login.html', title=title+' - Login')
 
+@app.route('/allUser')
+@app.route('/allUser/')
 @app.route('/user/')
+def AllUser():
+    return render_template('allUserInfo.html', title=title+' - All User', allUser=dummyData)
+
 @app.route('/user/<username>')
-def hello(username=None):
+def User(username=None):
     for i in dummyData:
         if i['username'] == username:
             return render_template('userInfo.html',title=title+' - '+i['name'], info=i)
