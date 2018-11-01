@@ -3,23 +3,6 @@ from DBReader import ReadUsernameInfo, ReadAllUser
 app = Flask(__name__)
 title = 'VT Shop'
 
-dummyData = [
-    {
-        'name' : 'Vincensius Augustino',
-        'permission' : '1',
-        'email' : 'vin',
-        'username' : 'vincensius',
-        'password' : 'vin'
-    },
-    {
-        'name' : 'Feriawan',
-        'permission' : '1',
-        'email' : 'fer',
-        'username' : 'feriawan',
-        'password' : 'fer'
-    }
-    ]
-
 @app.route('/')
 @app.route('/home')
 def Home():
