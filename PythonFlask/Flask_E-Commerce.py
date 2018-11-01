@@ -1,5 +1,5 @@
-from flask import Flask, url_for, render_template
-from DBReader import ReadUsernameInfo, ReadAllUser
+from flask import Flask, url_for, render_template, flash, redirect
+from DBHandler import ReadUsernameInfo, ReadAllUser, NewUser
 from Forms import RegistrationForm, LoginForm
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '12h9817ywd198whd918hw10921027109wjd109284vu12fn10'
@@ -21,6 +21,10 @@ def About():
 @app.route('/register', methods=['GET', 'POST'])
 def Register():
     form = RegistrationForm()
+    if form.validate_on_submit():
+        flash('Account Created', 'success')
+        NewUser(form.firstName.data, form.lastName.data, form.email.data, form.username.data, form.password.data, form.address.data, form.phone.data)
+        return redirect(url_for('Login'))
     return render_template('register.html', title=title+' - Register', form=form)
 
 @app.route('/login')
