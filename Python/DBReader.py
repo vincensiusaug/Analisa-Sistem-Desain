@@ -2,7 +2,7 @@ import sqlite3
 
 def ReadField(table):
 
-    connection = sqlite3.connect('Database/E-Commerce.db')
+    connection = sqlite3.connect('../Database/E-Commerce.db')
     cursor = connection.cursor()
 
     result = []
@@ -12,7 +12,7 @@ def ReadField(table):
     return result
 
 def UserCheck(email, password):
-    connection = sqlite3.connect('Database/E-Commerce.db')
+    connection = sqlite3.connect('../Database/E-Commerce.db')
     cursor = connection.cursor()
 
     for row in cursor.execute('SELECT * FROM User'):
@@ -21,10 +21,18 @@ def UserCheck(email, password):
     
     return -1
 
-def ReadUser(code):
-    connection = sqlite3.connect('Database/E-Commerce.db')
+def ReadUserCode(code):
+    connection = sqlite3.connect('../Database/E-Commerce.db')
     cursor = connection.cursor()
 
     for name in cursor.execute('SELECT * FROM user WHERE code='+str(code)):
+        return name
+    return -1
+
+def ReadUserNameInfo(name):
+    connection = sqlite3.connect('../Database/E-Commerce.db')
+    cursor = connection.cursor()
+
+    for name in cursor.execute('SELECT * FROM user WHERE name='+str(name)):
         return name
     return -1
