@@ -32,9 +32,13 @@ def About():
 def Login():
     return render_template('login.html', title=title+' - Login')
 
+@app.route('/register')
+def Register():
+    return render_template('login.html', title=title+' - Register')
+
 @app.route('/allUser')
 @app.route('/allUser/')
-@app.route('/user/')
+@app.route('/user')
 def AllUser():
     return render_template('allUserInfo.html', title=title+' - All User', allUser=dummyData)
 
