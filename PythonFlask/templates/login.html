@@ -1,24 +1,29 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>{{title}}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/login.css') }}">
-  </head>
-  <body>
-    <div class="loginbox">
-      <h1>Login</h1>
-      <div class="username">
-        <i class="fa fa-user" aria-hidden="true"></i>
-        <input id="usrn" type="text" placeholder="Username" name="" value="">
-      </div>
-      
-      <div class="password">
-        <i class="fa fa-lock" aria-hidden="true"></i>
-        <input id="pswd" type="password" placeholder="Password" name="" value="">
-      </div>
-      <input class="btn" type="button" name="" onclick="Check()" value="Sign in">
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+        <form method="POST" action=""">
+            {{form.hidden_tag()}}
+            <fieldset class="form-group">
+                <legend class="border_bottom mb-4">
+                    Login
+                </legend>
+                <div class="form-group">
+                    {{form.email.label(class="form-control-label")}}
+                    {{form.email(class="form-control form-control-lg")}}
+                </div>
+                <div class="form-group">
+                    {{form.password.label(class="form-control-label")}}
+                    {{form.password(class="form-control form-control-lg")}}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{form.submit(class="btn btn-outline-info")}}
+            </div>
+        </form>
     </div>
-    <script src="{{ url_for('static', filename='scripts/login.js') }}"></script>
-  </body>
-</html>
+    <div class="border-top pt-3">
+            <small class="text_muted">
+                Don't Have An Account?<a class="ml-2" href="{{url_for('Register')}}">Sign Up</a>
+            </small>
+        </div>
+{% endblock content %}
