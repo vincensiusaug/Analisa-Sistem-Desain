@@ -1,4 +1,5 @@
 from flask import Flask, url_for, render_template
+from DBReader import ReadUsernameInfo, ReadField
 app = Flask(__name__)
 title = 'VT Shop'
 
@@ -39,15 +40,14 @@ def Register():
 @app.route('/allUser')
 @app.route('/allUser/')
 @app.route('/user')
+@app.route('/user/')
 def AllUser():
-    return render_template('allUserInfo.html', title=title+' - All User', allUser=dummyData)
+    return render_template('allUserInfo.html', title=title+' - All User', allUser=ReadField("user"))
 
 @app.route('/user/<username>')
 def User(username=None):
-    for i in dummyData:
-        if i['username'] == username:
-            return render_template('userInfo.html',title=title+' - '+i['name'], info=i)
-    return render_template('userInfo.html', title=title+' - None', info=None)
+    ReadUsernameInfo(username)
+    return render_template('userInfo.html',title=title+' - ', info=ReadUsernameInfo(username))
 
 if __name__ == '__main__':
     app.run(debug=True)

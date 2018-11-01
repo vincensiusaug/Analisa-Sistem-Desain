@@ -1,7 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>{{info.name}}</h1>
-    <p>Name = {{info.name}}</p>
+    <h1>{{info.firstName}} {{info.lastName}}</h1>
+    <p>Code = {{info.firstName}}</p>
+    <p>Permission = {{info.permission}}</p>
+    <p>First Name = {{info.firstName}}</p>
+    <p>Last Name = {{info.lastName}}</p>
     <p>Email = {{info.email}}</p>
     <p>Username = {{info.username}}</p>
+    <p>Password = {{info.password}}</p>
+    <p>Address = {{info.address}}</p>
+    <p>Phone = {{info.phone}}</p>
 {% endblock content%}

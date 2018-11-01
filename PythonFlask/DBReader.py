@@ -2,7 +2,7 @@ import sqlite3
 
 
 def Cursor():
-    db = '../Database/E-Commerce.db'
+    db = 'PythonFlask/static/Database/E-Commerce.db'
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
     return cursor
@@ -12,7 +12,17 @@ def ReadField(table):
 
     result = []
     for record in cursor.execute('SELECT * FROM ' + table):
-        result.append(record)
+        result.append({
+            'code' : record[0],
+            'permission' : record[1],
+            'firstName' : record[2],
+            'lastName' : record[3],
+            'email' : record[4],
+            'username' : record[5],
+            'password' : record[6],
+            'address' : record[7],
+            'phone' : record[8]
+        })
     
     return result
 
@@ -35,11 +45,27 @@ def ReadUserCodeInfo(code):
 def ReadUsernameInfo(username):
     cursor = Cursor()
 
-    for record in cursor.execute('SELECT * FROM user WHERE username='+str(username)):
+    for record in cursor.execute("SELECT * FROM user WHERE username LIKE '"+username+"'"):
         userRecord = {
             'code' : record[0],
             'permission' : record[1],
-            'firstName' : record[2]
+            'firstName' : record[2],
+            'lastName' : record[3],
+            'email' : record[4],
+            'username' : record[5],
+            'password' : record[6],
+            'address' : record[7],
+            'phone' : record[8]
         }
-        return record
-    return -1
+        return userRecord
+    return {
+            'code' : "",
+            'permission' : "",
+            'firstName' : "",
+            'lastName' : "",
+            'email' : "",
+            'username' : "",
+            'password' : "",
+            'address' : "",
+            'phone' : ""
+        }
