@@ -32,9 +32,14 @@ def ReadUserCodeInfo(code):
         return record
     return -1
 
-def ReadUserNameInfo(name):
+def ReadUsernameInfo(username):
     cursor = Cursor()
 
-    for record in cursor.execute('SELECT * FROM user WHERE name='+str(name)):
+    for record in cursor.execute('SELECT * FROM user WHERE username='+str(username)):
+        userRecord = {
+            'code' : record[0],
+            'permission' : record[1],
+            'firstName' : record[2]
+        }
         return record
     return -1
