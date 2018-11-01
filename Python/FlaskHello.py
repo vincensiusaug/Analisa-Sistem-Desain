@@ -47,11 +47,11 @@ def show_subpath(subpath):
 def profile(username):
     return '{}\'s profile'.format(username)
 
-with app.test_request_context():
-    print(url_for('index'))
-    print(url_for('login'))
-    print(url_for('login', next='/'))
-    print(url_for('profile', username='John Doe'))
+# with app.test_request_context():
+#     print(url_for('index'))
+    # print(url_for('login'))
+    # print(url_for('login', next='/'))
+#     print(url_for('profile', username='John Doe'))
 
 # /
 # /login
