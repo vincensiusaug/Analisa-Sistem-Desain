@@ -12,6 +12,15 @@ def ReadField(table):
 
     result = []
     for record in cursor.execute('SELECT * FROM ' + table):
+        result.append(record)
+    
+    return result
+
+def ReadAllUser():
+    cursor = Cursor()
+
+    result = []
+    for record in cursor.execute('SELECT * FROM user'):
         result.append({
             'code' : record[0],
             'permission' : record[1],
