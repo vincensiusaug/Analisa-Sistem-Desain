@@ -1,3 +1,4 @@
 *.odt#
 *.lck
 __pychache__
+.pyc

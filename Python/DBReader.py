@@ -33,6 +33,6 @@ def ReadUserNameInfo(name):
     connection = sqlite3.connect('../Database/E-Commerce.db')
     cursor = connection.cursor()
 
-    for name in cursor.execute('SELECT * FROM user WHERE name='+str(name)):
-        return name
+    for record in cursor.execute('SELECT * FROM user WHERE name='+str(name)):
+        return record
     return -1

@@ -1,4 +1,4 @@
-from DBReader import ReadField, UserCheck, ReadUser
+from DBReader import ReadField, UserCheck, ReadUserCode
 import getpass
 
 def UserAuth(email, password):
@@ -8,7 +8,7 @@ def UserAuth(email, password):
     else:
         print("\nLogged in\nCode = "+str(AuthResult))
         print()
-        userInfo = ReadUser(AuthResult)
+        userInfo = ReadUserCode(AuthResult)
         pformat = "| {:^5} | {:^4} | {:^20} | {:^20} | {:^10} |"
         pformat1 = "| {:-^5} | {:-^4} | {:-^20} | {:-^20} | {:-^10} |"
         print(pformat1.format("-","-","-","-","-"))
@@ -34,6 +34,6 @@ def ShowAllUser():
 ShowAllUser()
 print("Login")
 email = input("Email = ")
-password = getpass.getpass("Password= ")
+password = getpass.getpass("Password = ")
 print("Checking...")
 UserAuth(email, password)
