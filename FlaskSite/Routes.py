@@ -1,6 +1,6 @@
 from flask import url_for, render_template, flash, redirect
-from FlaskSite.DBHandler import ReadUsernameInfo, ReadAllUser, NewUser, UserCheck
 from FlaskSite import app
+from FlaskSite.DBHandler import ReadUsernameInfo, ReadAllUser, NewUser, UserCheck
 from FlaskSite.Forms import RegistrationForm, LoginForm
 from FlaskSite.Models import User
 
