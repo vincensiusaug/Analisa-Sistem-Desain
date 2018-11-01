@@ -1,6 +1,6 @@
 import sqlite3
 
-db = 'PythonFlask/static/Database/E-Commerce.db'
+db = 'FlaskSite/static/Database/E-Commerce.db'
 
 def ReadField(table):
     result = []

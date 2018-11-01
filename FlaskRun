@@ -1,1 +1,1 @@
-export FLASK_APP=PythonFlask/FlaskSite.py&&export FLASK_ENV=development&&flask run
+export FLASK_APP=Run.py&&export FLASK_ENV=development&&flask run
