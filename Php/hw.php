@@ -13,7 +13,7 @@
             $dbh = null;
         }
         else{
-            echo "Opened database not successfully\n";
+            echo "Database Error\n";
         }
     ?>
 

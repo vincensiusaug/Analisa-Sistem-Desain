@@ -1,3 +1,6 @@
 *.odt#
 *.lck
 __pychache__
+*.pyc
+tempCodeRunnerFile.py
+.vscode
