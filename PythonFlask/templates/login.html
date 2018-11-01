@@ -2,8 +2,8 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Surabaya Tech Shop</title>
-    <link rel="stylesheet" href="style.css">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/login.css') }}">
   </head>
   <body>
     <div class="loginbox">
@@ -19,6 +19,6 @@
       </div>
       <input class="btn" type="button" name="" onclick="Check()" value="Sign in">
     </div>
-    <script src="login.js"></script>
+    <script src="{{ url_for('static', filename='javascripts/login.js') }}"></script>
   </body>
 </html>
