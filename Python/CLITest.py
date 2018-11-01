@@ -1,4 +1,5 @@
 from DBReader import ReadField, UserCheck, ReadUser
+import getpass
 
 def UserAuth(email, password):
     AuthResult = UserCheck(email, password)
@@ -33,6 +34,6 @@ def ShowAllUser():
 ShowAllUser()
 print("Login")
 email = input("Email = ")
-password = input("Password = ")
+password = getpass.getpass("Password= ")
 print("Checking...")
 UserAuth(email, password)
