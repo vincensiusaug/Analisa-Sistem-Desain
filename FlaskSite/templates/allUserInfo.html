@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+    {%for user in allUser%}
+        <article class="media content-section">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="/user/{{user.username}}">{{user.firstName}} {{user.lastName}}</a>
+                <!-- <small class="text-muted">{{ user.username }}</small> -->
+              </div>
+              <!-- <h2><a class="article-title" href="#">Email = {{ user.email }}</a></h2> -->
+              <!-- <p class="article-content">Password = {{ user.password }}</p> -->
+            </div>
+          </article>
+    {%endfor%}
+{% endblock content %}
