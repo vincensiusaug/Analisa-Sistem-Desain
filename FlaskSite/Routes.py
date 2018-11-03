@@ -1,4 +1,5 @@
 import os
+from PIL import Image
 from flask import url_for, render_template, flash, redirect, request
 from FlaskSite import app, bcrypt, db
 from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm
@@ -6,7 +7,7 @@ from FlaskSite.Models import User
 from flask_login import login_user, current_user, logout_user, login_required
 
 title = 'VT Shop'
-customerImagePath = 'Database/Pictures/Customer/'
+customerImagePath = 'Database/Pictures/User/'
 itemImagePath = 'Database/Pictures/Item/'
 
 @app.route('/')
@@ -17,6 +18,18 @@ def Home():
 @app.route('/about')
 def About():
     return render_template('about.html', title=title+' - About')
+
+@app.route('/cart')
+def Cart():
+    return render_template('cart.html', title=title+' - Cart')
+
+@app.route('/transaction')
+def Transaction():
+    return render_template('transaction.html', title=title+' - Transaction')
+
+@app.route('/history')
+def History():
+    return render_template('history.html', title=title+' - History')
 
 @app.route('/register', methods=['GET', 'POST'])
 def Register():
@@ -55,11 +68,14 @@ def Logout():
     flash('You have been logged out!', 'success')
     return redirect(url_for('Home'))
 
-def SaveCustomerPicture(form_picture):
+def SaveUserPicture(form_picture):
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_name = current_user.username + f_ext
     picture_path = os.path.join(app.root_path, 'static/'+customerImagePath, picture_name)
-    form_picture.save(picture_path)
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
     return picture_name
 
 @app.route('/account', methods=['GET', 'POST'])
@@ -68,7 +84,7 @@ def Account():
     form = EditProfileForm()
     if form.validate_on_submit():
         if form.picture.data:
-            picture_file = SaveCustomerPicture(form.picture.data)
+            picture_file = SaveUserPicture(form.picture.data)
             current_user.image_file = picture_file
         current_user.firstName = form.firstName.data
         current_user.lastName = form.lastName.data
