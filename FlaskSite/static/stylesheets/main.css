@@ -1,4 +1,14 @@
+/* roboto-mono-regular - latin */
+@font-face {
+  font-family: 'lucida_macnormal';
+  src: url('lucida_mac-webfont.woff2') format('woff2'),
+       url('lucida_mac-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
 body {
+  font-family: 'lucida_macnormal';
   background: #fafafa;
   color: #333333;
   margin-top: 5rem;
