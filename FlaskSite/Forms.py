@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
@@ -34,6 +35,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class EditProfileForm(FlaskForm):
+    picture = FileField('Upload Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     firstName = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])
     lastName = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])

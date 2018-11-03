@@ -1,3 +1,4 @@
+import os
 from flask import url_for, render_template, flash, redirect, request
 from FlaskSite import app, bcrypt, db
 from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm
@@ -5,6 +6,8 @@ from FlaskSite.Models import User
 from flask_login import login_user, current_user, logout_user, login_required
 
 title = 'VT Shop'
+customerImagePath = 'Database/Pictures/Customer/'
+itemImagePath = 'Database/Pictures/Item/'
 
 @app.route('/')
 @app.route('/home')
@@ -52,11 +55,21 @@ def Logout():
     flash('You have been logged out!', 'success')
     return redirect(url_for('Home'))
 
+def SaveCustomerPicture(form_picture):
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_name = current_user.username + f_ext
+    picture_path = os.path.join(app.root_path, 'static/'+customerImagePath, picture_name)
+    form_picture.save(picture_path)
+    return picture_name
+
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def Account():
     form = EditProfileForm()
     if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = SaveCustomerPicture(form.picture.data)
+            current_user.image_file = picture_file
         current_user.firstName = form.firstName.data
         current_user.lastName = form.lastName.data
         current_user.email = form.email.data
@@ -73,7 +86,7 @@ def Account():
         form.address.data = current_user.address
         form.phone.data = current_user.phone
         form.bank.data = current_user.bank
-    user_image = url_for('static', filename = 'Database/Pictures/'+current_user.image_file)
+    user_image = url_for('static', filename = customerImagePath+current_user.image_file)
     return render_template('account.html', title=title+' - Account', user_image=user_image, form=form)
 
 # @app.errorhandler(404)
