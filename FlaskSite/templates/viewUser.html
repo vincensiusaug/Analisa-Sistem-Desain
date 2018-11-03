@@ -1,5 +1,20 @@
 {% extends "account.html" %}
 
 {% block contentInfo %}
-<h1>View User</h1>
+{% for user in users %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/User/' + user.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2">{{ user.username }}</a>
+              <div>
+                  <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
+                  <a class="" href="{{ url_for('Home') }}">Edit</a> -->
+              </div>
+            </div>
+            <h2><a class="article-title">{{ user.name }}</a></h2>
+            <p class="article-content">{{ user.email }}</p>
+          </div>
+        </article>
+    {% endfor %}
 {% endblock contentInfo %}

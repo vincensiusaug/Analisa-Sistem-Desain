@@ -25,7 +25,7 @@ def About():
 
 @app.route('/cart')
 @login_required
-def Cart():
+def UserCart():
     return render_template('cart.html', title=title+' - Cart')
 
 def SaveItemPicture(form_picture):
@@ -75,19 +75,20 @@ def AddCategory():
 @app.route('/view_users')
 @login_required
 def ViewUser():
+    users = User.query.all()
     if not current_user.is_authenticated or current_user.permission == 1:
         return redirect(url_for('Home'))
     
-    return render_template('viewUser.html', title=title+' - View User')
+    return render_template('viewUser.html', title=title+' - View User', users=users)
 
 @app.route('/transaction')
 @login_required
-def Transaction():
+def AllTransaction():
     return render_template('transaction.html', title=title+' - Transaction')
 
 @app.route('/history')
 @login_required
-def History():
+def AllHistory():
     return render_template('history.html', title=title+' - History')
 
 @app.route('/register', methods=['GET', 'POST'])
