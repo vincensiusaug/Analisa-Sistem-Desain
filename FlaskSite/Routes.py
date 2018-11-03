@@ -1,9 +1,9 @@
 from flask import url_for, render_template, flash, redirect
-from FlaskSite import app
+from FlaskSite import app, db, bcrypt
 from FlaskSite.DBHandler import ReadUsernameInfo, ReadAllUser, NewUser, UserCheck
 from FlaskSite.Forms import RegistrationForm, LoginForm
 from FlaskSite.Models import User
-
+from flask_login import login_user, current_user, logout_user
 
 title = 'VT Shop'
 
@@ -18,24 +18,49 @@ def About():
 
 @app.route('/register', methods=['GET', 'POST'])
 def Register():
+    if current_user.is_authenticated:
+        return redirect(url_for('Home'))
     form = RegistrationForm()
     if form.validate_on_submit():
+        hashedPassword = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(firstName = form.firstName.data, lastName = form.lastName.data, username = form.username.data, email = form.email.data, password = hashedPassword, address = form.address.data, phone = form.phone.data, bank = form.bank.data)
+        db.session.add(user)
+        db.session.commit()
         flash('Account Created', 'success')
-        NewUser(form.firstName.data, form.lastName.data, form.email.data, form.username.data, form.password.data, form.address.data, form.phone.data)
+        # NewUser(form.firstName.data, form.lastName.data, form.email.data, form.username.data, form.password.data, form.address.data, form.phone.data)
         return redirect(url_for('Login'))
     return render_template('register.html', title=title+' - Register', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def Login():
+    if current_user.is_authenticated:
+        return redirect(url_for('Home'))
     form = LoginForm()
     if form.validate_on_submit():
-        code = UserCheck(form.email.data, form.password.data)
-        if code:
+        user = User.query.filter_by(email = form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember = form.remember.data)
             flash('You have been logged in!', 'success')
             return redirect(url_for('Home'))
-        else:
-            flash('Wrong email or password!', 'danger')
+        flash('Wrong email or password!', 'danger')
+
+        # code = UserCheck(form.email.data, form.password.data)
+        # if code:
+        #     flash('You have been logged in!', 'success')
+        #     return redirect(url_for('Home'))
+        # else:
+        #     flash('Wrong email or password!', 'danger')
     return render_template('login.html', title=title+' - Login', form=form)
+
+@app.route('/logout')
+def Logout():
+    logout_user()
+    flash('You have been logged out!', 'success')
+    return redirect(url_for('Home'))
+
+@app.route('/account', methods=['GET', 'POST'])
+def Account():
+    return render_template('account.html', title=title+' - Account')
 
 @app.route('/allUser')
 @app.route('/allUser/')
