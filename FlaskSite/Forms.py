@@ -38,10 +38,11 @@ class LoginForm(FlaskForm):
 
 class AddItemForm(FlaskForm):
     # email = StringField('Email', validators=[DataRequired(), Email()])
-    name = StringField('Item Name', validators=[DataRequired()])
+    name = StringField('Item Name', validators=[DataRequired(), Length(min=2, max=20)])
     price = IntegerField('Price', validators=[DataRequired()])
-    description = StringField('Description', validators=[DataRequired()])
-    category = StringField('Category', validators=[DataRequired()])
+    unit = StringField('Unit', validators=[DataRequired(), Length(min=1, max=20)])
+    description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
+    category = StringField('Category', validators=[DataRequired(), Length(min=2, max=20)])
     stock = IntegerField('Stock', validators=[DataRequired()])
     picture = FileField('Upload Item Picture', validators=[FileAllowed(allowedPictureExt)])
     submit = SubmitField('Add')

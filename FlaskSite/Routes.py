@@ -2,8 +2,8 @@ import os
 from PIL import Image
 from flask import url_for, render_template, flash, redirect, request
 from FlaskSite import app, bcrypt, db
-from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm
-from FlaskSite.Models import User
+from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm, AddItemForm
+from FlaskSite.Models import User, Item
 from flask_login import login_user, current_user, logout_user, login_required
 
 title = 'VT Shop'
@@ -13,33 +13,60 @@ itemImagePath = 'Database/Pictures/Item/'
 @app.route('/')
 @app.route('/home')
 def Home():
-    return render_template('index.html', title=title+' - Index')
+    items = Item.query.all()
+    return render_template('index.html', title=title+' - Index', items=items)
 
 @app.route('/about')
 def About():
     return render_template('about.html', title=title+' - About')
 
 @app.route('/cart')
+@login_required
 def Cart():
     return render_template('cart.html', title=title+' - Cart')
 
-@app.route('/add_item')
+def SaveItemPicture(form_picture):
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_name = current_user.username + f_ext
+    picture_path = os.path.join(app.root_path, 'static/'+customerImagePath, picture_name)
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    return picture_name
+
+@app.route('/add_item', methods=['GET', 'POST'])
+@login_required
 def AddItem():
-    if current_user.is_authenticated and current_user.permission == 0:
-        return render_template('addItem.html', title=title+' - Add Item')
-    return redirect(url_for('Home'))
+    if not current_user.is_authenticated or current_user.permission == 1:
+        return redirect(url_for('Home'))
+    form = AddItemForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = SaveUserPicture(form.picture.data)
+            current_user.image_file = picture_file
+        item = Item(name = form.name.data, price = form.price.data, unit=form.unit.data, description = form.description.data, category = form.category.data, stock = form.stock.data)
+        db.session.add(item)
+        db.session.commit()
+        flash('Item Added!', 'success')
+        return redirect(url_for('AddItem'))
+    return render_template('addItem.html', title=title+' - Add Item', form=form)
 
 @app.route('/view_users')
+@login_required
 def ViewUser():
-    if current_user.is_authenticated and current_user.permission == 0:
-            return render_template('viewUser.html', title=title+' - View User')
-    return redirect(url_for('Home'))
+    if not current_user.is_authenticated or current_user.permission == 1:
+        return redirect(url_for('Home'))
+    
+    return render_template('viewUser.html', title=title+' - View User')
 
 @app.route('/transaction')
+@login_required
 def Transaction():
     return render_template('transaction.html', title=title+' - Transaction')
 
 @app.route('/history')
+@login_required
 def History():
     return render_template('history.html', title=title+' - History')
 
@@ -75,6 +102,7 @@ def Login():
     return render_template('login.html', title=title+' - Login', form=form)
 
 @app.route('/logout')
+@login_required
 def Logout():
     logout_user()
     flash('You have been logged out!', 'success')

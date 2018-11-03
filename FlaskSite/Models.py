@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
     address = db.Column(db.String(60), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     bank = db.Column(db.Integer, unique=False, nullable=True)
-    image_file = db.Column(db.String(20), nullable=False, default = 'default.jpg')
+    image_file = db.Column(db.String(20), nullable=False, default = 'user-default.jpg')
 
     def __repr__(self):
         return self.firstName+" "+self.lastName
@@ -25,10 +25,14 @@ class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), unique=True, nullable=False)
     price = db.Column(db.Integer, unique=False, nullable=False)
-    description = db.Column(db.String(60), unique=False, nullable=True)
+    unit = db.Column(db.String(20), unique=False, nullable=True)
+    description = db.Column(db.String(200), unique=False, nullable=True)
     category = db.Column(db.String(20), unique=False, nullable=True)
-    stock = db.Column(db.Integer, unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default = 'default.jpg')
+    stock = db.Column(db.Integer, unique=False, nullable=False)
+    sold = db.Column(db.Integer, default=1)
+    image_file = db.Column(db.String(20), nullable=False, default = 'item-default.jpg')
 
     def __repr__(self):
         return self.name
+
+db.create_all()
