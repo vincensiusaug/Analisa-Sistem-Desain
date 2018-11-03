@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../static/stylesheets/main.css">
 
     <title>{{title}}</title>
@@ -23,9 +23,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggle">
                 <div class="navbar-nav mr-auto">
-                    <a class="nav-item nav-link" href="{{ url_for('Home') }}">Home</a>
+                    <!-- <a class="nav-item nav-link" href="{{ url_for('Home') }}">Home</a>
                     <a class="nav-item nav-link" href="{{ url_for('About') }}">About</a>
-                    <a class="nav-item nav-link" href="{{ url_for('AllUser') }}">User</a>
+                    <a class="nav-item nav-link" href="{{ url_for('AllUser') }}">User</a> -->
+                    <!-- <form action="/action_page.php"> -->
+                    <form action="/">
+                        <input type="text" placeholder="Search" name="search">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
                 </div>
                 <!-- Navbar Right Side -->
                 <div class="navbar-nav">
@@ -61,10 +66,10 @@
                 <h3>Categories</h3>
                 <p class='text-muted'>All Categories
                 <ul class="list-group">
-                    <li class="list-group-item list-group-item-light">Computer</li>
+                    <!-- <li class="list-group-item list-group-item-light">Computer</li>
                     <li class="list-group-item list-group-item-light">Laptop</li>
                     <li class="list-group-item list-group-item-light">Etc</li>
-                    <a class="nav-item nav-link" href="/user">User</a>
+                    <a class="nav-item nav-link" href="/user">User</a> -->
                 </ul>
                 </p>
             </div>
