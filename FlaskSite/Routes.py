@@ -3,7 +3,7 @@ from FlaskSite import app, db, bcrypt
 from FlaskSite.DBHandler import ReadUsernameInfo, ReadAllUser, NewUser, UserCheck
 from FlaskSite.Forms import RegistrationForm, LoginForm
 from FlaskSite.Models import User
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 
 title = 'VT Shop'
 
@@ -43,13 +43,6 @@ def Login():
             flash('You have been logged in!', 'success')
             return redirect(url_for('Home'))
         flash('Wrong email or password!', 'danger')
-
-        # code = UserCheck(form.email.data, form.password.data)
-        # if code:
-        #     flash('You have been logged in!', 'success')
-        #     return redirect(url_for('Home'))
-        # else:
-        #     flash('Wrong email or password!', 'danger')
     return render_template('login.html', title=title+' - Login', form=form)
 
 @app.route('/logout')
@@ -59,20 +52,21 @@ def Logout():
     return redirect(url_for('Home'))
 
 @app.route('/account', methods=['GET', 'POST'])
+@login_required
 def Account():
     return render_template('account.html', title=title+' - Account')
 
-@app.route('/allUser')
-@app.route('/allUser/')
-@app.route('/user')
-@app.route('/user/')
-def AllUser():
-    return render_template('allUserInfo.html', title=title+' - All User', allUser=ReadAllUser())
+# @app.route('/allUser')
+# @app.route('/allUser/')
+# @app.route('/user')
+# @app.route('/user/')
+# def AllUser():
+#     return render_template('allUserInfo.html', title=title+' - All User', allUser=ReadAllUser())
 
-@app.route('/user/<username>')
-def UserInfo(username=None):
-    ReadUsernameInfo(username)
-    return render_template('userInfo.html',title=title+' - '+username, info=ReadUsernameInfo(username))
+# @app.route('/user/<username>')
+# def UserInfo(username=None):
+#     ReadUsernameInfo(username)
+#     return render_template('userInfo.html',title=title+' - '+username, info=ReadUsernameInfo(username))
 
 @app.errorhandler(404)
 def page_not_found(e):

@@ -25,7 +25,6 @@
                 <div class="navbar-nav mr-auto">
                     <!-- <a class="nav-item nav-link" href="{{ url_for('Home') }}">Home</a>
                     <a class="nav-item nav-link" href="{{ url_for('About') }}">About</a>
-                    <a class="nav-item nav-link" href="{{ url_for('AllUser') }}">User</a> -->
                     <!-- <form action="/action_page.php"> -->
                     <form action="/">
                         <input type="text" placeholder="Search" name="search">
@@ -49,7 +48,19 @@
 
     <main role="main" class="container">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-3">
+                <div class="content-section">
+                    <h3>Categories</h3>
+                    <p class='text-muted'>All Categories
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">Computer</li>
+                            <li class="list-group-item list-group-item-light">Laptop</li>
+                            <li class="list-group-item list-group-item-light">Etc</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-9">
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                         {% for category, message in messages %}
@@ -60,19 +71,6 @@
                     {% endif %}
                 {% endwith %}
                 {% block content %}{% endblock %}
-            </div>
-            <div class="col-md-4">
-            <div class="content-section">
-                <h3>Categories</h3>
-                <p class='text-muted'>All Categories
-                <ul class="list-group">
-                    <!-- <li class="list-group-item list-group-item-light">Computer</li>
-                    <li class="list-group-item list-group-item-light">Laptop</li>
-                    <li class="list-group-item list-group-item-light">Etc</li>
-                    <a class="nav-item nav-link" href="/user">User</a> -->
-                </ul>
-                </p>
-            </div>
             </div>
         </div>
     </main>
