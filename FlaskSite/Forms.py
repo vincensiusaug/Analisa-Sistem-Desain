@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from FlaskSite.Models import  User
+from FlaskSite.Models import  User, Category
 
 allowedPictureExt = ['png', 'jpg', 'jpeg']
 
@@ -40,7 +40,11 @@ class AddItemForm(FlaskForm):
     price = IntegerField('Price', validators=[DataRequired()])
     unit = StringField('Unit', validators=[DataRequired(), Length(min=1, max=20)])
     description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
-    category = StringField('Category', validators=[DataRequired(), Length(min=2, max=20)])
+    categories = Category.query.all()
+    allCategory = []
+    for category in categories:
+        allCategory.append((category.id, category.name))
+    category_id = SelectField('Category', choices=allCategory, coerce=int, validators=[DataRequired()])
     stock = IntegerField('Stock', validators=[DataRequired()])
     picture = FileField('Upload Item Picture', validators=[FileAllowed(allowedPictureExt)])
     submit = SubmitField('Add')

@@ -43,17 +43,20 @@ def SaveItemPicture(form_picture):
 def AddItem():
     if not current_user.is_authenticated or current_user.permission == 1:
         return redirect(url_for('Home'))
+    categories = Category.query.all() 
     form = AddItemForm()
     if form.validate_on_submit():
         if form.picture.data:
             picture_file = SaveUserPicture(form.picture.data)
             current_user.image_file = picture_file
-        item = Item(name = form.name.data, price = form.price.data, unit=form.unit.data, description = form.description.data, category = form.category.data, stock = form.stock.data)
+        print("Test")
+        print(form.category_id.data)
+        item = Item(name = form.name.data, price = form.price.data, unit=form.unit.data, description = form.description.data, category_id = form.category_id.data, stock = form.stock.data)
         db.session.add(item)
         db.session.commit()
         flash('Item Added!', 'success')
         return redirect(url_for('AddItem'))
-    return render_template('addItem.html', title=title+' - Add Item', form=form)
+    return render_template('addItem.html', title=title+' - Add Item', form=form, categories=categories)
 
 @app.route('/add_category', methods=['GET', 'POST'])
 @login_required
@@ -62,9 +65,6 @@ def AddCategory():
         return redirect(url_for('Home'))
     form = AddCategoryForm()
     if form.validate_on_submit():
-        if form.picture.data:
-            picture_file = SaveUserPicture(form.picture.data)
-            current_user.image_file = picture_file
         category = Category(name = form.name.data, description = form.description.data)
         db.session.add(category)
         db.session.commit()

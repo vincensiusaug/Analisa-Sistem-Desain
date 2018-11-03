@@ -1,7 +1,7 @@
 {% extends "account.html" %}
 
 {% block contentInfo %}
-    <form method="POST" action=""">
+    <form method="POST" action="" enctype="multipart/form-data">
         {{form.hidden_tag()}}
         <fieldset class="form-group">
             <legend class="border_bottom mb-4">
@@ -52,17 +52,6 @@
                 {% endif %}
             </div>
             <div class="form-group">
-                {{form.category.label(class="form-control-label")}}
-                {% if form.category.errors %}
-                    {{form.category(class="form-control form-control-lg is-invalid")}}
-                    {% for error in form.category.errors %}
-                        <span>{{error}}</span>
-                    {% endfor %}
-                {% else %}
-                    {{form.category(class="form-control form-control-lg")}}
-                {% endif %}
-            </div>
-            <div class="form-group">
                 {{form.stock.label(class="form-control-label")}}
                 {% if form.stock.errors %}
                     {{form.stock(class="form-control form-control-lg is-invalid")}}
@@ -72,6 +61,17 @@
                 {% else %}
                     {{form.stock(class="form-control form-control-lg")}}
                 {% endif %}
+            </div>
+            <div class="form-group">
+                    {{form.category_id.label(class="form-control-label")}}
+                    {% if form.category_id.errors %}
+                        {{form.category_id(class="form-control form-control-lg is-invalid")}}
+                        {% for error in form.category_id.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    {% else %}
+                        {{form.category_id(class="form-control form-control-lg")}}
+                    {% endif %}
             </div>
             <div class="form-group">
                     {{form.picture.label}}

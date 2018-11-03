@@ -1,7 +1,7 @@
 {% extends "account.html" %}
 
 {% block contentInfo %}
-{% for user in users %}
+    {% for user in users %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/User/' + user.image_file) }}">
           <div class="media-body">
