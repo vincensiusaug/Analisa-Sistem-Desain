@@ -19,4 +19,4 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default = 'default.jpg')
 
     def __repr__(self):
-        return "User('{self.firstName}', '{self.lastName}', '{self.image_file}')"
+        return self.firstName+" "+self.lastName
