@@ -1,5 +1,9 @@
 from flask import url_for, render_template, flash, redirect
+<<<<<<< HEAD
+from FlaskSite import app, bcrypt
+=======
 from FlaskSite import app, db, bcrypt
+>>>>>>> 2e7d671d250c77cfd9d247f9e153b3d02bb556d7
 from FlaskSite.DBHandler import ReadUsernameInfo, ReadAllUser, NewUser, UserCheck
 from FlaskSite.Forms import RegistrationForm, LoginForm
 from FlaskSite.Models import User
@@ -27,7 +31,12 @@ def Register():
         db.session.add(user)
         db.session.commit()
         flash('Account Created', 'success')
+<<<<<<< HEAD
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        NewUser(form.firstName.data, form.lastName.data, form.email.data, form.username.data, hashed_password, form.address.data, form.phone.data)
+=======
         # NewUser(form.firstName.data, form.lastName.data, form.email.data, form.username.data, form.password.data, form.address.data, form.phone.data)
+>>>>>>> 2e7d671d250c77cfd9d247f9e153b3d02bb556d7
         return redirect(url_for('Login'))
     return render_template('register.html', title=title+' - Register', form=form)
 
