@@ -13,7 +13,7 @@ itemImagePath = 'Database/Pictures/Item/'
 @app.route('/')
 @app.route('/home')
 def Home():
-    return render_template('home.html', title=title+' - Home')
+    return render_template('index.html', title=title+' - Index')
 
 @app.route('/about')
 def About():
@@ -66,7 +66,7 @@ def Login():
 def Logout():
     logout_user()
     flash('You have been logged out!', 'success')
-    return redirect(url_for('Home'))
+    return redirect(url_for('Login'))
 
 def SaveUserPicture(form_picture):
     _, f_ext = os.path.splitext(form_picture.filename)
@@ -103,7 +103,7 @@ def Account():
         form.phone.data = current_user.phone
         form.bank.data = current_user.bank
     user_image = url_for('static', filename = customerImagePath+current_user.image_file)
-    return render_template('account.html', title=title+' - Account', user_image=user_image, form=form)
+    return render_template('editProfile.html', title=title+' - Account', user_image=user_image, form=form)
 
 # @app.errorhandler(404)
 # def page_not_found(e):

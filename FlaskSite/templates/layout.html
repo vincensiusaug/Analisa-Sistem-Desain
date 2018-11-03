@@ -47,32 +47,17 @@
     </header>
 
     <main role="main" class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <!-- <div class="content-section">
-                    <h3>Categories</h3>
-                    <p class='text-muted'>All Categories
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-light">Computer</li>
-                            <li class="list-group-item list-group-item-light">Laptop</li>
-                            <li class="list-group-item list-group-item-light">Etc</li>
-                        </ul>
-                    </p>
-                </div> -->
-                {% block side %}{% endblock %}
-            </div>
-            <div class="col-md-9">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{category}}">
-                                {{message}}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-                {% block content %}{% endblock %}
-            </div>
+        <div class="col-md-12">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{category}}">
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
         </div>
     </main>
 
