@@ -2,8 +2,8 @@ import os
 from PIL import Image
 from flask import url_for, render_template, flash, redirect, request
 from FlaskSite import app, bcrypt, db
-from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm, AddItemForm
-from FlaskSite.Models import User, Item
+from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm, AddItemForm, AddCategoryForm
+from FlaskSite.Models import User, Item, Category, CartDetail, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status
 from flask_login import login_user, current_user, logout_user, login_required
 
 title = 'VT Shop'
@@ -54,6 +54,23 @@ def AddItem():
         flash('Item Added!', 'success')
         return redirect(url_for('AddItem'))
     return render_template('addItem.html', title=title+' - Add Item', form=form)
+
+@app.route('/add_category', methods=['GET', 'POST'])
+@login_required
+def AddCategory():
+    if not current_user.is_authenticated or current_user.permission == 1:
+        return redirect(url_for('Home'))
+    form = AddCategoryForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = SaveUserPicture(form.picture.data)
+            current_user.image_file = picture_file
+        category = Category(name = form.name.data, description = form.description.data)
+        db.session.add(category)
+        db.session.commit()
+        flash('Category Added!', 'success')
+        return redirect(url_for('AddCategory'))
+    return render_template('addCategory.html', title=title+' - Add Category', form=form)
 
 @app.route('/view_users')
 @login_required

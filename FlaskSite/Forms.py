@@ -30,14 +30,12 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('This email is taken.')
 
 class LoginForm(FlaskForm):
-    # email = StringField('Email', validators=[DataRequired(), Email()])
     email = StringField('Username or Email', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
 class AddItemForm(FlaskForm):
-    # email = StringField('Email', validators=[DataRequired(), Email()])
     name = StringField('Item Name', validators=[DataRequired(), Length(min=2, max=20)])
     price = IntegerField('Price', validators=[DataRequired()])
     unit = StringField('Unit', validators=[DataRequired(), Length(min=1, max=20)])
@@ -45,6 +43,11 @@ class AddItemForm(FlaskForm):
     category = StringField('Category', validators=[DataRequired(), Length(min=2, max=20)])
     stock = IntegerField('Stock', validators=[DataRequired()])
     picture = FileField('Upload Item Picture', validators=[FileAllowed(allowedPictureExt)])
+    submit = SubmitField('Add')
+
+class AddCategoryForm(FlaskForm):
+    name = StringField('Category Name', validators=[DataRequired(), Length(min=2, max=20)])
+    description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
     submit = SubmitField('Add')
 
 class EditProfileForm(FlaskForm):
