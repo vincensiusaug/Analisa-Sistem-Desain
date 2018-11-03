@@ -23,6 +23,18 @@ def About():
 def Cart():
     return render_template('cart.html', title=title+' - Cart')
 
+@app.route('/add_item')
+def AddItem():
+    if current_user.is_authenticated and current_user.permission == 0:
+        return render_template('addItem.html', title=title+' - Add Item')
+    return redirect(url_for('Home'))
+
+@app.route('/view_users')
+def ViewUser():
+    if current_user.is_authenticated and current_user.permission == 0:
+            return render_template('viewUser.html', title=title+' - View User')
+    return redirect(url_for('Home'))
+
 @app.route('/transaction')
 def Transaction():
     return render_template('transaction.html', title=title+' - Transaction')

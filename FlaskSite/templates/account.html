@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="row">
+
+        {% if current_user.permission == 1 %}
+            <div class="col-md-3">
+                <div class="content-section">
+                    <ul class="list-group">
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('Account') }}">Edit Profile</a>
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('Cart') }}">Cart</a>
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('Transaction') }}">Transaction</a>
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('History') }}">History</a>
+                    </ul>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-md-3">
+                <div class="content-section">
+                    <ul class="list-group">
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('Account') }}">Edit Profile</a>
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('AddItem') }}">Add Item</a>
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('ViewUser') }}">View Users</a>
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('Transaction') }}">Transaction</a>
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('History') }}">History</a>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+        
+        <div class="content-section col-md-9">
+            {% block contentInfo %}{% endblock %}
+        </div>
+    </div>
+    
+{% endblock content %}
