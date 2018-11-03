@@ -2,23 +2,6 @@
 
 {% block content %}
     <div class="row">
-        
-        <!-- <div class="col-md-3">
-            <div class="content-section">
-                <ul class="list-group">
-                    <a class="list-group-item list-group-item-light" href="{{ url_for('Account') }}">Edit Profile</a>
-                    <a class="list-group-item list-group-item-light" href="{{ url_for('Cart') }}">Cart</a>
-                    <a class="list-group-item list-group-item-light" href="{{ url_for('Transaction') }}">Transaction</a>
-                    <a class="list-group-item list-group-item-light" href="{{ url_for('History') }}">History</a>
-                </ul>
-            </div>
-        </div> -->
-        
-        <!-- {% for i in items %}
-            {{i.name}}
-            {{i.price}}
-            {{i.description}}
-        {% endfor %} -->
     </div>
     {% for item in items %}
         <article class="media content-section">
@@ -27,6 +10,10 @@
             <div class="article-metadata">
               <a class="mr-2">{{ item.category }}</a>
               <small class="text-muted">Rp {{ item.price }} / {{ item.unit }}</small>
+              <div>
+                  <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
+                  <a class="" href="{{ url_for('Home') }}">Edit</a> -->
+              </div>
             </div>
             <h2><a class="article-title">{{ item.name }}</a></h2>
             <p class="article-content">{{ item.description }}</p>

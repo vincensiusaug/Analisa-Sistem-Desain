@@ -2,8 +2,8 @@ import os
 from PIL import Image
 from flask import url_for, render_template, flash, redirect, request
 from FlaskSite import app, bcrypt, db
-from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm, AddItemForm
-from FlaskSite.Models import User, Item
+from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm, AddItemForm, AddCategoryForm
+from FlaskSite.Models import User, Item, Category, CartDetail, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status
 from flask_login import login_user, current_user, logout_user, login_required
 
 title = 'VT Shop'
@@ -12,8 +12,11 @@ itemImagePath = 'Database/Pictures/Item/'
 
 @app.route('/')
 @app.route('/home')
+@app.route('/index')
 def Home():
     items = Item.query.all()
+    # page = request.args.get('page', 1, type=int)
+    # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('index.html', title=title+' - Index', items=items)
 
 @app.route('/about')
@@ -22,7 +25,7 @@ def About():
 
 @app.route('/cart')
 @login_required
-def Cart():
+def UserCart():
     return render_template('cart.html', title=title+' - Cart')
 
 def SaveItemPicture(form_picture):
@@ -52,22 +55,40 @@ def AddItem():
         return redirect(url_for('AddItem'))
     return render_template('addItem.html', title=title+' - Add Item', form=form)
 
+@app.route('/add_category', methods=['GET', 'POST'])
+@login_required
+def AddCategory():
+    if not current_user.is_authenticated or current_user.permission == 1:
+        return redirect(url_for('Home'))
+    form = AddCategoryForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = SaveUserPicture(form.picture.data)
+            current_user.image_file = picture_file
+        category = Category(name = form.name.data, description = form.description.data)
+        db.session.add(category)
+        db.session.commit()
+        flash('Category Added!', 'success')
+        return redirect(url_for('AddCategory'))
+    return render_template('addCategory.html', title=title+' - Add Category', form=form)
+
 @app.route('/view_users')
 @login_required
 def ViewUser():
+    users = User.query.all()
     if not current_user.is_authenticated or current_user.permission == 1:
         return redirect(url_for('Home'))
     
-    return render_template('viewUser.html', title=title+' - View User')
+    return render_template('viewUser.html', title=title+' - View User', users=users)
 
 @app.route('/transaction')
 @login_required
-def Transaction():
+def AllTransaction():
     return render_template('transaction.html', title=title+' - Transaction')
 
 @app.route('/history')
 @login_required
-def History():
+def AllHistory():
     return render_template('history.html', title=title+' - History')
 
 @app.route('/register', methods=['GET', 'POST'])
