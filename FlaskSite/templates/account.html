@@ -7,7 +7,7 @@
             <div class="content-section">
                 <ul class="list-group">
                     <a class="list-group-item list-group-item-light" href="{{ url_for('EditProfile') }}">Edit Profile</a>
-                    <a class="list-group-item list-group-item-light" href="{{ url_for('EditProfile') }}">Change Password</a>
+                    <a class="list-group-item list-group-item-light" href="{{ url_for('EditPassword') }}">Change Password</a>
                     {% if current_user.permission == 1 %}
                         <a class="list-group-item list-group-item-light" href="{{ url_for('UserCart') }}">Cart</a>
                     {% else %}

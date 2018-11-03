@@ -70,3 +70,9 @@ class EditProfileForm(FlaskForm):
             if user:
                 raise ValidationError('This email is taken.')
 
+class EditPasswordForm(FlaskForm):
+    oldPassword = PasswordField('Old password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Update')
+
