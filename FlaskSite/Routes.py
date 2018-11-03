@@ -90,9 +90,14 @@ def SaveUserPicture(form_picture):
     i.save(picture_path)
     return picture_name
 
-@app.route('/account', methods=['GET', 'POST'])
+@app.route('/account')
 @login_required
 def Account():
+    return render_template('account.html', title=title+' Account')
+
+@app.route('/editProfile', methods=['GET', 'POST'])
+@login_required
+def EditProfile():
     form = EditProfileForm()
     if form.validate_on_submit():
         if form.picture.data:
@@ -115,7 +120,7 @@ def Account():
         form.phone.data = current_user.phone
         form.bank.data = current_user.bank
     user_image = url_for('static', filename = customerImagePath+current_user.image_file)
-    return render_template('editProfile.html', title=title+' - Account', user_image=user_image, form=form)
+    return render_template('editProfile.html', title=title+' - Edit Profile', user_image=user_image, form=form)
 
 # @app.errorhandler(404)
 # def page_not_found(e):
