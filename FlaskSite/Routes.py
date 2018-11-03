@@ -144,7 +144,7 @@ def SaveUserPicture(form_picture):
 def Account():
     return render_template('account.html', title=title+' Account')
 
-@app.route('/editProfile', methods=['GET', 'POST'])
+@app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def EditProfile():
     form = EditProfileForm()
