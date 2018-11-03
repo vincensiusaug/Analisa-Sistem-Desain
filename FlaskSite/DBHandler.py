@@ -39,8 +39,6 @@ def UserCheck(email, password):
             code = str(code[0])
             print(code)
             for userPassword in cursor.execute("SELECT password FROM user WHERE code LIKE '"+code+"'"):
-                # hashedPassword = userPassword
-                # print (hashedPassword)
                 print(userPassword)
                 passwordCheck = bcrypt.check_password_hash(userPassword[0], password)
                 if passwordCheck == True:

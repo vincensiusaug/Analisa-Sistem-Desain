@@ -95,6 +95,17 @@
                         {{form.phone(class="form-control form-control-lg")}}
                     {% endif %}
                 </div>
+                <div class="form-group">
+                    {{form.bank.label(class="form-control-label")}}
+                    {% if form.bank.errors %}
+                        {{form.bank(class="form-control form-control-lg is-invalid")}}
+                        {% for error in form.bank.errors %}
+                            <span>{{error}}</span>
+                        {% endfor %}
+                    {% else %}
+                        {{form.bank(class="form-control form-control-lg")}}
+                    {% endif %}
+                </div>
             </fieldset>
             <div class="form-group">
                 {{form.submit(class="btn btn-outline-info")}}
