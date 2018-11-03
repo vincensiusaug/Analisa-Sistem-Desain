@@ -184,13 +184,6 @@ def EditPassword():
             return redirect(url_for('Account'))
         else:
             flash('Wrong old password', 'danger')
-        # elif request.method == 'GET':
-        #     form.firstName.data = current_user.firstName
-        #     form.lastName.data = current_user.lastName
-        #     form.email.data = current_user.email
-        #     form.address.data = current_user.address
-        #     form.phone.data = current_user.phone
-        #     form.bank.data = current_user.bank
     user_image = url_for('static', filename = customerImagePath+current_user.image_file)
     return render_template('editPassword.html', title=title+' - Edit Password', user_image=user_image, form=form)
 # @app.errorhandler(404)
