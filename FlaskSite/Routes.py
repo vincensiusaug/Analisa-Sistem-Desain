@@ -57,7 +57,8 @@ def Logout():
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def Account():
-    return render_template('account.html', title=title+' - Account')
+    user_image = url_for('static', filename = 'Database/Pictures/'+current_user.image_file)
+    return render_template('account.html', title=title+' - Account', user_image=user_image)
 
 # @app.errorhandler(404)
 # def page_not_found(e):
