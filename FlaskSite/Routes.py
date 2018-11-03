@@ -1,6 +1,6 @@
 from flask import url_for, render_template, flash, redirect, request
-from FlaskSite import app, bcrypt
-from FlaskSite.Forms import RegistrationForm, LoginForm
+from FlaskSite import app, bcrypt, db
+from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm
 from FlaskSite.Models import User
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -26,8 +26,6 @@ def Register():
         db.session.add(user)
         db.session.commit()
         flash('Account Created', 'success')
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        # NewUser(form.firstName.data, form.lastName.data, form.email.data, form.username.data, hashed_password, form.address.data, form.phone.data)
         return redirect(url_for('Login'))
     return render_template('register.html', title=title+' - Register', form=form)
 
@@ -57,8 +55,26 @@ def Logout():
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def Account():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.firstName = form.firstName.data
+        current_user.lastName = form.lastName.data
+        current_user.email = form.email.data
+        current_user.address = form.address.data
+        current_user.phone = form.phone.data
+        current_user.bank = form.bank.data
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('Account'))
+    elif request.method == 'GET':
+        form.firstName.data = current_user.firstName
+        form.lastName.data = current_user.lastName
+        form.email.data = current_user.email
+        form.address.data = current_user.address
+        form.phone.data = current_user.phone
+        form.bank.data = current_user.bank
     user_image = url_for('static', filename = 'Database/Pictures/'+current_user.image_file)
-    return render_template('account.html', title=title+' - Account', user_image=user_image)
+    return render_template('account.html', title=title+' - Account', user_image=user_image, form=form)
 
 # @app.errorhandler(404)
 # def page_not_found(e):
