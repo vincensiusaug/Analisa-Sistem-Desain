@@ -1,6 +1,5 @@
-from flask import url_for, render_template, flash, redirect
+from flask import url_for, render_template, flash, redirect, request
 from FlaskSite import app, bcrypt
-from FlaskSite.DBHandler import ReadUsernameInfo, ReadAllUser, NewUser, UserCheck
 from FlaskSite.Forms import RegistrationForm, LoginForm
 from FlaskSite.Models import User
 from flask_login import login_user, current_user, logout_user, login_required
@@ -28,7 +27,7 @@ def Register():
         db.session.commit()
         flash('Account Created', 'success')
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        NewUser(form.firstName.data, form.lastName.data, form.email.data, form.username.data, hashed_password, form.address.data, form.phone.data)
+        # NewUser(form.firstName.data, form.lastName.data, form.email.data, form.username.data, hashed_password, form.address.data, form.phone.data)
         return redirect(url_for('Login'))
     return render_template('register.html', title=title+' - Register', form=form)
 
@@ -42,7 +41,8 @@ def Login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember = form.remember.data)
             flash('You have been logged in!', 'success')
-            return redirect(url_for('Home'))
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('Home'))
         flash('Wrong email or password!', 'danger')
     return render_template('login.html', title=title+' - Login', form=form)
 
@@ -57,22 +57,10 @@ def Logout():
 def Account():
     return render_template('account.html', title=title+' - Account')
 
-# @app.route('/allUser')
-# @app.route('/allUser/')
-# @app.route('/user')
-# @app.route('/user/')
-# def AllUser():
-#     return render_template('allUserInfo.html', title=title+' - All User', allUser=ReadAllUser())
-
-# @app.route('/user/<username>')
-# def UserInfo(username=None):
-#     ReadUsernameInfo(username)
-#     return render_template('userInfo.html',title=title+' - '+username, info=ReadUsernameInfo(username))
-
-@app.errorhandler(404)
-def page_not_found(e):
-    # note that we set the 404 status explicitly
-    return render_template('error.html'), 404
+# @app.errorhandler(404)
+# def page_not_found(e):
+#     # note that we set the 404 status explicitly
+#     return render_template('error.html'), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

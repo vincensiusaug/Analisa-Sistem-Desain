@@ -9,5 +9,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///static/Database/Site.db'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 loginManager = LoginManager(app)
+loginManager.login_view = 'Login'
+loginManager.login_message_category = 'info'
 
 from FlaskSite import Routes
