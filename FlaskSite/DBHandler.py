@@ -1,4 +1,5 @@
 import sqlite3
+from FlaskSite import app, bcrypt
 
 db = 'FlaskSite/static/Database/E-Commerce.db'
 
@@ -34,10 +35,16 @@ def ReadAllUser():
 def UserCheck(email, password):
     with sqlite3.connect(db) as connection:
         cursor = connection.cursor()
-
-        for code in cursor.execute("SELECT code FROM user WHERE email LIKE'"+email+"' AND password LIKE '"+password+"'"):
-            return code
-    
+        for code in cursor.execute("SELECT code FROM user WHERE email LIKE '"+email+"'"):
+            code = str(code[0])
+            print(code)
+            for userPassword in cursor.execute("SELECT password FROM user WHERE code LIKE '"+code+"'"):
+                # hashedPassword = userPassword
+                # print (hashedPassword)
+                print(userPassword)
+                passwordCheck = bcrypt.check_password_hash(userPassword[0], password)
+                if passwordCheck == True:
+                    return code    
     return False
 
 def ReadUserCodeInfo(code):

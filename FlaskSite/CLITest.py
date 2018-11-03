@@ -1,5 +1,10 @@
-from DBReader import ReadField, UserCheck, ReadUserCode
+# from DBReader import ReadField, UserCheck, ReadUserCode
+import sqlite3
+from flask_bcrypt import Bcrypt
 import getpass
+
+bcrypt = Bcrypt()
+db = 'FlaskSite/static/Database/E-Commerce.db'
 
 def UserAuth(email, password):
     AuthResult = UserCheck(email, password)
@@ -31,9 +36,26 @@ def ShowAllUser():
     print(pformat1.format("-","-","-","-","-"))
     print()
 
-ShowAllUser()
-print("Login")
-email = input("Email = ")
-password = getpass.getpass("Password = ")
-print("Checking...")
-UserAuth(email, password)
+def UserCheck(email, password):
+    with sqlite3.connect(db) as connection:
+        cursor = connection.cursor()
+        for code in cursor.execute("SELECT code FROM user WHERE email LIKE '"+email+"'"):
+            code = str(code[0])
+            print(code)
+            for userPassword in cursor.execute("SELECT password FROM user WHERE code LIKE '"+code+"'"):
+                # hashedPassword = userPassword
+                # print (hashedPassword)
+                print(userPassword)
+                passwordCheck = bcrypt.check_password_hash(userPassword[0], password)
+                if passwordCheck == True:
+                    return code    
+    return False
+
+print(UserCheck('wkwkwk@vtg.com', 'feriawan125'))
+
+# ShowAllUser()
+# print("Login")
+# email = input("Email = ")
+# password = getpass.getpass("Password = ")
+# print("Checking...")
+# UserAuth(email, password)
