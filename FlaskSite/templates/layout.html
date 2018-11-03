@@ -33,7 +33,9 @@
                 <!-- Navbar Right Side -->
                 <div class="navbar-nav">
                     {% if current_user.is_authenticated %}
-                    <a class="nav-item nav-link" href="{{ url_for('Account') }}">{{current_user}}</a>
+                        <!-- <img class="rounded-circle layout-img" src="{{ user_image }}"> -->
+                        <a class="nav-item nav-link" href="{{ url_for('Account') }}">Cart</a>
+                        <a class="nav-item nav-link" href="{{ url_for('Account') }}">{{current_user}}</a>
                         <a class="nav-item nav-link" href="{{ url_for('Logout') }}">Logout</a>
                     {% else %}
                         <a class="nav-item nav-link" href="{{ url_for('Login') }}">Login</a>
