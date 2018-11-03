@@ -14,7 +14,24 @@
             </div>
         </div> -->
         
-        
+        <!-- {% for i in items %}
+            {{i.name}}
+            {{i.price}}
+            {{i.description}}
+        {% endfor %} -->
     </div>
+    {% for item in items %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2">{{ item.category }}</a>
+              <small class="text-muted">Rp {{ item.price }} / {{ item.unit }}</small>
+            </div>
+            <h2><a class="article-title">{{ item.name }}</a></h2>
+            <p class="article-content">{{ item.description }}</p>
+          </div>
+        </article>
+    {% endfor %}
     
 {% endblock content %}
