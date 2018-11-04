@@ -2,7 +2,7 @@ import os
 from PIL import Image
 from flask import url_for, render_template, flash, redirect, request
 from FlaskSite import app, bcrypt, db
-from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm, AddItemForm, AddCategoryForm, EditPasswordForm
+from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm, AddItemForm, AddCategoryForm, ChangePasswordForm
 from FlaskSite.Models import User, Item, Category, CartDetail, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -172,20 +172,21 @@ def EditProfile():
     return render_template('editProfile.html', title=title+' - Edit Profile', user_image=user_image, form=form)
 
 
-@app.route('/edit_password', methods=['GET', 'POST'])
+@app.route('/change_password', methods=['GET', 'POST'])
 @login_required
-def EditPassword():
-    form = EditPasswordForm()
+def ChangePassword():
+    form = ChangePasswordForm()
     if form.validate_on_submit():
         if bcrypt.check_password_hash(current_user.password, form.oldPassword.data):
-            current_user.password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            current_user.password = bcrypt.generate_password_hash(form.newPassword.data).decode('utf-8')
             db.session.commit()
             flash('Your account password has been updated!', 'success')
             return redirect(url_for('Account'))
         else:
-            flash('Wrong old password', 'danger')
+            flash('Wrong password', 'danger')
     user_image = url_for('static', filename = customerImagePath+current_user.image_file)
-    return render_template('editPassword.html', title=title+' - Edit Password', user_image=user_image, form=form)
+    return render_template('changePassword.html', title=title+' - Change Password', user_image=user_image, form=form)
+
 # @app.errorhandler(404)
 # def page_not_found(e):
 #     # note that we set the 404 status explicitly
