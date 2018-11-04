@@ -57,7 +57,11 @@ def About():
 @app.route('/cart')
 @login_required
 def UserCart():
-    return render_template('cart.html', title=title+' - Cart')
+    cart = Cart.query.filter_by(user_id=current_user.id).all()
+    total = 0
+    for c in cart:
+        total += c.item.price * c.quantity
+    return render_template('cart.html', title=title+' - Cart', carts=cart, total=total)
 
 def SaveItemPicture(form_picture, item_id):
     _, f_ext = os.path.splitext(form_picture.filename)

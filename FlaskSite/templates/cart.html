@@ -1,5 +1,28 @@
 {% extends "account.html" %}
 
 {% block contentInfo %}
-<h1>Cart</h1>
+    {% for cart in carts %}
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/Item/' + cart.item.image_file) }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <div class="row">
+                <!-- <a class="mr-2 col-md-9">{{ cart.item.itemcategory.name }}</a> -->
+                <h2><a class="article-title col-md-8" href="{{ url_for('ViewItem' ,item_id=cart.item.id) }}">{{ cart.item.name }}</a></h2>
+            </div>
+            <div>
+                <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
+                    <a class="" href="{{ url_for('Home') }}">Edit</a> -->
+                </div>
+            </div>
+            <article>
+                <span style="float:left">Rp {{ cart.item.price }} / {{ cart.item.unit }}</span>
+                <span style="float:right">{{ cart.quantity }} {{ cart.item.unit }}</span>
+                <br>
+                <span style="float:right">Rp {{ cart.quantity * cart.item.price }}</span>
+            </article>
+        </div>
+        </article>
+    {% endfor %}
+    <span style="float:right">Total price Rp {{ total }}  </span>
 {% endblock contentInfo %}

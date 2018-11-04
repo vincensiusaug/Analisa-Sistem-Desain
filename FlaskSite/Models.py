@@ -53,13 +53,14 @@ class Item(db.Model):
     sold = db.Column(db.Integer, default=0)
     image_file = db.Column(db.String(20), nullable=False, default = 'item-default.jpg')
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
-    # cart = db.relationship('CartDetail', backref='item', lazy=True)
+    cart = db.relationship('Cart', backref='item', lazy=True)
     # transaction = db.relationship('Transaction', backref='itemTransaction', lazy=True)
     # history = db.relationship('History', backref='itemHistory', lazy=True)
 
 
     def __repr__(self):
         return self.name
+
 
 class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -69,7 +70,6 @@ class Cart(db.Model):
 
     def __repr__(self):
         return self.id
-
 
 # class Cart(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)

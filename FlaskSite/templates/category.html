@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="row">
-    </div>
     <h5>
         {{ category.name }}
     </h5>
     <small class="text-muted">
         {{ category.description }}
+        <br>
+        <br>
     </small>
     {% for item in items %}
         <article class="media content-section">

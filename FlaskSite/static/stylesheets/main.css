@@ -56,15 +56,16 @@ a.article-title:hover {
 }
 
 .article-img {
-  height: 65px;
-  width: 65px;
+  height: 80px;
+  width: 80px;
   margin-right: 16px;
 }
 
-.article-img-big {
-  height: 125px;
-  width: 125px;
+article-img-big {
+  height: 20px;
+  width: 20px;
   margin-right: 16px;
+  left:0px;
 }
 
 .article-metadata {
@@ -100,4 +101,19 @@ a.article-title:hover {
 
 .account-heading {
   font-size: 2.5rem;
+}
+
+footer {
+  clear: both;
+  position: relative;
+  left:0px;
+  bottom:0px;
+  height:50px;
+  width:100%;
+  padding-top: 20px;
+  color: #8d8d8d;
+}
+
+.inline {
+  display: inline;
 }
