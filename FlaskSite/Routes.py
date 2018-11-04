@@ -19,6 +19,14 @@ def Home():
     # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('index.html', title=title+' - Index', items=items)
 
+@app.route('/search')
+def Search():
+    query = request.args['search']
+    items = Item.query.filter(Item.name.like('%'+query+'%') | Item.description.like('%'+query+'%'))
+    # page = request.args.get('page', 1, type=int)
+    # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
+    return render_template('index.html', title=title+' - Index', items=items)
+
 @app.route("/item/<int:item_id>")
 def ViewItem(item_id):
     item = Item.query.get(item_id)

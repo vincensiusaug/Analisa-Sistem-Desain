@@ -25,9 +25,9 @@
                     <!-- <a class="nav-item nav-link" href="{{ url_for('Home') }}">Home</a>
                     <a class="nav-item nav-link" href="{{ url_for('About') }}">About</a>
                     <!-- <form action="/action_page.php"> -->
-                    <form action="/">
-                        <input type="text" placeholder="Search" name="search">
-                        <button type="submit"><i class="fa fa-search"></i></button>
+                    <form action="{{ url_for('Search') }}">
+                        <input type="text" placeholder=" Search" name="search">
+                        <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
                     </form>
                 </div>
                 <!-- Navbar Right Side -->
