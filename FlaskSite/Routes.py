@@ -14,10 +14,15 @@ itemImagePath = 'Database/Pictures/Item/'
 @app.route('/home')
 @app.route('/index')
 def Home():
-    items = Item.query.all()
+    items = Item.query.order_by(Item.price.desc())
     # page = request.args.get('page', 1, type=int)
     # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('index.html', title=title+' - Index', items=items)
+
+@app.route("/item/<int:item_id>")
+def ViewItem(item_id):
+    item = Item.query.get(item_id)
+    return render_template('item.html', title=title+' - '+item.name, item=item)
 
 @app.route('/about')
 def About():
