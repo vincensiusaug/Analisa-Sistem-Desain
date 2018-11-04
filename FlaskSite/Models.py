@@ -27,7 +27,7 @@ class User(db.Model, UserMixin):
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), unique=True, nullable=False)
+    name = db.Column(db.String(40), unique=True, nullable=False)
     description = db.Column(db.String(200), unique=False, nullable=True)
     items = db.relationship('Item', backref='categories', lazy=True)
 
@@ -36,7 +36,7 @@ class Category(db.Model):
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), unique=True, nullable=False)
+    name = db.Column(db.String(40), unique=True, nullable=False)
     price = db.Column(db.Integer, unique=False, nullable=False)
     unit = db.Column(db.String(20), unique=False, nullable=True)
     description = db.Column(db.String(200), unique=False, nullable=True)

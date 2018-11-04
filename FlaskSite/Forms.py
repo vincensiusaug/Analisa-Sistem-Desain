@@ -36,7 +36,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 class AddItemForm(FlaskForm):
-    name = StringField('Item Name', validators=[DataRequired(), Length(min=2, max=20)])
+    name = StringField('Item Name', validators=[DataRequired(), Length(min=2, max=40)])
     price = IntegerField('Price', validators=[DataRequired()])
     unit = StringField('Unit', validators=[DataRequired(), Length(min=1, max=20)])
     description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
@@ -50,7 +50,7 @@ class AddItemForm(FlaskForm):
     submit = SubmitField('Add')
 
 class AddCategoryForm(FlaskForm):
-    name = StringField('Category Name', validators=[DataRequired(), Length(min=2, max=20)])
+    name = StringField('Category Name', validators=[DataRequired(), Length(min=2, max=40)])
     description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
     submit = SubmitField('Add')
 
