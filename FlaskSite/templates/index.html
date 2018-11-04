@@ -1,27 +1,33 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="row">
-    </div>
-    {% for item in items %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
-          <div class="media-body">
-            <div class="article-metadata">
-              <div class="row">
-                <a class="mr-2 col-md-9" style="color: rgb(58, 58, 58)" href="{{ url_for('ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
-                <small class="text-muted">Rp {{ item.price }} / {{ item.unit }}</small>
-              </div>
-              <div>
-                  <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
-                  <a class="" href="{{ url_for('Home') }}">Edit</a> -->
-              </div>
+  <div class="row">
+  </div>
+  {% for item in items.items %}
+      <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <div class="row">
+              <a class="mr-2 col-md-9" style="color: rgb(58, 58, 58)" href="{{ url_for('ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
+              <small class="text-muted">Rp {{ item.price }} / {{ item.unit }}</small>
             </div>
-            <h2><a class="article-title" href="{{ url_for('ViewItem' ,item_id=item.id) }}">{{ item.name }}</a></h2>
-            <p class="article-content">{{ item.description }}</p>
-            <p class="article-content">{{ item.sold }} Sold</p>
+            <div>
+                <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
+                <a class="" href="{{ url_for('Home') }}">Edit</a> -->
+            </div>
           </div>
-        </article>
-    {% endfor %}
-    
+          <h2><a class="article-title" href="{{ url_for('ViewItem' ,item_id=item.id) }}">{{ item.name }}</a></h2>
+          <p class="article-content">{{ item.description }}</p>
+          <p class="article-content">{{ item.sold }} Sold</p>
+        </div>
+      </article>
+  {% endfor %}
+  {% for page_num in items.iter_pages() %}
+    {% if page_num %}
+      <a class="btn btn-outline-info mb-4" href="{{ url_for('Home', page=page_num) }}">{{ page_num }}</a>
+    {% else %}
+    ...
+    {% endif %}
+  {% endfor %}
 {% endblock content %}
