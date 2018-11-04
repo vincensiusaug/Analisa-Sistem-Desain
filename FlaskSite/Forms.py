@@ -40,11 +40,7 @@ class AddItemForm(FlaskForm):
     price = IntegerField('Price', validators=[DataRequired()])
     unit = StringField('Unit', validators=[DataRequired(), Length(min=1, max=20)])
     description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
-    categories = Category.query.all()
-    allCategory = []
-    for category in categories:
-        allCategory.append((category.id, category.name))
-    category_id = SelectField('Category', choices=allCategory, coerce=int, validators=[DataRequired()])
+    category_id = SelectField('Category', choices=[], coerce=int, validators=[DataRequired()])
     stock = IntegerField('Stock', validators=[DataRequired()])
     picture = FileField('Upload Item Picture', validators=[FileAllowed(allowedPictureExt)])
     submit = SubmitField('Add')
@@ -73,6 +69,6 @@ class EditProfileForm(FlaskForm):
 class ChangePasswordForm(FlaskForm):
     oldPassword = PasswordField('Old password', validators=[DataRequired(), Length(min=8, max=20)])
     newPassword = PasswordField('New Password', validators=[DataRequired()])
-    confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('newPassword')])
     submit = SubmitField('Change')
 

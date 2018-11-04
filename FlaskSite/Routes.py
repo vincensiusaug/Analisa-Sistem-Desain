@@ -2,7 +2,7 @@ import os
 from PIL import Image
 from flask import url_for, render_template, flash, redirect, request
 from FlaskSite import app, bcrypt, db
-from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm, AddItemForm, AddCategoryForm, ChangePasswordForm
+from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm
 from FlaskSite.Models import User, Item, Category, CartDetail, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -14,7 +14,7 @@ itemImagePath = 'Database/Pictures/Item/'
 @app.route('/home')
 @app.route('/index')
 def Home():
-    items = Item.query.order_by(Item.price.desc())
+    items = Item.query.order_by(Item.sold.desc())
     # page = request.args.get('page', 1, type=int)
     # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('index.html', title=title+' - Index', items=items)
@@ -22,7 +22,7 @@ def Home():
 @app.route('/search')
 def Search():
     query = request.args['search']
-    items = Item.query.filter(Item.name.like('%'+query+'%') | Item.description.like('%'+query+'%'))
+    items = Item.query.filter(Item.name.like('%'+query+'%') | Item.description.like('%'+query+'%') | Item.id.like(query)).order_by(Item.sold.desc())
     # page = request.args.get('page', 1, type=int)
     # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('index.html', title=title+' - Index', items=items)
@@ -47,11 +47,11 @@ def About():
 def UserCart():
     return render_template('cart.html', title=title+' - Cart')
 
-def SaveItemPicture(form_picture):
+def SaveItemPicture(form_picture, item_id):
     _, f_ext = os.path.splitext(form_picture.filename)
-    picture_name = current_user.username + f_ext
-    picture_path = os.path.join(app.root_path, 'static/'+customerImagePath, picture_name)
-    output_size = (125, 125)
+    picture_name = str(item_id) + f_ext
+    picture_path = os.path.join(app.root_path, 'static/'+itemImagePath, picture_name)
+    output_size = (512, 512)
     i = Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_path)
@@ -60,7 +60,30 @@ def SaveItemPicture(form_picture):
 @app.route('/add_item', methods=['GET', 'POST'])
 @login_required
 def AddItem():
-    if not current_user.is_authenticated or current_user.permission == 1:
+    if not current_user.is_authenticated or current_user.usertype.id >= 3:
+        return redirect(url_for('Home'))
+    form = AddItemForm()
+    categories = Category.query.all()
+    allCategory = []
+    for category in categories:
+        allCategory.append((category.id, category.name))
+    form.category_id.choices = allCategory
+    if form.validate_on_submit():
+        item = Item(name = form.name.data, price = form.price.data, unit=form.unit.data, description = form.description.data, category_id = form.category_id.data, stock = form.stock.data)
+        if form.picture.data:
+            picture_file = SaveItemPicture(form.picture.data, Item.query.order_by(Item.id.desc()).first().id+1)
+            # current_user.image_file = picture_file
+            item.image_file = picture_file
+        db.session.add(item)
+        db.session.commit()
+        flash('Item Added!', 'success')
+        return redirect(url_for('AddItem'))
+    return render_template('addItem.html', title=title+' - Add Item', form=form)
+
+@app.route('/edit_item', methods=['GET', 'POST'])
+@login_required
+def EditItem():
+    if not current_user.is_authenticated or current_user.usertype.id >= 3:
         return redirect(url_for('Home'))
     categories = Category.query.all() 
     form = AddItemForm()
@@ -80,7 +103,7 @@ def AddItem():
 @app.route('/add_category', methods=['GET', 'POST'])
 @login_required
 def AddCategory():
-    if not current_user.is_authenticated or current_user.permission == 1:
+    if not current_user.is_authenticated or current_user.usertype.id >= 3:
         return redirect(url_for('Home'))
     form = AddCategoryForm()
     if form.validate_on_submit():
@@ -95,7 +118,7 @@ def AddCategory():
 @login_required
 def ViewUser():
     users = User.query.all()
-    if not current_user.is_authenticated or current_user.permission == 1:
+    if not current_user.is_authenticated or current_user.usertype.id >= 3:
         return redirect(url_for('Home'))
     
     return render_template('viewUser.html', title=title+' - View User', users=users)
@@ -161,7 +184,8 @@ def SaveUserPicture(form_picture):
 @app.route('/account')
 @login_required
 def Account():
-    return render_template('account.html', title=title+' Account')
+    user_image = url_for('static', filename = customerImagePath+current_user.image_file)
+    return render_template('account.html', title=title+' Account', user_image=user_image)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required

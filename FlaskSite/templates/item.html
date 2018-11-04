@@ -10,16 +10,19 @@
                         <div class="col-md-4">
                             <img class="article-img-big col-md-8" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
                         </div>
-                        <div class="col-md-8">
-                            <a class="mr-2 col-md-8 article-metadata" href="{{ url_for('ViewCategory' ,category_id=item.categories.id) }}">{{ item.categories.name }}</a>
+                        <div class="col-md-8 ">
+                            <div class="row article-metadata">
+                                <a class=" col-md-8 " href="{{ url_for('ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
+                                
+                                <a class="" href="{{ url_for('Home') }}">Add to cart</a>
+                                <a class="" href="{{ url_for('Home') }}">Edit</a>
+                            </div>
                             <h1><a class="article-title col-md-8">{{ item.name }}</a></h1>
                             <small class="text-muted col-md-8">Rp {{ item.price }} / {{ item.unit }}</small>
                             <p class="article-content col-md-8">{{ item.sold }} Sold</p>
                         </div>
                     </div>
                 <div>
-                  <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
-                  <a class="" href="{{ url_for('Home') }}">Edit</a> -->
                 </div>
             </div>
             <p class="article-content">{{ item.description }}</p>

@@ -6,9 +6,18 @@ from flask_login import UserMixin
 def LoadUser(user_id):
     return User.query.get(int(user_id))
 
+class UserType(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40), unique=True, nullable=False)
+    description = db.Column(db.String(200), unique=False, nullable=True)
+    users = db.relationship('User', backref='usertype', lazy=True)
+
+    def __repr__(self):
+        return self.name
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    permission = db.Column(db.Integer, default = 1)
+    userType_id = db.Column(db.Integer, db.ForeignKey('user_type.id'), nullable=False, default=3)
     firstName = db.Column(db.String(20), unique=False, nullable=False)
     lastName = db.Column(db.String(20), unique=False, nullable=False)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -29,7 +38,7 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), unique=True, nullable=False)
     description = db.Column(db.String(200), unique=False, nullable=True)
-    items = db.relationship('Item', backref='categories', lazy=True)
+    items = db.relationship('Item', backref='itemcategory', lazy=True)
 
     def __repr__(self):
         return self.name

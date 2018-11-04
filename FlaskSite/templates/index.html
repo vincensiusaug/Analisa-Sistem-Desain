@@ -9,7 +9,7 @@
           <div class="media-body">
             <div class="article-metadata">
               <div class="row">
-                <a class="mr-2 col-md-9" href="{{ url_for('ViewCategory' ,category_id=item.categories.id) }}">{{ item.categories.name }}</a>
+                <a class="mr-2 col-md-9" href="{{ url_for('ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
                 <small class="text-muted">Rp {{ item.price }} / {{ item.unit }}</small>
               </div>
               <div>
