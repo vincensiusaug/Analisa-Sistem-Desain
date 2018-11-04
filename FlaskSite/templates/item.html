@@ -8,10 +8,10 @@
                 <div class="article-metadata">
                     <div class="row">
                         <div class="col-md-4">
-                            <img class="rounded-circle article-img-big col-md-8" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
+                            <img class="article-img-big col-md-8" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
                         </div>
                         <div class="col-md-8">
-                            <a class="mr-2 col-md-8 article-metadata">{{ item.categories.name }}</a>
+                            <a class="mr-2 col-md-8 article-metadata" href="{{ url_for('ViewCategory' ,category_id=item.categories.id) }}">{{ item.categories.name }}</a>
                             <h1><a class="article-title col-md-8">{{ item.name }}</a></h1>
                             <small class="text-muted col-md-8">Rp {{ item.price }} / {{ item.unit }}</small>
                             <p class="article-content col-md-8">{{ item.sold }} Sold</p>

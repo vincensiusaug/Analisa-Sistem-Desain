@@ -3,7 +3,7 @@ from PIL import Image
 from flask import url_for, render_template, flash, redirect, request
 from FlaskSite import app, bcrypt, db
 from FlaskSite.Forms import RegistrationForm, LoginForm, EditProfileForm, AddItemForm, AddCategoryForm, ChangePasswordForm
-from FlaskSite.Models import User, Item, Category, CartDetail, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status
+from FlaskSite.Models import User, Item, Category, CartDetail, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category
 from flask_login import login_user, current_user, logout_user, login_required
 
 title = 'VT Shop'
@@ -23,6 +23,12 @@ def Home():
 def ViewItem(item_id):
     item = Item.query.get(item_id)
     return render_template('item.html', title=title+' - '+item.name, item=item)
+
+@app.route("/category/<int:category_id>")
+def ViewCategory(category_id):
+    category = Category.query.get(category_id)
+    items = Item.query.filter_by(category_id=category_id).all()
+    return render_template('category.html', title=title+' - '+category.name, category=category, items=items)
 
 @app.route('/about')
 def About():
