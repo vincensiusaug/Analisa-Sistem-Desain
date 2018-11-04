@@ -61,22 +61,23 @@ class Item(db.Model):
     def __repr__(self):
         return self.name
 
-class CartDetail(db.Model):
+class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer, unique=False, nullable=False)
-    cart_id = db.Column(db.Integer, db.ForeignKey('cart.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
 
     def __repr__(self):
         return self.id
 
-class Cart(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    cartDetail = db.relationship('CartDetail', backref='cart', lazy=True)
-    customer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    def __repr__(self):
-        return self.id
+# class Cart(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     cartDetail = db.relationship('CartDetail', backref='cart', lazy=True)
+#     customer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+#     def __repr__(self):
+#         return self.id
 
 class Status(db.Model):
     id = db.Column(db.Integer, primary_key=True)

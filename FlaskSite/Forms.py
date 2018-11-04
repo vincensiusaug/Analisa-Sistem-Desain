@@ -72,3 +72,6 @@ class ChangePasswordForm(FlaskForm):
     confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('newPassword')])
     submit = SubmitField('Change')
 
+class AddCartForm(FlaskForm):
+    quantity = IntegerField('Quantity', validators=[DataRequired()])
+    submit = SubmitField('Add to cart')

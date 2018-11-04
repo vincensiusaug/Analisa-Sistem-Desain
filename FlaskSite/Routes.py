@@ -1,9 +1,9 @@
 import os
 from PIL import Image
-from flask import url_for, render_template, flash, redirect, request
+from flask import url_for, render_template, flash, redirect, request, abort
 from FlaskSite import app, bcrypt, db
-from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm
-from FlaskSite.Models import User, Item, Category, CartDetail, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category
+from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm, AddCartForm
+from FlaskSite.Models import User, Item, Category, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category
 from flask_login import login_user, current_user, logout_user, login_required
 
 title = 'VT Shop'
@@ -27,10 +27,22 @@ def Search():
     # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('index.html', title=title+' - Index', items=items)
 
-@app.route("/item/<int:item_id>")
+@app.route("/item/<int:item_id>", methods=['GET', 'POST'])
 def ViewItem(item_id):
-    item = Item.query.get(item_id)
-    return render_template('item.html', title=title+' - '+item.name, item=item)
+    item = Item.query.get_or_404(item_id)
+    form = AddCartForm()
+    if form.validate_on_submit():
+        if form.quantity.data > item.stock:
+            flash('Sorry we don\'t have that much items!', 'danger')
+            return redirect(url_for('ViewItem', item_id=item_id))
+        cart = Cart(quantity=form.quantity.data, user_id = current_user.id, item_id=item_id)
+        db.session.add(cart)
+        db.session.commit()
+        flash('Item added to cart!', 'success')
+        return redirect(url_for('ViewItem', item_id=item_id))
+    elif request.method == 'GET':
+        form.quantity.data = 1
+    return render_template('item.html', title=title+' - '+item.name, item=item, form=form)
 
 @app.route("/category/<int:category_id>")
 def ViewCategory(category_id):

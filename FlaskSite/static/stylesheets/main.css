@@ -10,16 +10,16 @@
 body {
   font-family: 'lucida_macnormal' Arial, Helvetica, sans-serif;
   background: #fafafa;
-  color: #333333;
+  color: #6d6d6d;
   margin-top: 5rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #444444;
+  color: #555555;
 }
 
 .bg-steel {
-  background-color: #333333;
+  background-color: #616161;
 }
 
 .site-header .navbar-nav .nav-link {
@@ -47,7 +47,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a.article-title:hover {
-  color: #428bca;
+  color: #226fb3;
   text-decoration: none;
 }
 

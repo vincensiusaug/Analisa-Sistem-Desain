@@ -8,18 +8,35 @@
                 <div class="article-metadata">
                     <div class="row">
                         <div class="col-md-4">
-                            <img class="article-img-big col-md-8" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
+                            <img class="account-img" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
                         </div>
                         <div class="col-md-8 ">
                             <div class="row article-metadata">
-                                <a class=" col-md-8 " href="{{ url_for('ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
-                                
-                                <a class="" href="{{ url_for('Home') }}">Add to cart</a>
-                                <a class="" href="{{ url_for('Home') }}">Edit</a>
+                                <a class=" col-md-8" href="{{ url_for('ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
                             </div>
                             <h1><a class="article-title col-md-8">{{ item.name }}</a></h1>
-                            <small class="text-muted col-md-8">Rp {{ item.price }} / {{ item.unit }}</small>
-                            <p class="article-content col-md-8">{{ item.sold }} Sold</p>
+                            <small class="text-muted col-md-8">Rp {{ item.price }} / {{ item.unit }}</small><br>
+                            <small class="text-muted col-md-8">{{ item.sold }} Sold</small><br>
+                            <small class="article-content col-md-8">{{ item.stock }} Left</small>
+                            {% if current_user.usertype.name == "Customer" %}
+                                <form method="POST" action="" enctype="multipart/form-data" class="col-md-4">
+                                    {{form.hidden_tag()}}
+                                    <fieldset class="form-group">
+                                        <div class="form-group">
+                                            {{form.quantity.label(class="form-control-label")}}
+                                            {% if form.quantity.errors %}
+                                                {{form.quantity(class="form-control form-control-lg is-invalid")}}
+                                                {% for error in form.quantity.errors %}
+                                                    <span>{{error}}</span>
+                                                {% endfor %}
+                                            {% else %}
+                                                {{form.quantity(class="form-control form-control-lg")}}
+                                            {% endif %}
+                                        </div>
+                                        {{form.submit(class="btn btn-outline-info")}}
+                                    </fieldset>
+                                </form>
+                                {% endif %}
                         </div>
                     </div>
                 <div>
