@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<<<<<<< HEAD
   <div class="row">
   </div>
   {% for item in items.items %}
@@ -16,23 +15,6 @@
             <div>
                 <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
                 <a class="" href="{{ url_for('Home') }}">Edit</a> -->
-=======
-    <div class="row">
-    </div>
-    {% for item in items %}
-        <article class="media content-section">
-          <img class="article-img" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
-          <div class="media-body">
-            <div class="article-metadata">
-              <div class="row">
-                <a class="mr-2 col-md-9" style="color: rgb(58, 58, 58)" href="{{ url_for('ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
-                <small class="text-muted">Rp {{ item.price }} / {{ item.unit }}</small>
-              </div>
-              <div>
-                  <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
-                  <a class="" href="{{ url_for('Home') }}">Edit</a> -->
-              </div>
->>>>>>> 4f967d264ff980e913aba10406076d761823bf62
             </div>
           </div>
           <h2><a class="article-title" href="{{ url_for('ViewItem' ,item_id=item.id) }}">{{ item.name }}</a></h2>

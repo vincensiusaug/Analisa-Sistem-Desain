@@ -12,6 +12,7 @@ itemImagePath = 'Database/Pictures/Item/'
 
 @app.route('/')
 def Home():
+    # print(current_user.name)
     page = request.args.get('page', 1, type=int)
     items = Item.query.order_by(Item.sold.desc()).paginate(page=page, per_page=2)
     # page = request.args.get('page', 1, type=int)
@@ -21,7 +22,8 @@ def Home():
 @app.route('/search')
 def Search():
     query = request.args['search']
-    items = Item.query.filter(Item.name.like('%'+query+'%') | Item.description.like('%'+query+'%') | Item.id.like(query)).order_by(Item.sold.desc())
+    page = request.args.get('page', 1, type=int)
+    items = Item.query.filter(Item.name.like('%'+query+'%') | Item.description.like('%'+query+'%') | Item.id.like(query)).order_by(Item.sold.desc()).paginate(page=page, per_page=2)
     # page = request.args.get('page', 1, type=int)
     # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('index.html', title=title+' - Index', items=items)

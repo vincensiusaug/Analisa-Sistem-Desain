@@ -18,25 +18,27 @@
                             <small class="text-muted col-md-8">Rp {{ item.price }} / {{ item.unit }}</small><br>
                             <small class="text-muted col-md-8">{{ item.sold }} Sold</small><br>
                             <small class="article-content col-md-8">{{ item.stock }} Left</small>
-                            {% if current_user.usertype.name == "Customer" %}
-                                <form method="POST" action="" enctype="multipart/form-data" class="col-md-4">
-                                    {{form.hidden_tag()}}
-                                    <fieldset class="form-group">
-                                        <div class="form-group">
-                                            {{form.quantity.label(class="form-control-label")}}
-                                            {% if form.quantity.errors %}
-                                                {{form.quantity(class="form-control form-control-lg is-invalid")}}
-                                                {% for error in form.quantity.errors %}
-                                                    <span>{{error}}</span>
-                                                {% endfor %}
-                                            {% else %}
-                                                {{form.quantity(class="form-control form-control-lg")}}
-                                            {% endif %}
-                                        </div>
-                                        {{form.submit(class="btn btn-outline-info")}}
-                                    </fieldset>
-                                </form>
+                            {% if current_user.is_authenticated %}
+                                {% if current_user.usertype.name == "Customer" %}
+                                    <form method="POST" action="" enctype="multipart/form-data" class="col-md-4">
+                                        {{form.hidden_tag()}}
+                                        <fieldset class="form-group">
+                                            <div class="form-group">
+                                                {{form.quantity.label(class="form-control-label")}}
+                                                {% if form.quantity.errors %}
+                                                    {{form.quantity(class="form-control form-control-lg is-invalid")}}
+                                                    {% for error in form.quantity.errors %}
+                                                        <span>{{error}}</span>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {{form.quantity(class="form-control form-control-lg")}}
+                                                {% endif %}
+                                            </div>
+                                            {{form.submit(class="btn btn-outline-info")}}
+                                        </fieldset>
+                                    </form>
                                 {% endif %}
+                            {% endif %}
                         </div>
                     </div>
                 <div>
