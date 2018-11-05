@@ -62,12 +62,11 @@ a.article-title:hover {
 }
 
 .article-img-big {
-  height: 300px;
-  width: 300px;
-  margin-right: 16px;
-  left:0px;
+  height: 15em;
+  width: 16em;
+  display: block;
+  margin: auto;
 }
-
 .article-metadata {
   padding-bottom: 1px;
   margin-bottom: 4px;
