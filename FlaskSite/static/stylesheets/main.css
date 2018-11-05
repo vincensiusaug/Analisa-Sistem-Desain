@@ -61,9 +61,9 @@ a.article-title:hover {
   margin-right: 16px;
 }
 
-article-img-big {
-  height: 20px;
-  width: 20px;
+.article-img-big {
+  height: 300px;
+  width: 300px;
   margin-right: 16px;
   left:0px;
 }
