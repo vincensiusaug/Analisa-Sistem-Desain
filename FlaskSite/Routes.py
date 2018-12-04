@@ -4,7 +4,7 @@ from PIL import Image
 from flask import url_for, render_template, flash, redirect, request, abort
 from FlaskSite import app, bcrypt, db
 from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm, AddCartForm, ChangeUserTypeForm, ChatForm
-from FlaskSite.Models import UserType, User, Item, Category, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category, ChatDetail
+from FlaskSite.Models import UserType, User, Item, Category, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category, Chat, ChatDetail
 from flask_login import login_user, current_user, logout_user, login_required
 
 title = 'VT Shop'
@@ -266,12 +266,47 @@ def EditUser(username):
 
 @app.route("/messages", methods=['GET', 'POST'])
 @login_required
-def Chat():
+def UserChat():
+    if current_user.usertype.id <= 2:
+        return redirect(url_for('AdminChatList'))
     form = ChatForm()
-    chats = ChatDetail.query.filter(or_(ChatDetail.sender_id==current_user.id, ChatDetail.recipient_id==current_user.id))
+    chats = ChatDetail.query.filter(ChatDetail.chat_id==current_user.id)
+    if form.validate_on_submit():
+        chat = Chat.query.get(current_user.id)
+        if chat == None:
+            chat = Chat(id=current_user.id)
+            db.session.add(chat)
+        else:
+            chat.is_read = False
+        newChat = ChatDetail(chat_id=current_user.id, user_id=current_user.id, description=form.text.data)
+        db.session.add(newChat)
+        db.session.commit()
+        return redirect(url_for('UserChat'))
+    return render_template('chatUser.html', title=title+' - Messages', form=form, chats=chats)
+
+@app.route("/messages/<string:username>", methods=['GET', 'POST'])
+@login_required
+def AdminChat(username):
     if current_user.usertype.id > 2:
-        return render_template('chatUser.html', title=title+' - Chat', form=form)
-    return render_template('chatAdmin.html', title=title+' - Chat', form=form, chats=chats)
+        return redirect(url_for('Home'))
+    form = ChatForm()
+    chats = ChatDetail.query.join(Chat).join(User).filter(User.username==username)
+    user = User.query.filter(User.username==username).first()
+    if form.validate_on_submit():
+        newChat = ChatDetail(chat_id=user.id, user_id=current_user.id, description=form.text.data)
+        db.session.add(newChat)
+        db.session.commit()
+        return redirect(url_for('AdminChat', username=username))
+    return render_template('chatAdmin.html', title=title+' - Messages', form=form, chats=chats)
+
+@app.route("/messages_list")
+@login_required
+def AdminChatList():
+    if current_user.usertype.id > 2:
+        return redirect(url_for('Home'))
+    chats = Chat.query.all()
+    print(chats[0].user.username)
+    return render_template('chatList.html', title=title+' - Messages List', chats=chats)
 
 # @app.errorhandler(404)
 # def page_not_found(e):

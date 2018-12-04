@@ -1,17 +1,35 @@
 {% extends "account.html" %}
 
 {% block contentInfo %}
-
+<div class="chat">
+    {% for chat in chats %}
+        {% if chat.user_id ==  current_user.id %}
+        <li class="self">
+            <div class="msg">
+                <p>{{chat.description}}</p>
+                <time>{{chat.date.strftime('%d-%m-%Y %H:%M')}}</time>
+            </div>
+        </li>
+        {% else %}
+        <li class="other">
+            <div class="msg">
+                <p>{{chat.description}}</p>
+                <time>{{chat.date.strftime('%d-%m-%Y %H:%M')}}</time>
+            </div>
+        </li>
+        {% endif %}
+    {% endfor %}
+</div>
 <form method="POST" action="" enctype="multipart/form-data">
     {{form.hidden_tag()}}
-    <fieldset class="form-group">
         <div class="form-group">
-            {{form.text.label(class="form-control-label")}}
-            {{form.text(class="form-control form-control-lg")}}
+            <object align="left">
+                {{form.text(class="form-control")}}
+            </object>
+            <object align="right">
+                {{form.submit(class="btn btn-outline-info")}}
+            </object>
+            <!-- {{form.text.label(class="form-control-label")}} -->
         </div>
-    </fieldset>
-    <div class="form-group">
-        {{form.submit(class="btn btn-outline-info")}}
-    </div>
 </form>
 {% endblock contentInfo %}

@@ -3,18 +3,18 @@
 {% block contentInfo %}
 <div class="chat">
     {% for chat in chats %}
-        {% if chat.sender_id ==  current_user.id%}
+        {% if chat.user_id ==  current_user.id%}
         <li class="self">
             <div class="msg">
                 <p>{{chat.description}}</p>
-                <time>{{chat.date}}</time>
+                <time>{{chat.date.strftime('%d-%m-%Y %H:%M')}}</time>
             </div>
         </li>
         {% else %}
             <li class="other">
                 <div class="msg">
                     <p>{{chat.description}}</p>
-                    <time>{{chat.date}}</time>
+                    <time>{{chat.date.strftime('%Y-%m-%d')}}</time>
                 </div>
             </li>
         {% endif %}

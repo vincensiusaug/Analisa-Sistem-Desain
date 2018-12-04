@@ -30,7 +30,8 @@ class User(db.Model, UserMixin):
     cart = db.relationship('Cart', backref='user', lazy=True)
     transaction = db.relationship('Transaction', backref='user', lazy=True)
     history = db.relationship('History', backref='user', lazy=True)
-    
+    chat = db.relationship('Chat', back_populates="user", lazy=True)
+    chatDetail = db.relationship('ChatDetail', backref='user', lazy=True)
 
     def __repr__(self):
         return self.firstName+" "+self.lastName
@@ -127,16 +128,22 @@ class History(db.Model):
     def __repr__(self):
         return self.id
 
+class Chat(db.Model):
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    is_read = db.Column(db.Boolean, default=False)
+    detail = db.relationship('ChatDetail', backref='chat', lazy=True)
+    user = db.relationship("User", back_populates="chat")
+
 class ChatDetail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    chat_id = db.Column(db.Integer, db.ForeignKey('chat.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     description = db.Column(db.String(200), unique=False, nullable=True)
-    sender_user = db.relationship('User', backref='sender_user', lazy=True, foreign_keys=[sender_id])
-    recipient_user = db.relationship('User', backref='recipient_user', lazy=True, foreign_keys=[recipient_id])
 
     def __repr__(self):
         return self.description
+
+
 
 db.create_all()
