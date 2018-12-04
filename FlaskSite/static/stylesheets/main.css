@@ -10,10 +10,10 @@
 
 }
 html {
-  height: 100%;
+  height: 80%;
 }
 body {
-  min-height: 100%;
+  min-height: 80%;
   font-family: 'lucida_macnormal' Arial, Helvetica, sans-serif;
   background: #fafafa;
   color: #6d6d6d;
@@ -164,10 +164,11 @@ footer {
 .msg {
   background: white;
   min-width: 50px;
+  max-width: 80%;
   padding: 10px;
   border-radius: 2px;
-  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.07);
   word-wrap: break-word;
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.07);
 }
 
 .msg p {
@@ -189,6 +190,16 @@ footer {
   font-family: FontAwesome;
   display: inline-block;
   margin-right: 4px;
+  margin-left: 4px;
+}
+
+.msg .sender {
+  font-size: 0.7rem;
+  color: #ccc;
+  margin-top: 3px;
+  float: right;
+  cursor: default;
+  margin-left: 4px;
 }
 
 #notification-circle-red {
