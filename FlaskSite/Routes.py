@@ -292,9 +292,7 @@ def AdminChat(username):
     chats = ChatDetail.query.join(Chat).join(User).filter(User.username==username)
     user = User.query.filter(User.username==username).first()
     chat = Chat.query.get(user.id)
-    print(chat)
     chat.is_read = True
-    print(chat.is_read)
     db.session.commit()
     if form.validate_on_submit():
         newChat = ChatDetail(chat_id=user.id, user_id=current_user.id, description=form.text.data)
