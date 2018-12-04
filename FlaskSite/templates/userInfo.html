@@ -1,13 +1,20 @@
-{% extends "layout.html" %}
-{% block content %}
-    <h1>{{info.firstName}} {{info.lastName}}</h1>
-    <p>Code = {{info.code}}</p>
-    <p>Permission = {{info.permission}}</p>
-    <p>First Name = {{info.firstName}}</p>
-    <p>Last Name = {{info.lastName}}</p>
-    <p>Email = {{info.email}}</p>
-    <p>Username = {{info.username}}</p>
-    <p>Password = {{info.password}}</p>
-    <p>Address = {{info.address}}</p>
-    <p>Phone = {{info.phone}}</p>
-{% endblock content%}
+{% extends "account.html" %}
+{% block contentInfo %}
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/User/' + current_user.image_file) }}">
+        <div class="media-body">
+            <form method="POST" action="" enctype="multipart/form-data">
+            <fieldset class="form-group">
+                <div class="article-metadata row">
+                <a class="col-md-4 mr-2">{{ current_user.username }}</a>
+                </div>
+            </fieldset>
+            </form>
+            <h2><a class="article-title">{{ current_user }}</a></h2>
+            <p class="article-content">Email        = {{ current_user.email }}</p>
+            <p class="article-content">Address      = {{ current_user.address }}</p>
+            <p class="article-content">Phone Number = {{ current_user.phone }}</p>
+            <p class="article-content">Bank Number  = {{ current_user.bank }}</p>
+        </div>
+    </article>
+{% endblock contentInfo%}

@@ -199,8 +199,9 @@ def SaveUserPicture(form_picture):
 @app.route('/account')
 @login_required
 def Account():
-    user_image = url_for('static', filename = customerImagePath+current_user.image_file)
-    return render_template('account.html', title=title+' Account', user_image=user_image)
+    # user_image = url_for('static', filename = customerImagePath+current_user.image_file)
+    # return render_template('account.html', title=title+' Account', user_image=user_image)
+    return render_template('userInfo.html', title=title+' Account')
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -245,7 +246,7 @@ def ChangePassword():
     user_image = url_for('static', filename = customerImagePath+current_user.image_file)
     return render_template('changePassword.html', title=title+' - Change Password', user_image=user_image, form=form)
 
-@app.route("/user/<string:username>", methods=['GET', 'POST'])
+@app.route("/edit_user_type/<string:username>", methods=['GET', 'POST'])
 @login_required
 def EditUser(username):
     if not current_user.is_authenticated or current_user.usertype.id != 1:
@@ -257,10 +258,13 @@ def EditUser(username):
         user.userType_id = form.userType.data
         db.session.commit()
         flash(username+' user type has been updated to '+user.usertype.name+"!", 'success')
-        return render_template('editUser.html', title=title+' - '+username, form=form, user=user)
+        return redirect(url_for('EditUser, username=user.username'))
     elif request.method == 'GET':
         form.userType.data = user.userType_id
-    return render_template('editUser.html', title=title+' - '+username, form=form, user=user)
+    return render_template('editUser.html', title=title+' - Edit User', form=form, user=user)
+
+def Chat():
+    pass
 
 # @app.errorhandler(404)
 # def page_not_found(e):
