@@ -57,7 +57,7 @@ class EditProfileForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     address = StringField('Address', validators=[DataRequired(), Length(min=2, max=60)])
     phone = StringField('Phone Number', validators=[DataRequired(), Length(min=8, max=20)])
-    bank = StringField('Bank Number', validators=[DataRequired(), Length(min=8, max=20)])
+    bank = IntegerField('Bank Number', validators=[DataRequired(), Length(min=8, max=20)])
     submit = SubmitField('Update')
 
     def validate_email(self, email):
@@ -76,6 +76,10 @@ class AddCartForm(FlaskForm):
     quantity = IntegerField('Quantity', validators=[DataRequired()])
     submit = SubmitField('Add to cart')
 
-class ChangeUserType(FlaskForm):
+class ChangeUserTypeForm(FlaskForm):
     userType = SelectField('User Type', choices=[], coerce=int, validators=[DataRequired()])
     submit = SubmitField('Save')
+
+class ChatForm(FlaskForm):
+    text = StringField('Text')
+    submit = SubmitField('Send')

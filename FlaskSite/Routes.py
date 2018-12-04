@@ -1,9 +1,10 @@
 import os
+from sqlalchemy import or_
 from PIL import Image
 from flask import url_for, render_template, flash, redirect, request, abort
 from FlaskSite import app, bcrypt, db
-from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm, AddCartForm, ChangeUserType
-from FlaskSite.Models import UserType, User, Item, Category, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category
+from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm, AddCartForm, ChangeUserTypeForm, ChatForm
+from FlaskSite.Models import UserType, User, Item, Category, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category, ChatDetail
 from flask_login import login_user, current_user, logout_user, login_required
 
 title = 'VT Shop'
@@ -251,7 +252,7 @@ def ChangePassword():
 def EditUser(username):
     if not current_user.is_authenticated or current_user.usertype.id != 1:
         return redirect(url_for('Home'))
-    form = ChangeUserType()
+    form = ChangeUserTypeForm()
     user = User.query.filter_by(username = username).first()
     form.userType.choices = [(ut.id, ut.name) for ut in UserType.query.all()]
     if form.validate_on_submit():
@@ -263,8 +264,14 @@ def EditUser(username):
         form.userType.data = user.userType_id
     return render_template('editUser.html', title=title+' - Edit User', form=form, user=user)
 
+@app.route("/messages", methods=['GET', 'POST'])
+@login_required
 def Chat():
-    pass
+    form = ChatForm()
+    chats = ChatDetail.query.filter(or_(ChatDetail.sender_id==current_user.id, ChatDetail.recipient_id==current_user.id))
+    if current_user.usertype.id > 2:
+        return render_template('chatUser.html', title=title+' - Chat', form=form)
+    return render_template('chatAdmin.html', title=title+' - Chat', form=form, chats=chats)
 
 # @app.errorhandler(404)
 # def page_not_found(e):

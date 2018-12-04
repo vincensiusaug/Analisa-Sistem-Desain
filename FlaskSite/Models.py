@@ -30,6 +30,7 @@ class User(db.Model, UserMixin):
     cart = db.relationship('Cart', backref='user', lazy=True)
     transaction = db.relationship('Transaction', backref='user', lazy=True)
     history = db.relationship('History', backref='user', lazy=True)
+    
 
     def __repr__(self):
         return self.firstName+" "+self.lastName
@@ -126,5 +127,16 @@ class History(db.Model):
     def __repr__(self):
         return self.id
 
+class ChatDetail(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    description = db.Column(db.String(200), unique=False, nullable=True)
+    sender_user = db.relationship('User', backref='sender_user', lazy=True, foreign_keys=[sender_id])
+    recipient_user = db.relationship('User', backref='recipient_user', lazy=True, foreign_keys=[recipient_id])
+
+    def __repr__(self):
+        return self.description
 
 db.create_all()

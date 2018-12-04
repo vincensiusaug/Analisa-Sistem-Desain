@@ -1,0 +1,17 @@
+{% extends "account.html" %}
+
+{% block contentInfo %}
+
+<form method="POST" action="" enctype="multipart/form-data">
+    {{form.hidden_tag()}}
+    <fieldset class="form-group">
+        <div class="form-group">
+            {{form.text.label(class="form-control-label")}}
+            {{form.text(class="form-control form-control-lg")}}
+        </div>
+    </fieldset>
+    <div class="form-group">
+        {{form.submit(class="btn btn-outline-info")}}
+    </div>
+</form>
+{% endblock contentInfo %}

@@ -1,0 +1,35 @@
+{% extends "account.html" %}
+
+{% block contentInfo %}
+<div class="chat">
+    {% for chat in chats %}
+        {% if chat.sender_id ==  current_user.id%}
+        <li class="self">
+            <div class="msg">
+                <p>{{chat.description}}</p>
+                <time>{{chat.date}}</time>
+            </div>
+        </li>
+        {% else %}
+            <li class="other">
+                <div class="msg">
+                    <p>{{chat.description}}</p>
+                    <time>{{chat.date}}</time>
+                </div>
+            </li>
+        {% endif %}
+    {% endfor %}
+</div>
+<form method="POST" action="" enctype="multipart/form-data">
+    {{form.hidden_tag()}}
+        <div class="form-group">
+            <object align="left">
+                {{form.text(class="form-control")}}
+            </object>
+            <object align="right">
+                {{form.submit(class="btn btn-outline-info")}}
+            </object>
+            <!-- {{form.text.label(class="form-control-label")}} -->
+        </div>
+</form>
+{% endblock contentInfo %}
