@@ -16,8 +16,6 @@ def Home():
     # print(current_user.name)
     page = request.args.get('page', 1, type=int)
     items = Item.query.order_by(Item.sold.desc()).paginate(page=page, per_page=5)
-    # page = request.args.get('page', 1, type=int)
-    # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('index.html', title=title+' - Index', items=items)
 
 @app.route('/search')
@@ -133,7 +131,8 @@ def AddCategory():
 @app.route('/view_users')
 @login_required
 def ViewUser():
-    users = User.query.all()
+    page = request.args.get('page', 1, type=int)
+    users = User.query.order_by(User.userType_id).paginate(page=page, per_page=4)
     if not current_user.is_authenticated or current_user.usertype.id != 1:
         return redirect(url_for('Home'))
     
@@ -292,6 +291,11 @@ def AdminChat(username):
     form = ChatForm()
     chats = ChatDetail.query.join(Chat).join(User).filter(User.username==username)
     user = User.query.filter(User.username==username).first()
+    chat = Chat.query.get(user.id)
+    print(chat)
+    chat.is_read = True
+    print(chat.is_read)
+    db.session.commit()
     if form.validate_on_submit():
         newChat = ChatDetail(chat_id=user.id, user_id=current_user.id, description=form.text.data)
         db.session.add(newChat)
@@ -304,7 +308,8 @@ def AdminChat(username):
 def AdminChatList():
     if current_user.usertype.id > 2:
         return redirect(url_for('Home'))
-    chats = Chat.query.all()
+    page = request.args.get('page', 1, type=int)
+    chats = Chat.query.order_by(Chat.is_read).paginate(page=page, per_page=5)
     return render_template('chatList.html', title=title+' - Messages List', chats=chats)
 
 # @app.errorhandler(404)

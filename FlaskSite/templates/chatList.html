@@ -1,20 +1,33 @@
 {% extends "account.html" %}
 
 {% block contentInfo %}
-    {% for chat in chats %}
+    {% for chat in chats.items %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/User/' + chat.user.image_file) }}">
           <div class="media-body">
             <form method="POST" action="" enctype="multipart/form-data">
               <fieldset class="form-group">
                 <div class="article-metadata row">
-                  <a class="col-md-4 mr-2" href="{{ url_for('AdminChat', username=chat.user.username) }}">{{ chat.user.username }}</a>
+                    {% if chat.is_read %}
+                        <div id="notification-circle-green"></div>
+                    {% else %}
+                        <div id="notification-circle-red"></div>
+                    {% endif %}
+                    <a class="col-md-4 mr-2" href="{{ url_for('AdminChat', username=chat.user.username) }}">{{ chat.user.username }}</a>
                 </div>
               </fieldset>
             </form>
             <h2><a class="article-title">{{ chat.user }}</a></h2>
-            <p class="article-content">{{ chat.user.email }}</p>
           </div>
         </article>
     {% endfor %}
 {% endblock contentInfo %}
+{% block contentInfoBot %}
+    {% for page_num in chats.iter_pages() %}
+        {% if page_num %}
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('AdminChatList', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+{% endblock contentInfoBot %}
