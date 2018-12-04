@@ -11,6 +11,8 @@
     <link rel="stylesheet" type="text/css" href="../static/stylesheets/main.css">
 
     <title>{{title}}</title>
+
+    {% block headContent %}{% endblock %}
 </head>
 <body>
     <header class="site-header">
@@ -67,8 +69,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <footer class="text-center small site-footer">
+    <footer class="text-center small site-footer bottom">
         <a href="{{ url_for('About') }}" style="color: rgb(87, 87, 87)">About Us</a>
+        <a href="{{ url_for('TestPage') }}" style="color: rgb(87, 87, 87)">Test</a>
     </footer>
 </body>
 </html>

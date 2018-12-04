@@ -312,6 +312,10 @@ def AdminChatList():
     chats = Chat.query.order_by(Chat.is_read).paginate(page=page, per_page=5)
     return render_template('chatList.html', title=title+' - Messages List', chats=chats)
 
+@app.route("/test")
+def TestPage():
+    return render_template('test.html', title=title)
+
 # @app.errorhandler(404)
 # def page_not_found(e):
 #     # note that we set the 404 status explicitly

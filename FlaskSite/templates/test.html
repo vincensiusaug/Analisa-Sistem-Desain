@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block headContent %}
+    <script src="{{ url_for('static', filename='Scripts/libraries/p5.js') }}"></script>
+    <script src="{{ url_for('static', filename='Scripts/libraries/p5.dom.js') }}"></script>
+    <script src="{{ url_for('static', filename='Scripts/libraries/p5.sound.js') }}"></script>
+{% endblock headContent %}
+{% block content %}
+    <div class="center">
+        <script src="{{ url_for('static', filename='Scripts/index.js') }}"></script>
+        <script src="{{ url_for('static', filename='Scripts/snake.js') }}"></script>
+        <script src="{{ url_for('static', filename='Scripts/ai.js') }}"></script>
+    </div>
+{% endblock content %}
