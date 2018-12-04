@@ -254,7 +254,10 @@ def EditUser(username):
     user = User.query.filter_by(username = username).first()
     form.userType.choices = [(ut.id, ut.name) for ut in UserType.query.all()]
     if form.validate_on_submit():
-        pass
+        user.userType_id = form.userType.data
+        db.session.commit()
+        flash(username+' user type has been updated to '+user.usertype.name+"!", 'success')
+        return render_template('editUser.html', title=title+' - '+username, form=form, user=user)
     elif request.method == 'GET':
         form.userType.data = user.userType_id
     return render_template('editUser.html', title=title+' - '+username, form=form, user=user)
