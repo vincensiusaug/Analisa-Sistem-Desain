@@ -1,6 +1,10 @@
 {% extends "account.html" %}
 
 {% block contentInfo %}
+    <form action="{{ url_for('SearchChat') }}">
+        <input class="form-control" type="text" placeholder=" Search" name="search" style="padding: 5px; margin-bottom: 20px;">
+        <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+    </form>
     {% for chat in chats.items %}
         <article class="media content-section">
           <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/User/' + chat.user.image_file) }}">
@@ -25,7 +29,7 @@
 {% block contentInfoBot %}
     {% for page_num in chats.iter_pages() %}
         {% if page_num %}
-            <a class="btn btn-outline-info mb-4" href="{{ url_for('AdminChatList', page=page_num) }}">{{ page_num }}</a>
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('ChatList', page=page_num) }}">{{ page_num }}</a>
         {% else %}
             ...
         {% endif %}

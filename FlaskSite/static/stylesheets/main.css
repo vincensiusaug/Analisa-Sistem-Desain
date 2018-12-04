@@ -9,7 +9,11 @@
   font-style: normal;
 
 }
+html {
+  height: 100%;
+}
 body {
+  min-height: 100%;
   font-family: 'lucida_macnormal' Arial, Helvetica, sans-serif;
   background: #fafafa;
   color: #6d6d6d;
@@ -123,10 +127,10 @@ footer {
   list-style: none;
   background: none;
   margin: 0;
-  padding: 0 0 50px 0;
-  margin-top: 60px;
+  padding: 10px;
+  margin-top: 10px;
   margin-bottom: 10px;
-  height:512px;
+  height:600px;
   overflow:auto;
   border-radius: 5px;
   border: 2px solid #c2c2c2;
@@ -200,6 +204,21 @@ footer {
   background: rgb(123, 247, 112);
 }
 
+#chat-box-input {
+  width:90%;
+  margin: auto;
+  text-align:left;
+}
+
+#chat-box-send {
+  width:20%;
+  text-align:right;
+}
+
+#chat-bottom {
+  width:100%;
+}
+
 .bottom {
   position: relative;
   bottom: 0;
@@ -210,4 +229,11 @@ footer {
   margin-left:auto;
   margin-right:auto;
   text-align:center;
+}
+
+canvas {
+  padding: 0;
+  margin: auto;
+  display: block;
+  width: 800px;
 }

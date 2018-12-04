@@ -13,7 +13,7 @@
                     <a class="list-group-item list-group-item-light" href="{{ url_for('UserChat') }}">Messages</a>
                     <a class="list-group-item list-group-item-light" href="{{ url_for('UserCart') }}">Cart</a>
                     {% else %}
-                    <a class="list-group-item list-group-item-light" href="{{ url_for('UserChat') }}">All Messages</a>
+                    <a class="list-group-item list-group-item-light" href="{{ url_for('ChatList') }}">All Messages</a>
                         <a class="list-group-item list-group-item-light" href="{{ url_for('AddItem') }}">Add Item</a>
                         <a class="list-group-item list-group-item-light" href="{{ url_for('AddCategory') }}">Add Category</a>
                         <a class="list-group-item list-group-item-light" href="{{ url_for('ViewUser') }}">View Users</a>

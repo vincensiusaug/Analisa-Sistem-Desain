@@ -27,6 +27,7 @@ def Search():
     # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('index.html', title=title+' - Index', items=items)
 
+
 @app.route("/item/<int:item_id>", methods=['GET', 'POST'])
 def ViewItem(item_id):
     item = Item.query.get_or_404(item_id)
@@ -132,11 +133,20 @@ def AddCategory():
 @login_required
 def ViewUser():
     page = request.args.get('page', 1, type=int)
-    users = User.query.order_by(User.userType_id).paginate(page=page, per_page=4)
+    users = User.query.order_by(User.userType_id).paginate(page=page, per_page=5)
     if not current_user.is_authenticated or current_user.usertype.id != 1:
         return redirect(url_for('Home'))
     
     return render_template('viewUser.html', title=title+' - View User', users=users)
+
+@app.route('/search_user')
+def SearchUser():
+    query = request.args['search']
+    page = request.args.get('page', 1, type=int)
+    users = User.query.filter(User.username.like('%'+query+'%') | User.firstName.like('%'+query+'%') | User.lastName.like(query)).order_by(User.userType_id).paginate(page=page, per_page=5)
+    # page = request.args.get('page', 1, type=int)
+    # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
+    return render_template('viewUser.html', title=title+' - Search User', users=users)
 
 @app.route('/transaction')
 @login_required
@@ -258,7 +268,7 @@ def EditUser(username):
         user.userType_id = form.userType.data
         db.session.commit()
         flash(username+' user type has been updated to '+user.usertype.name+"!", 'success')
-        return redirect(url_for('EditUser, username=user.username'))
+        return redirect(url_for('EditUser', username=user.username))
     elif request.method == 'GET':
         form.userType.data = user.userType_id
     return render_template('editUser.html', title=title+' - Edit User', form=form, user=user)
@@ -267,7 +277,7 @@ def EditUser(username):
 @login_required
 def UserChat():
     if current_user.usertype.id <= 2:
-        return redirect(url_for('AdminChatList'))
+        return redirect(url_for('ChatList'))
     form = ChatForm()
     chats = ChatDetail.query.filter(ChatDetail.chat_id==current_user.id)
     if form.validate_on_submit():
@@ -303,12 +313,23 @@ def AdminChat(username):
 
 @app.route("/messages_list")
 @login_required
-def AdminChatList():
+def ChatList():
     if current_user.usertype.id > 2:
         return redirect(url_for('Home'))
     page = request.args.get('page', 1, type=int)
     chats = Chat.query.order_by(Chat.is_read).paginate(page=page, per_page=5)
     return render_template('chatList.html', title=title+' - Messages List', chats=chats)
+
+@app.route('/search_chat')
+def SearchChat():
+    if current_user.usertype.id > 2:
+        return redirect(url_for('Home'))
+    query = request.args['search']
+    page = request.args.get('page', 1, type=int)
+    chats = Chat.query.join(User).filter(User.username.like('%'+query+'%')).order_by(Chat.is_read).paginate(page=page, per_page=5)
+    # page = request.args.get('page', 1, type=int)
+    # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
+    return render_template('chatList.html', title=title+' - Search User', chats=chats)
 
 @app.route("/test")
 def TestPage():

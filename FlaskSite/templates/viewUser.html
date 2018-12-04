@@ -1,23 +1,27 @@
 {% extends "account.html" %}
 
 {% block contentInfo %}
-    {% for user in users.items %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/User/' + user.image_file) }}">
-          <div class="media-body">
-            <form method="POST" action="" enctype="multipart/form-data">
-              <fieldset class="form-group">
-                <div class="article-metadata row">
-                  <a class="col-md-4 mr-2" href="{{ url_for('EditUser', username=user.username) }}">{{ user.username }}</a>
-                  <p class="article-content">{{ user.usertype.name }}</p>
-                </div>
-              </fieldset>
-            </form>
-            <h2><a class="article-title">{{ user.firstName }} {{ user.lastName }}</a></h2>
-            <p class="article-content">{{ user.email }}</p>
-          </div>
-        </article>
-    {% endfor %}
+  <form action="{{ url_for('SearchUser') }}">
+      <input class="form-control" type="text" placeholder=" Search" name="search" style="padding: 5px; margin-bottom: 20px;">
+      <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+  </form>
+  {% for user in users.items %}
+      <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/User/' + user.image_file) }}">
+        <div class="media-body">
+          <form method="POST" action="" enctype="multipart/form-data">
+            <fieldset class="form-group">
+              <div class="article-metadata row">
+                <a class="col-md-4 mr-2" href="{{ url_for('EditUser', username=user.username) }}">{{ user.username }}</a>
+                <p class="article-content">{{ user.usertype.name }}</p>
+              </div>
+            </fieldset>
+          </form>
+          <h2><a class="article-title">{{ user.firstName }} {{ user.lastName }}</a></h2>
+          <p class="article-content">{{ user.email }}</p>
+        </div>
+      </article>
+  {% endfor %}
 {% endblock contentInfo %}
 {% block contentInfoBot %}
     {% for page_num in users.iter_pages() %}

@@ -1,7 +1,7 @@
 {% extends "account.html" %}
 
 {% block contentInfo %}
-<div class="chat">
+<div id="scroll" class="chat">
     {% for chat in chats %}
         {% if chat.user_id ==  current_user.id %}
         <li class="self">
@@ -20,17 +20,17 @@
         {% endif %}
     {% endfor %}
 </div>
-<form method="POST" action="" enctype="multipart/form-data">
+<form id="chat-bottom" method="POST" action="" enctype="multipart/form-data">
     {{form.hidden_tag()}}
-        <div class="form-group">
-            <object align="left">
-                {{form.text(class="form-control")}}
-            </object>
-            <object align="right">
-                {{form.submit(class="btn btn-outline-info")}}
-            </object>
-            <!-- {{form.text.label(class="form-control-label")}} -->
-        </div>
+    <object id="chat-box-input">
+        {{form.text}}
+    </object>
+    <object id="chat-box-send">
+        {{form.submit}}
+    </object>
+    <div class="form-group">
+        <!-- {{form.text.label(class="form-control-label")}} -->
+    </div>
 </form>
 <script>
     window.onload = function ScrollToBottom() {

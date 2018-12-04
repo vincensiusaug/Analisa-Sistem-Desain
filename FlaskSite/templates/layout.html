@@ -27,8 +27,8 @@
                     <!-- <a class="nav-item nav-link" href="{{ url_for('Home') }}">Home</a>
                     <a class="nav-item nav-link" href="{{ url_for('About') }}">About</a>
                     <!-- <form action="/action_page.php"> -->
-                    <form action="{{ url_for('Search') }}">
-                        <input type="text" placeholder=" Search" name="search">
+                    <form action="{{ url_for('Search') }}" style="width:100%;">
+                        <input class="form-control" type="text" placeholder=" Search" name="search" style="width:100%;">
                         <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
                     </form>
                 </div>
@@ -62,7 +62,7 @@
             {% block content %}{% endblock %}
         </div>
     </main>
-
+    
      <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
