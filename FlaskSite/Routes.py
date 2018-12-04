@@ -297,7 +297,7 @@ def AdminChat(username):
         db.session.add(newChat)
         db.session.commit()
         return redirect(url_for('AdminChat', username=username))
-    return render_template('chatAdmin.html', title=title+' - Messages', form=form, chats=chats)
+    return render_template('chatAdmin.html', title=title+' - Messages', form=form, chats=chats, user=user)
 
 @app.route("/messages_list")
 @login_required
@@ -305,7 +305,6 @@ def AdminChatList():
     if current_user.usertype.id > 2:
         return redirect(url_for('Home'))
     chats = Chat.query.all()
-    print(chats[0].user.username)
     return render_template('chatList.html', title=title+' - Messages List', chats=chats)
 
 # @app.errorhandler(404)

@@ -1,17 +1,17 @@
 {% extends "account.html" %}
 
 {% block contentInfo %}
-<div class="chat">
+<div id="scroll" class="chat">
     {% for chat in chats %}
-        {% if chat.user_id ==  current_user.id%}
-        <li class="self">
+        {% if chat.user_id == user.id%}
+        <li class="other">
             <div class="msg">
                 <p>{{chat.description}}</p>
                 <time>{{chat.date.strftime('%d-%m-%Y %H:%M')}}</time>
             </div>
         </li>
         {% else %}
-            <li class="other">
+            <li class="self">
                 <div class="msg">
                     <p>{{chat.description}}</p>
                     <time>{{chat.date.strftime('%Y-%m-%d')}}</time>
@@ -32,4 +32,10 @@
             <!-- {{form.text.label(class="form-control-label")}} -->
         </div>
 </form>
+<script>
+    window.onload = function ScrollToBottom() {
+        var objDiv = document.getElementById("scroll");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
+</script>
 {% endblock contentInfo %}
