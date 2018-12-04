@@ -2,8 +2,8 @@ import os
 from PIL import Image
 from flask import url_for, render_template, flash, redirect, request, abort
 from FlaskSite import app, bcrypt, db
-from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm, AddCartForm
-from FlaskSite.Models import User, Item, Category, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category
+from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm, AddCartForm, ChangeUserType
+from FlaskSite.Models import UserType, User, Item, Category, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category
 from flask_login import login_user, current_user, logout_user, login_required
 
 title = 'VT Shop'
@@ -14,7 +14,7 @@ itemImagePath = 'Database/Pictures/Item/'
 def Home():
     # print(current_user.name)
     page = request.args.get('page', 1, type=int)
-    items = Item.query.order_by(Item.sold.desc()).paginate(page=page, per_page=2)
+    items = Item.query.order_by(Item.sold.desc()).paginate(page=page, per_page=5)
     # page = request.args.get('page', 1, type=int)
     # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('index.html', title=title+' - Index', items=items)
@@ -106,14 +106,12 @@ def EditItem():
     form = AddItemForm()
     if form.validate_on_submit():
         if form.picture.data:
-            picture_file = SaveUserPicture(form.picture.data)
+            picture_file = SaveItemPicture(form.picture.data, Item.query.order_by(Item.id.desc()).first().id+1)
             current_user.image_file = picture_file
-        print("Test")
-        print(form.category_id.data)
         item = Item(name = form.name.data, price = form.price.data, unit=form.unit.data, description = form.description.data, category_id = form.category_id.data, stock = form.stock.data)
         db.session.add(item)
         db.session.commit()
-        flash('Item Added!', 'success')
+        flash('Item Changed!', 'success')
         return redirect(url_for('AddItem'))
     return render_template('addItem.html', title=title+' - Add Item', form=form, categories=categories)
 
@@ -135,7 +133,7 @@ def AddCategory():
 @login_required
 def ViewUser():
     users = User.query.all()
-    if not current_user.is_authenticated or current_user.usertype.id >= 3:
+    if not current_user.is_authenticated or current_user.usertype.id != 1:
         return redirect(url_for('Home'))
     
     return render_template('viewUser.html', title=title+' - View User', users=users)
@@ -246,6 +244,20 @@ def ChangePassword():
             flash('Wrong password', 'danger')
     user_image = url_for('static', filename = customerImagePath+current_user.image_file)
     return render_template('changePassword.html', title=title+' - Change Password', user_image=user_image, form=form)
+
+@app.route("/user/<string:username>", methods=['GET', 'POST'])
+@login_required
+def EditUser(username):
+    if not current_user.is_authenticated or current_user.usertype.id != 1:
+        return redirect(url_for('Home'))
+    form = ChangeUserType()
+    user = User.query.filter_by(username = username).first()
+    form.userType.choices = [(ut.id, ut.name) for ut in UserType.query.all()]
+    if form.validate_on_submit():
+        pass
+    elif request.method == 'GET':
+        form.userType.data = user.userType_id
+    return render_template('editUser.html', title=title+' - '+username, form=form, user=user)
 
 # @app.errorhandler(404)
 # def page_not_found(e):

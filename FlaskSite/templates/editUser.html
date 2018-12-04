@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/User/' + user.image_file) }}">
+        <div class="media-body">
+            <form method="POST" action="" enctype="multipart/form-data">
+            <fieldset class="form-group">
+                <div class="article-metadata row">
+                <a class="col-md-4 mr-2">{{ user.username }}</a>
+                </div>
+            </fieldset>
+            </form>
+            <h2><a class="article-title">{{ user.firstName }} {{ user.lastName }}</a></h2>
+            <p class="article-content">{{ user.email }}</p>
+            <form method="POST" action="" enctype="multipart/form-data">
+                {{form.hidden_tag()}}
+                <fieldset class="form-group">
+                    <div class="form-group">
+                        {{form.userType.label(class="form-control-label")}}
+                        {% if form.userType.errors %}
+                            {{form.userType(class="form-control form-control-lg is-invalid")}}
+                            {% for error in form.userType.errors %}
+                                <span>{{error}}</span>
+                            {% endfor %}
+                        {% else %}
+                            {{form.userType(class="form-control form-control-lg")}}
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    {{form.submit(class="btn btn-outline-info")}}
+                </div>
+            </form>
+        </div>
+    </article>
+{% endblock content %}

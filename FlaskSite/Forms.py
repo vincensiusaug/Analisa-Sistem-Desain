@@ -75,3 +75,7 @@ class ChangePasswordForm(FlaskForm):
 class AddCartForm(FlaskForm):
     quantity = IntegerField('Quantity', validators=[DataRequired()])
     submit = SubmitField('Add to cart')
+
+class ChangeUserType(FlaskForm):
+    userType = SelectField('User Type', choices=[], coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Save')
