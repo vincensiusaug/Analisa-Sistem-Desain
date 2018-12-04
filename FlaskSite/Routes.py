@@ -10,19 +10,21 @@ from flask_login import login_user, current_user, logout_user, login_required
 title = 'VT Shop'
 customerImagePath = 'Database/Pictures/User/'
 itemImagePath = 'Database/Pictures/Item/'
+perPageItem = 5
+perPageUser = 5
 
 @app.route('/')
 def Home():
     # print(current_user.name)
     page = request.args.get('page', 1, type=int)
-    items = Item.query.order_by(Item.sold.desc()).paginate(page=page, per_page=5)
+    items = Item.query.order_by(Item.sold.desc()).paginate(page=page, per_page=perPageItem)
     return render_template('index.html', title=title+' - Index', items=items)
 
 @app.route('/search')
 def Search():
     query = request.args['search']
     page = request.args.get('page', 1, type=int)
-    items = Item.query.filter(Item.name.like('%'+query+'%') | Item.description.like('%'+query+'%') | Item.id.like(query)).order_by(Item.sold.desc()).paginate(page=page, per_page=2)
+    items = Item.query.filter(Item.name.like('%'+query+'%') | Item.description.like('%'+query+'%') | Item.id.like(query)).order_by(Item.sold.desc()).paginate(page=page, per_page=perPageItem)
     # page = request.args.get('page', 1, type=int)
     # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('index.html', title=title+' - Index', items=items)
@@ -133,7 +135,7 @@ def AddCategory():
 @login_required
 def ViewUser():
     page = request.args.get('page', 1, type=int)
-    users = User.query.order_by(User.userType_id).paginate(page=page, per_page=5)
+    users = User.query.order_by(User.userType_id).paginate(page=page, per_page=perPageUser)
     if not current_user.is_authenticated or current_user.usertype.id != 1:
         return redirect(url_for('Home'))
     
@@ -143,7 +145,7 @@ def ViewUser():
 def SearchUser():
     query = request.args['search']
     page = request.args.get('page', 1, type=int)
-    users = User.query.filter(User.username.like('%'+query+'%') | User.firstName.like('%'+query+'%') | User.lastName.like(query)).order_by(User.userType_id).paginate(page=page, per_page=5)
+    users = User.query.filter(User.username.like('%'+query+'%') | User.firstName.like('%'+query+'%') | User.lastName.like(query)).order_by(User.userType_id).paginate(page=page, per_page=perPageUser)
     # page = request.args.get('page', 1, type=int)
     # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('viewUser.html', title=title+' - Search User', users=users)
@@ -317,7 +319,7 @@ def ChatList():
     if current_user.usertype.id > 2:
         return redirect(url_for('Home'))
     page = request.args.get('page', 1, type=int)
-    chats = Chat.query.order_by(Chat.is_read).paginate(page=page, per_page=5)
+    chats = Chat.query.order_by(Chat.is_read).paginate(page=page, per_page=perPageUser)
     return render_template('chatList.html', title=title+' - Messages List', chats=chats)
 
 @app.route('/search_chat')
@@ -326,9 +328,7 @@ def SearchChat():
         return redirect(url_for('Home'))
     query = request.args['search']
     page = request.args.get('page', 1, type=int)
-    chats = Chat.query.join(User).filter(User.username.like('%'+query+'%')).order_by(Chat.is_read).paginate(page=page, per_page=5)
-    # page = request.args.get('page', 1, type=int)
-    # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
+    chats = Chat.query.join(User).filter(User.username.like('%'+query+'%')).order_by(Chat.is_read).paginate(page=page, per_page=perPageUser)
     return render_template('chatList.html', title=title+' - Search User', chats=chats)
 
 @app.route("/test")
