@@ -3,7 +3,7 @@ from sqlalchemy import or_
 from PIL import Image
 from flask import url_for, render_template, flash, redirect, request, abort
 from FlaskSite import app, bcrypt, db
-from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm, AddCartForm, ChangeUserTypeForm, ChatForm, EditItemForm
+from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm, AddCartForm, ChangeUserTypeForm, ChatForm, EditItemForm, EditCategoryForm
 from FlaskSite.Models import UserType, User, Item, Category, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category, Chat, ChatDetail
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -12,6 +12,7 @@ customerImagePath = 'Database/Pictures/User/'
 itemImagePath = 'Database/Pictures/Item/'
 perPageItem = 5
 perPageUser = 5
+restrictedUser = ("Customer")
 
 @app.route('/')
 def Home():
@@ -51,7 +52,7 @@ def ViewItem(item_id):
 def ViewCategory(category_id):
     category = Category.query.get(category_id)
     items = Item.query.filter_by(category_id=category_id).all()
-    return render_template('category.html', title=title+' - '+category.name, category=category, items=items)
+    return render_template('viewCategory.html', title=title+' - '+category.name, category=category, items=items)
 
 @app.route('/about')
 def About():
@@ -79,7 +80,7 @@ def SaveItemPicture(form_picture, item_id):
 @app.route('/add_item', methods=['GET', 'POST'])
 @login_required
 def AddItem():
-    if not current_user.is_authenticated or current_user.usertype.id >= 3:
+    if not current_user.is_authenticated or current_user.usertype.name in restrictedUser:
         return redirect(url_for('Home'))
     form = AddItemForm()
     categories = Category.query.all()
@@ -99,13 +100,14 @@ def AddItem():
         return redirect(url_for('AddItem'))
     return render_template('addItem.html', title=title+' - Add Item', form=form)
 
-@app.route('/<int:itemid>/edit', methods=['GET', 'POST'])
+@app.route('/item/edit', methods=['GET', 'POST'])
 @login_required
-def EditItem(itemid):
-    if not current_user.is_authenticated or current_user.usertype.id >= 3:
+def EditItem():
+    if not current_user.is_authenticated or current_user.usertype.name in restrictedUser:
         return redirect(url_for('Home'))
     form = EditItemForm()
-    item = Item.query.get(itemid)
+    item_id = request.args.get('item_id', 1, type=int)
+    item = Item.query.get(item_id)
     categories = Category.query.all()
     allCategory = []
     for category in categories:
@@ -120,7 +122,7 @@ def EditItem(itemid):
         item.stock = form.stock.data
         db.session.commit()
         flash('Item Changed!', 'success')
-        return redirect(url_for('ViewItem', item_id=itemid))
+        return redirect(url_for('ViewItem', item_id=item_id))
     elif request.method == 'GET':
         form.name.data = item.name
         form.price.data = item.price
@@ -128,12 +130,12 @@ def EditItem(itemid):
         form.description.data = item.description
         form.category_id.data = item.category_id
         form.stock.data = item.stock
-    return render_template('editItem.html', title=title+' - Add Item', form=form, categories=categories)
+    return render_template('editItem.html', title=title+' - Edit Item', form=form, categories=categories)
 
 @app.route('/add_category', methods=['GET', 'POST'])
 @login_required
 def AddCategory():
-    if not current_user.is_authenticated or current_user.usertype.id >= 3:
+    if not current_user.is_authenticated or current_user.usertype.name in restrictedUser:
         return redirect(url_for('Home'))
     form = AddCategoryForm()
     if form.validate_on_submit():
@@ -144,18 +146,40 @@ def AddCategory():
         return redirect(url_for('AddCategory'))
     return render_template('addCategory.html', title=title+' - Add Category', form=form)
 
+@app.route('/category/edit', methods=['GET', 'POST'])
+@login_required
+def EditCategory():
+    if not current_user.is_authenticated or current_user.usertype.name in restrictedUser:
+        return redirect(url_for('Home'))
+    form = EditCategoryForm()
+    category_id = request.args.get('category_id', 1, type=int)
+    category = Category.query.get(category_id)
+    if form.validate_on_submit():
+        category.name = form.name.data
+        category.description = form.description.data
+        db.session.commit()
+        flash('Category Changed!', 'success')
+        return redirect(url_for('ViewCategory', category_id=category_id))
+    elif request.method == 'GET':
+        form.name.data = category.name
+        form.description.data = category.description
+    return render_template('editCategory.html', title=title+' - Edit Category', form=form, category=category)
+    # return render_template('editCategory.html', title=title+' - Edit Category')
+
 @app.route('/view_users')
 @login_required
 def ViewUser():
+    if not current_user.is_authenticated or current_user.usertype.name != "Owner":
+        return redirect(url_for('Home'))
     page = request.args.get('page', 1, type=int)
     users = User.query.order_by(User.userType_id).paginate(page=page, per_page=perPageUser)
-    if not current_user.is_authenticated or current_user.usertype.id != 1:
-        return redirect(url_for('Home'))
     
     return render_template('viewUser.html', title=title+' - View User', users=users)
 
 @app.route('/search_user')
 def SearchUser():
+    if not current_user.is_authenticated or current_user.usertype.name != "Owner":
+        return redirect(url_for('Home'))
     query = request.args['search']
     page = request.args.get('page', 1, type=int)
     users = User.query.filter(User.username.like('%'+query+'%') | User.firstName.like('%'+query+'%') | User.lastName.like(query)).order_by(User.userType_id).paginate(page=page, per_page=perPageUser)
@@ -166,12 +190,16 @@ def SearchUser():
 @app.route('/transaction')
 @login_required
 def AllTransaction():
-    return render_template('transaction.html', title=title+' - Transaction')
+    if current_user.usertype.name in restrictedUser:
+        return render_template('transactionUser.html', title=title+' - Transaction')
+    return render_template('transactionAdmin.html', title=title+' - Transaction')
 
 @app.route('/history')
 @login_required
 def AllHistory():
-    return render_template('history.html', title=title+' - History')
+    if current_user.usertype.name in restrictedUser:
+        return render_template('historyUser.html', title=title+' - History')
+    return render_template('historyAdmin.html', title=title+' - History')
 
 @app.route('/register', methods=['GET', 'POST'])
 def Register():

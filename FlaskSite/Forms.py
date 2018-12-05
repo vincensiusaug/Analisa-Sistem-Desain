@@ -60,6 +60,11 @@ class AddCategoryForm(FlaskForm):
     description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
     submit = SubmitField('Add')
 
+class EditCategoryForm(FlaskForm):
+    name = StringField('Category Name', validators=[DataRequired(), Length(min=2, max=40)])
+    description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
+    submit = SubmitField('Edit')
+
 class EditProfileForm(FlaskForm):
     picture = FileField('Upload Profile Picture', validators=[FileAllowed(allowedPictureExt)])
     firstName = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])

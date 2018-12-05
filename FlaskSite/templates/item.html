@@ -11,10 +11,10 @@
                     <div class="col-md-8 ">
                         <div class="row article-metadata">
                             <a class=" col-md-8" href="{{ url_for('ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
-                            {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
-                                <button class="btn btn-outline-info" style= "margin-bottom: 5px" id="editButton" onclick="">Edit</button>
-                            {% endif %}
                         </div>
+                        {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
+                            <button class="btn btn-outline-info" style= "margin: 10px; float:right;" id="editButton" onclick="">Edit Item</button>
+                        {% endif %}
                         <h1><a class="article-title col-md-8">{{ item.name }}</a></h1>
                         <small class="text-muted col-md-8">Rp {{ item.price }} / {{ item.unit }}</small><br>
                         <small class="text-muted col-md-8">{{ item.sold }} Sold</small><br>
@@ -50,7 +50,7 @@
     </article>
     <script type="text/javascript">
         document.getElementById("editButton").onclick = function () {
-            location.href='{{ url_for("EditItem", itemid=item.id) }}';
+            location.href='{{ url_for("EditItem", item_id=item.id) }}';
         };
     </script>
     

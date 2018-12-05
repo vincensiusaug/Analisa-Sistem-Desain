@@ -25,10 +25,10 @@
 <form method="POST" action="" enctype="multipart/form-data">
     {{form.hidden_tag()}}
         <div class="form-group">
-            <object align="left" style="min-width: 50%; width: 90%">
+            <object align="left" style="min-width: 50%; width: 75%">
                 {{form.text(class="form-control")}}
             </object>
-            <object align="right">
+            <object style="float:right; max-width:15; margin: 10;%">
                 {{form.submit(class="btn btn-outline-info")}}
             </object>
             <!-- {{form.text.label(class="form-control-label")}} -->

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
+      <button class="btn btn-outline-info" style= "float: right;" id="editButton" onclick="">Edit Category</button>
+  {% endif %}
+  <h5>{{ category.name }}</h5>
+  <small class="text-muted" style="margin-bottom: 40px">
+    {{ category.description }}
+  </small>
+  {% for item in items %}
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <div class="row">
+              <a class="mr-2 col-md-9">{{ item.itemcategory.name }}</a>
+              <small class="text-muted">Rp {{ item.price }} / {{ item.unit }}</small>
+            </div>
+            <div>
+              <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
+                <a class="" href="{{ url_for('Home') }}">Edit</a> -->
+            </div>
+          </div>
+        <h2><a class="article-title" href="{{ url_for('ViewItem' ,item_id=item.id) }}">{{ item.name }}</a></h2>
+        <p class="article-content">{{ item.description }}</p>
+        <p class="article-content">{{ item.sold }} Sold</p>
+      </div>
+    </article>
+  {% endfor %}
+  <script type="text/javascript">
+    document.getElementById("editButton").onclick = function () {
+        location.href='{{ url_for("EditCategory", category_id=category.id) }}';
+    };
+  </script>
+{% endblock content %}
