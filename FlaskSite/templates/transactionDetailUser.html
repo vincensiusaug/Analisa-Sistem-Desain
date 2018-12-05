@@ -1,0 +1,30 @@
+{% extends "account.html" %}
+
+{% block contentInfo %}
+{% for detail in details %}
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/Item/' + detail.item.image_file) }}">
+        <div class="media-body">
+            <div class="article-metadata">
+                <h3 class="article-title" href="{{ url_for('ViewItem' ,item_id=detail.item.id) }}">{{ detail.item.name }}</h3>
+                </div>
+                <article>
+                    <span style="float:left">Rp {{ detail.item.price }} / {{ detail.item.unit }}</span>
+                    <span style="float:right">{{ detail.quantity }} {{ detail.item.unit }}</span>
+                    <br>
+                    <span style="float:right">Rp {{ detail.quantity * detail.item.price }}</span>
+            </article>
+        </div>
+    </article>
+{% endfor %}
+        <div style="margin: 20px; margin-top: 40px">
+            <div style="float: left">
+                <p href="{{ url_for('ViewTransaction', transaction_id=transaction.id) }}">Id Number:<br>{{ transaction.id }}</p>
+                <time>Transaction time:<br>{{ transaction.date.strftime('%d-%m-%Y %H:%M') }}</time>
+            </div>
+            <div style="float: right">
+                <p>Status:<br>{{ transaction.status.description }}</p>
+                <p>Total price:<br>Rp.{{ transaction.total_price }}</p>
+            </div>
+        </div>
+{% endblock contentInfo %}
