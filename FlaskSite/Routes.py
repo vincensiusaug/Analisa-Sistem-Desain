@@ -39,14 +39,14 @@ def ViewItem(item_id):
         if form.quantity.data > item.stock:
             flash('Sorry we don\'t have that much items!', 'danger')
             return redirect(url_for('ViewItem', item_id=item_id))
-        cart = Cart.query.filter(Cart.user_id == current_user.id and Cart.item_id == item_id).first()
+        cart = Cart.query.filter(Cart.user_id == current_user.id, Cart.item_id == item.id).first()
         if cart:
             if cart.quantity + form.quantity.data > item.stock:
                 flash('Sorry we don\'t have that much items!', 'danger')
                 return redirect(url_for('ViewItem', item_id=item_id))
             else:
                 cart.quantity += form.quantity.data
-                
+
         else:
             cart = Cart(quantity=form.quantity.data, user_id = current_user.id, item_id=item_id)
             db.session.add(cart)
