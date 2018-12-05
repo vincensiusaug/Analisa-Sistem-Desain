@@ -67,6 +67,15 @@ def UserCart():
         total += c.item.price * c.quantity
     return render_template('cart.html', title=title+' - Cart', carts=cart, total=total)
 
+@app.route('/cart/remove')
+@login_required
+def DeleteCart():
+    cart_id = request.args['cart_id']
+    cart = Cart.query.get(cart_id)
+    db.session.delete(cart)
+    db.session.commit()
+    return redirect(url_for('UserCart'))
+
 def SaveItemPicture(form_picture, item_id):
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_name = str(item_id) + f_ext
