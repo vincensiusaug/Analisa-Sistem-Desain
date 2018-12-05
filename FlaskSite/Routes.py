@@ -248,8 +248,8 @@ def DeleteTransaction():
 def ViewTransaction():
     transaction_id = request.args['transaction_id']
     transaction = Transaction.query.get(transaction_id)
-    if current_user.id != transaction.user.id:
-        return redirect(url_for('Home'))
+    # if current_user.id != transaction.user.id:
+    #     return redirect(url_for('Home'))
     details = TransactionDetail.query.filter(TransactionDetail.transaction_id == transaction_id).all()
     return render_template('transactionDetailUser.html', title=title+' - Transaction', details=details, transaction=transaction)
 
