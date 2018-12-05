@@ -28,8 +28,10 @@
         </div>
         </article>
     {% endfor %}
-    <div style="width:100%; margin:10px;">
-        <span style="float:right; margin:20px;" >Total price Rp {{ total }}  </span>
-        <button type="submit" name="submit" class="btn btn-outline-info" style="margin:20px;" action="">Buy</button>
-    </div>
+    {% if len(carts) > 0 %}
+        <div style="width:100%; margin:10px;">
+            <span style="float:right; margin:20px;" >Total price Rp {{ total }}  </span>
+            <button type="submit" name="submit" class="btn btn-outline-info" style="margin:20px;" action="">Buy</button>
+        </div>
+    {% endif %}
 {% endblock contentInfo %}
