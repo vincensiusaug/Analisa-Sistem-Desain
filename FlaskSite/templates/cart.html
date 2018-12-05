@@ -31,7 +31,12 @@
     {% if carts|length > 0 %}
         <div style="width:100%; margin:10px;">
             <span style="float:right; margin:20px;" >Total price Rp {{ total }}  </span>
-            <button type="submit" name="submit" class="btn btn-outline-info" style="margin:20px;" action="">Buy</button>
+            <button type="submit" id="buyButton" class="btn btn-outline-info" style="margin:20px;" action="">Buy</button>
         </div>
+        <script type="text/javascript">
+            document.getElementById("buyButton").onclick = function () {
+                location.href='{{ url_for("BuyCart") }}';
+            };
+        </script>
     {% endif %}
 {% endblock contentInfo %}

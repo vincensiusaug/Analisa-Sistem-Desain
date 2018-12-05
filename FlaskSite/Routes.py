@@ -74,6 +74,7 @@ def UserCart():
     total = 0
     for c in cart:
         total += c.item.price * c.quantity
+    
     return render_template('cart.html', title=title+' - Cart', carts=cart, total=total)
 
 @app.route('/cart/remove')
@@ -84,6 +85,20 @@ def DeleteCart():
     db.session.delete(cart)
     db.session.commit()
     return redirect(url_for('UserCart'))
+
+@app.route('/cart/buy')
+@login_required
+def BuyCart():
+    carts = Cart.query.filter_by(user_id=current_user.id).all()
+    if not Transaction.query.get(current_user.id):
+        transaction = Transaction(status_id = 1)
+        db.session.add(transaction)
+    for cart in carts:
+        detail = TransactionDetail(quantity = cart.quantity, transaction_id = current_user.id, item_id = cart.item_id)
+        db.session.add(detail)
+        db.session.delete(cart)
+    db.session.commit()
+    return redirect(url_for('AllTransaction'))
 
 def SaveItemPicture(form_picture, item_id):
     _, f_ext = os.path.splitext(form_picture.filename)
@@ -209,8 +224,13 @@ def SearchUser():
 @login_required
 def AllTransaction():
     if current_user.usertype.name in restrictedUser:
-        return render_template('transactionUser.html', title=title+' - Transaction')
-    return render_template('transactionAdmin.html', title=title+' - Transaction')
+        details = TransactionDetail.query.filter_by(transaction_id=current_user.id).all()
+        total = 0
+        for detail in details:
+            total += detail.item.price * detail.quantity
+        return render_template('transactionUser.html', title=title+' - Transaction', details=details, total=total)
+    else:
+        return render_template('transactionAdmin.html', title=title+' - Transaction')
 
 @app.route('/history')
 @login_required

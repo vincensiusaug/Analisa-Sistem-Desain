@@ -56,6 +56,7 @@ class Item(db.Model):
     image_file = db.Column(db.String(20), nullable=False, default = 'item-default.jpg')
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     cart = db.relationship('Cart', backref='item', lazy=True)
+    transaction_detail = db.relationship('TransactionDetail', backref='item', lazy=True)
     # transaction = db.relationship('Transaction', backref='itemTransaction', lazy=True)
     # history = db.relationship('History', backref='itemHistory', lazy=True)
 
@@ -100,7 +101,7 @@ class TransactionDetail(db.Model):
         return self.id
 
 class Transaction(db.Model):
-    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, autoincrement=True)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     status_id = db.Column(db.Integer, db.ForeignKey('status.id'), nullable=False)
     transactionDetail = db.relationship('TransactionDetail', backref='transaction', lazy=True)
