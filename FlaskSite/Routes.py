@@ -90,12 +90,15 @@ def DeleteCart():
 @login_required
 def BuyCart():
     carts = Cart.query.filter_by(user_id=current_user.id).all()
-    if not Transaction.query.get(current_user.id):
-        transaction = Transaction(status_id = 1)
+    transaction = Transaction.query.get(current_user.id) 
+    if not transaction:
+        transaction = Transaction(status_id = 1, user_id=current_user.id)
         db.session.add(transaction)
+        db.session.commit()
     for cart in carts:
-        detail = TransactionDetail(quantity = cart.quantity, transaction_id = current_user.id, item_id = cart.item_id)
+        detail = TransactionDetail(quantity = cart.quantity, transaction_id = transaction.id, item_id = cart.item_id)
         db.session.add(detail)
+        transaction.total_price = transaction.total_price + (cart.item.price * cart.quantity)
         db.session.delete(cart)
     db.session.commit()
     return redirect(url_for('AllTransaction'))
@@ -224,13 +227,25 @@ def SearchUser():
 @login_required
 def AllTransaction():
     if current_user.usertype.name in restrictedUser:
-        details = TransactionDetail.query.filter_by(transaction_id=current_user.id).all()
-        total = 0
-        for detail in details:
-            total += detail.item.price * detail.quantity
-        return render_template('transactionUser.html', title=title+' - Transaction', details=details, total=total)
+        transactions = Transaction.query.filter(Transaction.user_id == current_user.id).all()
+        # if transaction:
+        #     details = TransactionDetail.query.filter_by(transaction_id=transaction.id).all()
+        #     total = 0
+        #     for detail in details:
+        #         total += detail.item.price * detail.quantity
+        return render_template('transactionListUser.html', title=title+' - Transaction', transactions=transactions)
     else:
         return render_template('transactionAdmin.html', title=title+' - Transaction')
+
+@app.route('/transaction/')
+@login_required
+def ViewTransaction():
+    transaction_id = request.args['transaction_id']
+    transaction = Transaction.query.get(transaction_id)
+    if current_user.id != transaction.user.id:
+        return redirect(url_for('Home'))
+    details = TransactionDetail.query.filter(TransactionDetail.transaction_id == transaction_id).all()
+    return render_template('transactionDetailUser.html', title=title+' - Transaction', details=details, transaction=transaction)
 
 @app.route('/history')
 @login_required

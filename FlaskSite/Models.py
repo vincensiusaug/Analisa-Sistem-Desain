@@ -101,9 +101,11 @@ class TransactionDetail(db.Model):
         return self.id
 
 class Transaction(db.Model):
-    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     status_id = db.Column(db.Integer, db.ForeignKey('status.id'), nullable=False)
+    total_price = db.Column(db.Integer, nullable=False, default=0)
     transactionDetail = db.relationship('TransactionDetail', backref='transaction', lazy=True)
 
     def __repr__(self):
