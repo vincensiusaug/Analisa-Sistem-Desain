@@ -3,7 +3,7 @@ from sqlalchemy import or_
 from PIL import Image
 from flask import url_for, render_template, flash, redirect, request, abort
 from FlaskSite import app, bcrypt, db
-from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm, AddCartForm, ChangeUserTypeForm, ChatForm
+from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm, AddCartForm, ChangeUserTypeForm, ChatForm, EditItemForm
 from FlaskSite.Models import UserType, User, Item, Category, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category, Chat, ChatDetail
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -99,23 +99,36 @@ def AddItem():
         return redirect(url_for('AddItem'))
     return render_template('addItem.html', title=title+' - Add Item', form=form)
 
-@app.route('/edit_item', methods=['GET', 'POST'])
+@app.route('/<int:itemid>/edit', methods=['GET', 'POST'])
 @login_required
-def EditItem():
+def EditItem(itemid):
     if not current_user.is_authenticated or current_user.usertype.id >= 3:
         return redirect(url_for('Home'))
-    categories = Category.query.all() 
-    form = AddItemForm()
+    form = EditItemForm()
+    item = Item.query.get(itemid)
+    categories = Category.query.all()
+    allCategory = []
+    for category in categories:
+        allCategory.append((category.id, category.name))
+    form.category_id.choices = allCategory
     if form.validate_on_submit():
-        if form.picture.data:
-            picture_file = SaveItemPicture(form.picture.data, Item.query.order_by(Item.id.desc()).first().id+1)
-            current_user.image_file = picture_file
-        item = Item(name = form.name.data, price = form.price.data, unit=form.unit.data, description = form.description.data, category_id = form.category_id.data, stock = form.stock.data)
-        db.session.add(item)
+        item.name = form.name.data
+        item.price = form.price.data
+        item.unit = form.unit.data
+        item.description = form.description.data
+        item.category_id = form.category_id.data 
+        item.stock = form.stock.data
         db.session.commit()
         flash('Item Changed!', 'success')
-        return redirect(url_for('AddItem'))
-    return render_template('addItem.html', title=title+' - Add Item', form=form, categories=categories)
+        return redirect(url_for('ViewItem', item_id=itemid))
+    elif request.method == 'GET':
+        form.name.data = item.name
+        form.price.data = item.price
+        form.unit.data = item.unit
+        form.description.data = item.description
+        form.category_id.data = item.category_id
+        form.stock.data = item.stock
+    return render_template('editItem.html', title=title+' - Add Item', form=form, categories=categories)
 
 @app.route('/add_category', methods=['GET', 'POST'])
 @login_required
@@ -319,7 +332,7 @@ def ChatList():
     if current_user.usertype.id > 2:
         return redirect(url_for('Home'))
     page = request.args.get('page', 1, type=int)
-    chats = Chat.query.order_by(Chat.is_read).paginate(page=page, per_page=perPageUser)
+    chats = Chat.query.join(User).filter(User.userType_id==3).order_by(Chat.is_read).paginate(page=page, per_page=perPageUser)
     return render_template('chatList.html', title=title+' - Messages List', chats=chats)
 
 @app.route('/search_chat')

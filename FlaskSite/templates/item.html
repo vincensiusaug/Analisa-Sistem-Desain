@@ -1,51 +1,57 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="row">
-    </div>
-        <article class="media content-section">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img class="article-img-big" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
-                        </div>
-                        <div class="col-md-8 ">
-                            <div class="row article-metadata">
-                                <a class=" col-md-8" href="{{ url_for('ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
-                            </div>
-                            <h1><a class="article-title col-md-8">{{ item.name }}</a></h1>
-                            <small class="text-muted col-md-8">Rp {{ item.price }} / {{ item.unit }}</small><br>
-                            <small class="text-muted col-md-8">{{ item.sold }} Sold</small><br>
-                            <small class="article-content col-md-8">{{ item.stock }} Left</small>
-                            {% if current_user.is_authenticated %}
-                                {% if current_user.usertype.name == "Customer" %}
-                                    <form method="POST" action="" enctype="multipart/form-data" class="col-md-4">
-                                        {{form.hidden_tag()}}
-                                        <fieldset class="form-group">
-                                            <div class="form-group">
-                                                {{form.quantity.label(class="form-control-label")}}
-                                                {% if form.quantity.errors %}
-                                                    {{form.quantity(class="form-control form-control-lg is-invalid")}}
-                                                    {% for error in form.quantity.errors %}
-                                                        <span>{{error}}</span>
-                                                    {% endfor %}
-                                                {% else %}
-                                                    {{form.quantity(class="form-control form-control-lg")}}
-                                                {% endif %}
-                                            </div>
-                                            {{form.submit(class="btn btn-outline-info")}}
-                                        </fieldset>
-                                    </form>
-                                {% endif %}
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="article-img-big" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
+                    </div>
+                    <div class="col-md-8 ">
+                        <div class="row article-metadata">
+                            <a class=" col-md-8" href="{{ url_for('ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
+                            {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
+                                <button class="btn btn-outline-info" style= "margin-bottom: 5px" id="editButton" onclick="">Edit</button>
                             {% endif %}
                         </div>
+                        <h1><a class="article-title col-md-8">{{ item.name }}</a></h1>
+                        <small class="text-muted col-md-8">Rp {{ item.price }} / {{ item.unit }}</small><br>
+                        <small class="text-muted col-md-8">{{ item.sold }} Sold</small><br>
+                        <small class="article-content col-md-8">{{ item.stock }} Left</small>
+                        {% if current_user.is_authenticated %}
+                            {% if current_user.usertype.name == "Customer" %}
+                                <form method="POST" action="" enctype="multipart/form-data" class="col-md-4">
+                                    {{form.hidden_tag()}}
+                                    <fieldset class="form-group">
+                                        <div class="form-group">
+                                            {{form.quantity.label(class="form-control-label")}}
+                                            {% if form.quantity.errors %}
+                                                {{form.quantity(class="form-control form-control-lg is-invalid")}}
+                                                {% for error in form.quantity.errors %}
+                                                    <span>{{error}}</span>
+                                                {% endfor %}
+                                            {% else %}
+                                                {{form.quantity(class="form-control form-control-lg")}}
+                                            {% endif %}
+                                        </div>
+                                        {{form.submit(class="btn btn-outline-info")}}
+                                    </fieldset>
+                                </form>
+                            {% endif %}
+                        {% endif %}
                     </div>
-                <div>
                 </div>
+            <div>
             </div>
-            <p class="article-content">{{ item.description }}</p>
-          </div>
-        </article>
+        </div>
+        <p class="article-content">{{ item.description }}</p>
+        </div>
+    </article>
+    <script type="text/javascript">
+        document.getElementById("editButton").onclick = function () {
+            location.href='{{ url_for("EditItem", itemid=item.id) }}';
+        };
+    </script>
     
 {% endblock content %}

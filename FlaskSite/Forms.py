@@ -45,6 +45,16 @@ class AddItemForm(FlaskForm):
     picture = FileField('Upload Item Picture', validators=[FileAllowed(allowedPictureExt)])
     submit = SubmitField('Add')
 
+class EditItemForm(FlaskForm):
+    name = StringField('Item Name', validators=[DataRequired(), Length(min=2, max=40)])
+    price = IntegerField('Price', validators=[DataRequired()])
+    unit = StringField('Unit', validators=[DataRequired(), Length(min=1, max=20)])
+    description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
+    category_id = SelectField('Category', choices=[], coerce=int, validators=[DataRequired()])
+    stock = IntegerField('Stock', validators=[DataRequired()])
+    picture = FileField('Change Item Picture', validators=[FileAllowed(allowedPictureExt)])
+    submit = SubmitField('Edit')
+
 class AddCategoryForm(FlaskForm):
     name = StringField('Category Name', validators=[DataRequired(), Length(min=2, max=40)])
     description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
@@ -81,5 +91,5 @@ class ChangeUserTypeForm(FlaskForm):
     submit = SubmitField('Save')
 
 class ChatForm(FlaskForm):
-    text = StringField('Text')
+    text = StringField('Text', validators=[DataRequired()])
     submit = SubmitField('Send')

@@ -9,13 +9,16 @@
                     <h2><a class="article-title article-metadata col-md-4" href="{{ url_for('Account') }}">Account Menu</a></h2>
                     <a class="list-group-item list-group-item-light" href="{{ url_for('EditProfile') }}">Edit Profile</a>
                     <a class="list-group-item list-group-item-light" href="{{ url_for('ChangePassword') }}">Change Password</a>
-                    {% if current_user.usertype.id > 2 %}
-                    <a class="list-group-item list-group-item-light" href="{{ url_for('UserChat') }}">Messages</a>
-                    <a class="list-group-item list-group-item-light" href="{{ url_for('UserCart') }}">Cart</a>
-                    {% else %}
-                    <a class="list-group-item list-group-item-light" href="{{ url_for('ChatList') }}">All Messages</a>
+                    {% if current_user.usertype.id == 3 %}
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('UserChat') }}">Messages</a>
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('UserCart') }}">Cart</a>
+                    {% endif %}
+                    {% if current_user.usertype.id == 1 or current_user.usertype.id == 2 %}
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('ChatList') }}">All Messages</a>
                         <a class="list-group-item list-group-item-light" href="{{ url_for('AddItem') }}">Add Item</a>
                         <a class="list-group-item list-group-item-light" href="{{ url_for('AddCategory') }}">Add Category</a>
+                    {% endif %}
+                    {% if current_user.usertype.id == 1 %}
                         <a class="list-group-item list-group-item-light" href="{{ url_for('ViewUser') }}">View Users</a>
                     {% endif %}
                     <a class="list-group-item list-group-item-light" href="{{ url_for('AllTransaction') }}">Transaction</a>

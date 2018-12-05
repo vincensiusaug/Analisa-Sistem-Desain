@@ -18,32 +18,33 @@
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
             <div class="container">
-            <a class="navbar-brand mr-4" href="/">Vincent Tampan Shop</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarToggle">
-                <div class="navbar-nav mr-auto">
-                    <!-- <a class="nav-item nav-link" href="{{ url_for('Home') }}">Home</a>
-                    <a class="nav-item nav-link" href="{{ url_for('About') }}">About</a>
-                    <!-- <form action="/action_page.php"> -->
-                    <form action="{{ url_for('Search') }}" style="width:100%;">
-                        <input class="form-control" type="text" placeholder=" Search" name="search" style="width:100%;">
-                        <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
-                    </form>
+
+                <a class="navbar-brand mr-4" href="/">Vincent Tampan Shop</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                    <div class="navbar-nav mr-auto">
+                        <!-- <a class="nav-item nav-link" href="{{ url_for('Home') }}">Home</a>
+                        <a class="nav-item nav-link" href="{{ url_for('About') }}">About</a>
+                        <!-- <form action="/action_page.php"> -->
+                        <form action="{{ url_for('Search') }}" style="width:100%;">
+                            <input class="form-control" type="text" placeholder=" Search" name="search" style="width:100%;">
+                            <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+                        </form>
+                    </div>
+                    <!-- Navbar Right Side -->
+                    <div class="navbar-nav">
+                        {% if current_user.is_authenticated %}
+                            <!-- <img class="rounded-circle layout-img" src="{{ user_image }}"> -->
+                            <a class="nav-item nav-link" href="{{ url_for('Account') }}">{{current_user}}</a>
+                            <a class="nav-item nav-link" href="{{ url_for('Logout') }}">Logout</a>
+                        {% else %}
+                            <a class="nav-item nav-link" href="{{ url_for('Login') }}">Login</a>
+                            <a class="nav-item nav-link" href="{{ url_for('Register') }}">Register</a>
+                        {% endif %}
+                    </div>
                 </div>
-                <!-- Navbar Right Side -->
-                <div class="navbar-nav">
-                    {% if current_user.is_authenticated %}
-                        <!-- <img class="rounded-circle layout-img" src="{{ user_image }}"> -->
-                        <a class="nav-item nav-link" href="{{ url_for('Account') }}">{{current_user}}</a>
-                        <a class="nav-item nav-link" href="{{ url_for('Logout') }}">Logout</a>
-                    {% else %}
-                        <a class="nav-item nav-link" href="{{ url_for('Login') }}">Login</a>
-                        <a class="nav-item nav-link" href="{{ url_for('Register') }}">Register</a>
-                    {% endif %}
-                </div>
-            </div>
             </div>
         </nav>
     </header>
