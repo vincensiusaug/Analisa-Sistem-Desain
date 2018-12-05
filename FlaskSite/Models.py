@@ -125,6 +125,7 @@ class History(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     status_id = db.Column(db.Integer, db.ForeignKey('status.id'), nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    description = db.Column(db.String(200), unique=False, nullable=True)
     historyDetail = db.relationship('HistoryDetail', backref='history', lazy=True)
 
     def __repr__(self):

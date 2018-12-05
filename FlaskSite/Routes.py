@@ -90,11 +90,9 @@ def DeleteCart():
 @login_required
 def BuyCart():
     carts = Cart.query.filter_by(user_id=current_user.id).all()
-    transaction = Transaction.query.get(current_user.id) 
-    if not transaction:
-        transaction = Transaction(status_id = 1, user_id=current_user.id)
-        db.session.add(transaction)
-        db.session.commit()
+    transaction = Transaction(status_id = 1, user_id=current_user.id)
+    db.session.add(transaction)
+    db.session.commit()
     for cart in carts:
         detail = TransactionDetail(quantity = cart.quantity, transaction_id = transaction.id, item_id = cart.item_id)
         db.session.add(detail)
@@ -228,14 +226,22 @@ def SearchUser():
 def AllTransaction():
     if current_user.usertype.name in restrictedUser:
         transactions = Transaction.query.filter(Transaction.user_id == current_user.id).all()
-        # if transaction:
-        #     details = TransactionDetail.query.filter_by(transaction_id=transaction.id).all()
-        #     total = 0
-        #     for detail in details:
-        #         total += detail.item.price * detail.quantity
-        return render_template('transactionListUser.html', title=title+' - Transaction', transactions=transactions)
     else:
-        return render_template('transactionAdmin.html', title=title+' - Transaction')
+        transactions = Transaction.query.all()
+    return render_template('transactionList.html', title=title+' - Transaction', transactions=transactions)
+    # else:
+    #     return render_template('transactionAdmin.html', title=title+' - Transaction')
+
+@app.route('/transaction/remove')
+@login_required
+def DeleteTransaction():
+    transaction_id = request.args['transaction_id']
+    transaction = Transaction.query.get(transaction_id)
+    for detail in TransactionDetail.query.filter(TransactionDetail.transaction_id == transaction_id):
+        db.session.delete(detail)
+    db.session.delete(transaction)
+    db.session.commit()
+    return redirect(url_for('AllTransaction'))
 
 @app.route('/transaction/')
 @login_required

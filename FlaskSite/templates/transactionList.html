@@ -1,0 +1,27 @@
+{% extends "account.html" %}
+
+{% block contentInfo %}
+{% for transaction in transactions %}
+    <article class="media content-section">
+        <div class="media-body">
+            <h3><a class="article-title" href="{{ url_for('ViewTransaction', transaction_id=transaction.id) }}"> TransactionNumber #{{ transaction.id }}</a></h3>
+            {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
+            <p>
+                Customer name: {{transaction.user}}
+            </p>
+            {% endif %}
+            {% if current_user.usertype.name == 'Customer' or current_user.usertype.name == 'Owner' %}
+                <button class="btn btn-outline-info" style= "float: right" id="editButton{{transaction.id}}" onclick="">Delete Transaction</button>
+                <script type="text/javascript">
+                    document.getElementById("editButton{{transaction.id}}").onclick = function () {
+                        location.href='{{ url_for("DeleteTransaction", transaction_id=transaction.id) }}';
+                    };
+                </script>
+            {% endif %}
+            <a class="article-title">{{ transaction.status.description }}</a>
+            <p>Total: Rp.{{ transaction.total_price }}</p>
+            <time><a class="article-title">{{ transaction.date.strftime('%d-%m-%Y %H:%M') }}</a></time>
+        </div>
+    </article>
+{% endfor %}
+{% endblock contentInfo %}
