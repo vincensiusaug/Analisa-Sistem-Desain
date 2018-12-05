@@ -15,13 +15,9 @@
                         {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
                             <button class="btn btn-outline-info" style= "margin: 10px; float:right;" id="editButton" onclick="">Edit Item</button>
                         {% endif %}
-                        <h1><a class="article-title col-md-8">{{ item.name }}</a></h1>
-                        <small class="text-muted col-md-8">Rp {{ item.price }} / {{ item.unit }}</small><br>
-                        <small class="text-muted col-md-8">{{ item.sold }} Sold</small><br>
-                        <small class="article-content col-md-8">{{ item.stock }} Left</small>
                         {% if current_user.is_authenticated %}
                             {% if current_user.usertype.name == "Customer" %}
-                                <form method="POST" action="" enctype="multipart/form-data" class="col-md-4">
+                                <form method="POST" action="" enctype="multipart/form-data" class="col-md-4" style="float:right">
                                     {{form.hidden_tag()}}
                                     <fieldset class="form-group">
                                         <div class="form-group">
@@ -40,6 +36,10 @@
                                 </form>
                             {% endif %}
                         {% endif %}
+                        <h1><a class="article-title col-md-8">{{ item.name }}</a></h1>
+                        <small class="text-muted col-md-8">Rp {{ item.price }} / {{ item.unit }}</small><br>
+                        <small class="text-muted col-md-8">{{ item.sold }} Sold</small><br>
+                        <small class="article-content col-md-8">{{ item.stock }} Left</small>
                     </div>
                 </div>
             <div>

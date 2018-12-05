@@ -6,24 +6,30 @@
           <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/Item/' + cart.item.image_file) }}">
           <div class="media-body">
             <div class="article-metadata">
-              <div class="row">
                 <!-- <a class="mr-2 col-md-9">{{ cart.item.itemcategory.name }}</a> -->
-                <h2><a class="article-title col-md-8" href="{{ url_for('ViewItem' ,item_id=cart.item.id) }}">{{ cart.item.name }}</a></h2>
-            </div>
-            <div>
-                <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
-                    <a class="" href="{{ url_for('Home') }}">Edit</a> -->
+                <h3 class="article-title" href="{{ url_for('ViewItem' ,item_id=cart.item.id) }}">{{ cart.item.name }}</h3>
+                <div>
+                    <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
+                        <a class="" href="{{ url_for('Home') }}">Edit</a> -->
+                    </div>
                 </div>
-            </div>
-            <article>
-                <span style="float:left">Rp {{ cart.item.price }} / {{ cart.item.unit }}</span>
-                <span style="float:right">{{ cart.quantity }} {{ cart.item.unit }}</span>
-                <br>
-                <span style="float:right">Rp {{ cart.quantity * cart.item.price }}</span>
+                <article>
+                    <span style="float:left">Rp {{ cart.item.price }} / {{ cart.item.unit }}</span>
+                    <span style="float:right">{{ cart.quantity }} {{ cart.item.unit }}</span>
+                    <br>
+                    <span style="float:right">Rp {{ cart.quantity * cart.item.price }}</span>
+                    <button class="btn btn-outline-info" style= "" id="editButton{{cart.id}}" onclick="">Remove from cart</button>
+                    <script type="text/javascript">
+                        document.getElementById("editButton{{cart.id}}").onclick = function () {
+                            location.href='{{ url_for("DeleteCart", cart_id=cart.id) }}';
+                        };
+                    </script>
             </article>
         </div>
         </article>
     {% endfor %}
-    <span style="float:right">Total price Rp {{ total }}  </span>
-    <button type="submit" name="submit" class="btn btn-outline-info" action="">Buy</button>
+    <div style="width:100%; margin:10px;">
+        <span style="float:right; margin:20px;" >Total price Rp {{ total }}  </span>
+        <button type="submit" name="submit" class="btn btn-outline-info" style="margin:20px;" action="">Buy</button>
+    </div>
 {% endblock contentInfo %}
