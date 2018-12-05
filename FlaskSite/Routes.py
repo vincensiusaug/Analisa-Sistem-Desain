@@ -46,6 +46,7 @@ def ViewItem(item_id):
                 return redirect(url_for('ViewItem', item_id=item_id))
             else:
                 cart.quantity += form.quantity.data
+                
         else:
             cart = Cart(quantity=form.quantity.data, user_id = current_user.id, item_id=item_id)
             db.session.add(cart)
