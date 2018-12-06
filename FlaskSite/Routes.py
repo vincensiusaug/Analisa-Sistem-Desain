@@ -3,8 +3,10 @@ from sqlalchemy import or_
 from PIL import Image
 from flask import url_for, render_template, flash, redirect, request, abort
 from FlaskSite import app, bcrypt, db
-from FlaskSite.Forms import RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm, AddCartForm, ChangeUserTypeForm, ChatForm, EditItemForm, EditCategoryForm
-from FlaskSite.Models import UserType, User, Item, Category, Cart, Transaction, TransactionDetail, History, HistoryDetail, Status, Category, Chat, ChatDetail, ShippingRecord, Shipping
+from FlaskSite.Forms import (RegistrationForm, AddItemForm, LoginForm, EditProfileForm, AddCategoryForm, ChangePasswordForm,
+                            AddCartForm, ChangeUserTypeForm, ChatForm, EditItemForm, EditCategoryForm)
+from FlaskSite.Models import (UserType, User, Item, Category, Cart, Transaction, TransactionDetail, History, HistoryDetail,
+                            Status, Category, Chat, ChatDetail, ShippingRecord, Shipping)
 from flask_login import login_user, current_user, logout_user, login_required
 
 title = 'VT Shop'
