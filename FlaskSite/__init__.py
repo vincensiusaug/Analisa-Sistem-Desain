@@ -16,5 +16,11 @@ bcrypt = Bcrypt(app)
 loginManager = LoginManager(app)
 loginManager.login_view = 'Login'
 loginManager.login_message_category = 'info'
+app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = # email
+app.config['MAIL_PASSWORD'] = # password
+mail = Mail(app)
 
 from FlaskSite import Routes
