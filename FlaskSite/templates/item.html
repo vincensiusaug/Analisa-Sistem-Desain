@@ -2,13 +2,13 @@
 
 {% block content %}
     <article class="media content-section">
-        <div class="media-body">
-            <div class="article-metadata">
-                <div class="row">
+        <div class="media-body" style="width: 100%">
+            <div class="article-metadata" style="width: 100%">
+                <div class="row" style="margin-bottom: 20px">
                     <div class="col-md-4">
-                        <img class="article-img-big" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
+                        <img class="article-img-big" style="width: 60%: height: 60%;" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
                     </div>
-                    <div class="col-md-8 ">
+                    <div class="col-md-8">
                         <div class="row article-metadata">
                             <a class=" col-md-8" href="{{ url_for('categories.ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
                         </div>
@@ -45,7 +45,7 @@
             <div>
             </div>
         </div>
-        <p class="article-content">{{ item.description }}</p>
+            <p style="word-wrap: break-word;" class="article-content">{{ item.description }}</p>
         </div>
     </article>
     <script type="text/javascript">

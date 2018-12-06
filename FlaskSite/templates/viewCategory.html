@@ -11,7 +11,7 @@
   {% for item in items %}
   <article class="media content-section">
     <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
-        <div class="media-body">
+        <div class="media-body" style="width: 80%">
           <div class="article-metadata">
             <div class="row">
               <a class="mr-2 col-md-9">{{ item.itemcategory.name }}</a>
@@ -23,7 +23,7 @@
             </div>
           </div>
         <h2><a class="article-title" href="{{ url_for('items.ViewItem' ,item_id=item.id) }}">{{ item.name }}</a></h2>
-        <p class="article-content">{{ item.description }}</p>
+        <p style="word-wrap: break-word;" class="article-content">{{ item.description }}</p>
         <p class="article-content">{{ item.sold }} Sold</p>
       </div>
     </article>

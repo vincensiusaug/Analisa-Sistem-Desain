@@ -64,7 +64,7 @@ class Item(db.Model):
     name = db.Column(db.String(40), unique=False, nullable=False)
     price = db.Column(db.Integer, unique=False, nullable=False)
     unit = db.Column(db.String(20), unique=False, nullable=True)
-    description = db.Column(db.String(200), unique=False, nullable=True)
+    description = db.Column(db.String(1200), unique=False, nullable=True)
     stock = db.Column(db.Integer, unique=False, nullable=False)
     sold = db.Column(db.Integer, default=0)
     image_file = db.Column(db.String(20), nullable=False, default = 'item-default.jpg')
