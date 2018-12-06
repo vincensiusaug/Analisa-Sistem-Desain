@@ -107,9 +107,27 @@ class Transaction(db.Model):
     status_id = db.Column(db.Integer, db.ForeignKey('status.id'), nullable=False)
     total_price = db.Column(db.Integer, nullable=False, default=0)
     transactionDetail = db.relationship('TransactionDetail', backref='transaction', lazy=True)
+    shipping_record = db.relationship("ShippingRecord", backref="transaction")
 
     def __repr__(self):
         return self.id
+
+class Shipping(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), unique=False, nullable=True)
+    shipping_record = db.relationship('ShippingRecord', backref='shipping', lazy=True)
+
+class ShippingRecord(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    shipping_id = db.Column(db.Integer, db.ForeignKey('shipping.id'), nullable=False)
+    shipping_number = db.Column(db.String(200), nullable=True)
+    transaction_id = db.Column(db.Integer, db.ForeignKey('transaction.id'))
+    history_id = db.Column(db.Integer, db.ForeignKey('history.id'))
+    def __repr__(self):
+        output = ""
+        for i in self.shipping_number:
+            output += i
+        return output
 
 class HistoryDetail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -126,7 +144,9 @@ class History(db.Model):
     status_id = db.Column(db.Integer, db.ForeignKey('status.id'), nullable=False)
     customer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     description = db.Column(db.String(200), unique=False, nullable=True)
+    total_price = db.Column(db.Integer, nullable=False, default=0)
     historyDetail = db.relationship('HistoryDetail', backref='history', lazy=True)
+    shipping_record = db.relationship("ShippingRecord", backref="history")
 
     def __repr__(self):
         return self.id

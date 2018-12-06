@@ -13,7 +13,7 @@
                         <a class="list-group-item list-group-item-light" href="{{ url_for('UserChat') }}">Messages</a>
                         <a class="list-group-item list-group-item-light" href="{{ url_for('UserCart') }}">Cart</a>
                     {% endif %}
-                    {% if current_user.usertype.name == "Owner" or current_user.usertype.id == "Admin" %}
+                    {% if current_user.usertype.name == "Owner" or current_user.usertype.name == "Admin" %}
                         <a class="list-group-item list-group-item-light" href="{{ url_for('ChatList') }}">All Messages</a>
                         <a class="list-group-item list-group-item-light" href="{{ url_for('AddItem') }}">Add Item</a>
                         <a class="list-group-item list-group-item-light" href="{{ url_for('AddCategory') }}">Add Category</a>
