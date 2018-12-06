@@ -18,11 +18,11 @@
               <small class="text-muted">Rp {{ item.price }} / {{ item.unit }}</small>
             </div>
             <div>
-              <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
-                <a class="" href="{{ url_for('Home') }}">Edit</a> -->
+              <!-- <a class="" href="{{ url_for('main.Home') }}">Add to cart</a>
+                <a class="" href="{{ url_for('main.Home') }}">Edit</a> -->
             </div>
           </div>
-        <h2><a class="article-title" href="{{ url_for('ViewItem' ,item_id=item.id) }}">{{ item.name }}</a></h2>
+        <h2><a class="article-title" href="{{ url_for('items.ViewItem' ,item_id=item.id) }}">{{ item.name }}</a></h2>
         <p class="article-content">{{ item.description }}</p>
         <p class="article-content">{{ item.sold }} Sold</p>
       </div>
@@ -30,7 +30,7 @@
   {% endfor %}
   <script type="text/javascript">
     document.getElementById("editButton").onclick = function () {
-        location.href='{{ url_for("EditCategory", category_id=category.id) }}';
+        location.href='{{ url_for("categories.EditCategory", category_id=category.id) }}';
     };
   </script>
 {% endblock content %}

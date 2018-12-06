@@ -25,7 +25,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
-                        <form action="{{ url_for('Search') }}" style="width:100%;">
+                        <form action="{{ url_for('main.Search') }}" style="width:100%;">
                             <input class="form-control" type="text" placeholder=" Search" name="search" style="width:100%;"> <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
                         </form>
                     </div>
@@ -33,11 +33,11 @@
                     <div class="navbar-nav">
                         {% if current_user.is_authenticated %}
                             <!-- <img class="rounded-circle layout-img" src="{{ user_image }}"> -->
-                            <a class="nav-item nav-link" href="{{ url_for('Account') }}">{{current_user}}</a>
-                            <a class="nav-item nav-link" href="{{ url_for('Logout') }}">Logout</a>
+                            <a class="nav-item nav-link" href="{{ url_for('users.Account') }}">{{current_user}}</a>
+                            <a class="nav-item nav-link" href="{{ url_for('users.Logout') }}">Logout</a>
                         {% else %}
-                            <a class="nav-item nav-link" href="{{ url_for('Login') }}">Login</a>
-                            <a class="nav-item nav-link" href="{{ url_for('Register') }}">Register</a>
+                            <a class="nav-item nav-link" href="{{ url_for('users.Login') }}">Login</a>
+                            <a class="nav-item nav-link" href="{{ url_for('users.Register') }}">Register</a>
                         {% endif %}
                     </div>
                 </div>
@@ -67,8 +67,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <footer class="text-center small site-footer bottom">
-        <a href="{{ url_for('About') }}" style="color: rgb(87, 87, 87)">About Us</a>
-        <a href="{{ url_for('TestPage') }}" style="color: rgb(87, 87, 87)">Test</a>
+        <a href="{{ url_for('main.About') }}" style="color: rgb(87, 87, 87)">About Us</a>
+        <a href="{{ url_for('main.TestPage') }}" style="color: rgb(87, 87, 87)">Test</a>
     </footer>
 </body>
 </html>

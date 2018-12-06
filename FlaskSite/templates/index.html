@@ -9,15 +9,15 @@
         <div class="media-body no-moncrot">
           <div class="article-metadata">
             <div class="row">
-              <a class="mr-2 col-md-9" style="color: rgb(58, 58, 58)" href="{{ url_for('ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
+              <a class="mr-2 col-md-9" style="color: rgb(58, 58, 58)" href="{{ url_for('categories.ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
               <small class="text-muted">Rp {{ item.price }} / {{ item.unit }}</small>
             </div>
             <div>
-                <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
-                <a class="" href="{{ url_for('Home') }}">Edit</a> -->
+                <!-- <a class="" href="{{ url_for('main.Home') }}">Add to cart</a>
+                <a class="" href="{{ url_for('main.Home') }}">Edit</a> -->
             </div>
           </div>
-          <h2><a class="article-title" href="{{ url_for('ViewItem' ,item_id=item.id) }}">{{ item.name }}</a></h2>
+          <h2><a class="article-title" href="{{ url_for('items.ViewItem' ,item_id=item.id) }}">{{ item.name }}</a></h2>
           <p class="article-content">{{ item.description }}</p>
           <p class="article-content">{{ item.sold }} Sold</p>
         </div>
@@ -26,7 +26,7 @@
   <div class="center border-top pt-3">
     {% for page_num in items.iter_pages() %}
       {% if page_num %}
-        <a class="btn btn-outline-info mb-4" href="{{ url_for('Home', page=page_num) }}">{{ page_num }}</a>
+        <a class="btn btn-outline-info mb-4" href="{{ url_for('main.Home', page=page_num) }}">{{ page_num }}</a>
       {% else %}
       ...
       {% endif %}

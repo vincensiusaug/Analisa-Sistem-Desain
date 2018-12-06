@@ -3,24 +3,35 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+from FlaskSite.Config import Config
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///static/Database/Site.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config.from_object(Config)
 app.jinja_env.auto_reload = True
-app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 loginManager = LoginManager(app)
-loginManager.login_view = 'Login'
+loginManager.login_view = 'users.Login'
 loginManager.login_message_category = 'info'
-app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = ""
-app.config['MAIL_PASSWORD'] = ""
+
 mail = Mail(app)
 
-from FlaskSite import Routes
+from FlaskSite.admins.Routes import admins
+from FlaskSite.carts.Routes import carts
+from FlaskSite.categories.Routes import categories
+from FlaskSite.chats.Routes import chats
+from FlaskSite.histories.Routes import histories
+from FlaskSite.items.Routes import items
+from FlaskSite.main.Routes import main
+from FlaskSite.transactions.Routes import transactions
+from FlaskSite.users.Routes import users
+
+app.register_blueprint(admins)
+app.register_blueprint(carts)
+app.register_blueprint(categories)
+app.register_blueprint(chats)
+app.register_blueprint(histories)
+app.register_blueprint(items)
+app.register_blueprint(main)
+app.register_blueprint(transactions)
+app.register_blueprint(users)

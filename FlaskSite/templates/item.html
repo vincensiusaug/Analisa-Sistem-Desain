@@ -10,7 +10,7 @@
                     </div>
                     <div class="col-md-8 ">
                         <div class="row article-metadata">
-                            <a class=" col-md-8" href="{{ url_for('ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
+                            <a class=" col-md-8" href="{{ url_for('categories.ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
                         </div>
                         {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
                             <button class="btn btn-outline-info" style= "margin: 10px; float:right;" id="editButton" onclick="">Edit Item</button>
@@ -50,7 +50,7 @@
     </article>
     <script type="text/javascript">
         document.getElementById("editButton").onclick = function () {
-            location.href='{{ url_for("EditItem", item_id=item.id) }}';
+            location.href='{{ url_for("items.EditItem", item_id=item.id) }}';
         };
     </script>
     

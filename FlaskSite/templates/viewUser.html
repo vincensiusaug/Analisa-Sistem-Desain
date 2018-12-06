@@ -1,7 +1,7 @@
 {% extends "account.html" %}
 
 {% block contentInfo %}
-  <form action="{{ url_for('SearchUser') }}">
+  <form action="{{ url_for('admins.SearchUser') }}">
       <input class="form-control" type="text" placeholder=" Search" name="search" style="padding: 5px; margin-bottom: 20px;">
       <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
   </form>
@@ -12,7 +12,7 @@
           <form method="POST" action="" enctype="multipart/form-data">
             <fieldset class="form-group">
               <div class="article-metadata row">
-                <a class="col-md-4 mr-2" href="{{ url_for('EditUser', username=user.username) }}">{{ user.username }}</a>
+                <a class="col-md-4 mr-2" href="{{ url_for('admins.EditUser', username=user.username) }}">{{ user.username }}</a>
                 <p class="article-content">{{ user.usertype.name }}</p>
               </div>
             </fieldset>
@@ -27,7 +27,7 @@
 <div class="border-top pt-3">
   {% for page_num in users.iter_pages() %}
       {% if page_num %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('ViewUser', page=page_num) }}">{{ page_num }}</a>
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('admins.ViewUser', page=page_num) }}">{{ page_num }}</a>
       {% else %}
           ...
       {% endif %}

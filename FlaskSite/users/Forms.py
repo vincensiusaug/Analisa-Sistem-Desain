@@ -51,36 +51,6 @@ class ResetPasswordForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
 
-class AddItemForm(FlaskForm):
-    name = StringField('Item Name', validators=[DataRequired(), Length(min=2, max=40)])
-    price = IntegerField('Price', validators=[DataRequired()])
-    unit = StringField('Unit', validators=[DataRequired(), Length(min=1, max=20)])
-    description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
-    category_id = SelectField('Category', choices=[], coerce=int, validators=[DataRequired()])
-    stock = IntegerField('Stock', validators=[DataRequired()])
-    picture = FileField('Upload Item Picture', validators=[FileAllowed(allowedPictureExt)])
-    submit = SubmitField('Add')
-
-class EditItemForm(FlaskForm):
-    name = StringField('Item Name', validators=[DataRequired(), Length(min=2, max=40)])
-    price = IntegerField('Price', validators=[DataRequired()])
-    unit = StringField('Unit', validators=[DataRequired(), Length(min=1, max=20)])
-    description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
-    category_id = SelectField('Category', choices=[], coerce=int, validators=[DataRequired()])
-    stock = IntegerField('Stock', validators=[DataRequired()])
-    picture = FileField('Change Item Picture', validators=[FileAllowed(allowedPictureExt)])
-    submit = SubmitField('Edit')
-
-class AddCategoryForm(FlaskForm):
-    name = StringField('Category Name', validators=[DataRequired(), Length(min=2, max=40)])
-    description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
-    submit = SubmitField('Add')
-
-class EditCategoryForm(FlaskForm):
-    name = StringField('Category Name', validators=[DataRequired(), Length(min=2, max=40)])
-    description = StringField('Description', validators=[DataRequired(), Length(min=2, max=200)])
-    submit = SubmitField('Edit')
-
 class EditProfileForm(FlaskForm):
     picture = FileField('Upload Profile Picture', validators=[FileAllowed(allowedPictureExt)])
     firstName = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])
@@ -101,20 +71,4 @@ class ChangePasswordForm(FlaskForm):
     oldPassword = PasswordField('Old password', validators=[DataRequired(), Length(min=8, max=20)])
     newPassword = PasswordField('New Password', validators=[DataRequired()])
     confirmPassword = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('newPassword')])
-    submit = SubmitField('Change')
-
-class AddCartForm(FlaskForm):
-    quantity = IntegerField('Quantity', validators=[DataRequired()])
-    submit = SubmitField('Add to cart')
-
-class ChangeUserTypeForm(FlaskForm):
-    userType = SelectField('User Type', choices=[], coerce=int, validators=[DataRequired()])
-    submit = SubmitField('Save')
-
-class ChatForm(FlaskForm):
-    text = StringField('Text', validators=[DataRequired()])
-    submit = SubmitField('Send')
-
-class TransactionForm(FlaskForm):
-    status = SelectField('Status', choices=[], coerce=int, validators=[DataRequired()])
     submit = SubmitField('Change')

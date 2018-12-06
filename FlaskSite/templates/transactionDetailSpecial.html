@@ -4,7 +4,7 @@
 {% if transaction.status_id == 1 and current_user.usertype.name == "Owner" %}
     <button class="btn btn-outline-info" style= "float: right" id="confirmPayment">Confirm Payment</button>
 {% elif transaction.status_id == 2 and (current_user.usertype.name == "Owner" or current_user.usertype.name == "Admin") %}
-    <form action="{{ url_for('CourrierTransaction', transaction_id=transaction.id) }}" style="width:100%;">
+    <form action="{{ url_for('transactions.CourrierTransaction', transaction_id=transaction.id) }}" style="width:100%;">
         <select name="courrier">
                 {% for ship in ships %}
                     <option value ="{{ship[0]}}">{{ship[1]}}</option>
@@ -24,17 +24,17 @@
 
 <script type="text/javascript">
     document.getElementById("confirmPayment").onclick = function () {
-        location.href='{{ url_for("ConfirmPaymentTransaction", transaction_id=transaction.id)}}';
+        location.href='{{ url_for("transactions.ConfirmPaymentTransaction", transaction_id=transaction.id)}}';
     };
 </script>
 <script type="text/javascript">
     document.getElementById("recievePackage").onclick = function () {
-        location.href='{{ url_for("RecievedTransaction", transaction_id=transaction.id)}}';
+        location.href='{{ url_for("transactions.RecievedTransaction", transaction_id=transaction.id)}}';
     };
 </script>
 <script type="text/javascript">
     document.getElementById("badPackage").onclick = function () {
-        location.href='{{ url_for("BadTransaction", transaction_id=transaction.id)}}';
+        location.href='{{ url_for("transactions.BadTransaction", transaction_id=transaction.id)}}';
     };
 </script>
 {% endblock button %}

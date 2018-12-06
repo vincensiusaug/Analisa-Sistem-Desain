@@ -92,7 +92,7 @@
 </div>
         <script type="text/javascript">
             document.getElementById("deleteButton").onclick = function () {
-                location.href='{{ url_for("DeleteItem", item_id=item.id) }}';
+                location.href='{{ url_for("items.DeleteItem", item_id=item.id) }}';
             };
         </script>
 

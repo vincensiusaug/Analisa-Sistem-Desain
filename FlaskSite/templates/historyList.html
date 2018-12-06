@@ -2,7 +2,7 @@
 
 {% block contentInfo %}
 {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
-<form method="POST" class="row" style="margin:10px" action="{{ url_for('AllHistory')}}">
+<form method="POST" class="row" style="margin:10px" action="{{ url_for('histories.AllHistory')}}">
     <select style="margin-right:10px; display: block; padding: 10px 20px 10px 10px; background: #d4d4d4; outline: none; border: none; border-radius: 5px;" name="statusSelect">
         {% for status in allStatus %}
         <option value ="{{status[0]}}" {% if status[0]==selected %} selected="selected"{% endif %}>{{status[1]}}</option>
@@ -14,7 +14,7 @@
 {% for history in histories %}
     <article class="media content-section">
         <div class="media-body">
-            <h3><a class="article-title" href="{{ url_for('ViewHistory', history_id=history.id) }}"> History Number #{{ history.id }}</a></h3>
+            <h3><a class="article-title" href="{{ url_for('histories.ViewHistory', history_id=history.id) }}"> History Number #{{ history.id }}</a></h3>
             {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
             <p>
                 Customer name: {{history.user}}

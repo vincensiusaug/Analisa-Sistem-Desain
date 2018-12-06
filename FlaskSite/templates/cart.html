@@ -7,10 +7,10 @@
           <div class="media-body">
             <div class="article-metadata">
                 <!-- <a class="mr-2 col-md-9">{{ cart.item.itemcategory.name }}</a> -->
-                <h3 class="article-title" href="{{ url_for('ViewItem' ,item_id=cart.item.id) }}">{{ cart.item.name }}</h3>
+                <h3 class="article-title" href="{{ url_for('items.ViewItem' ,item_id=cart.item.id) }}">{{ cart.item.name }}</h3>
                 <div>
-                    <!-- <a class="" href="{{ url_for('Home') }}">Add to cart</a>
-                        <a class="" href="{{ url_for('Home') }}">Edit</a> -->
+                    <!-- <a class="" href="{{ url_for('main.Home') }}">Add to cart</a>
+                        <a class="" href="{{ url_for('main.Home') }}">Edit</a> -->
                     </div>
                 </div>
                 <article>
@@ -21,7 +21,7 @@
                     <button class="btn btn-outline-info" style= "" id="editButton{{cart.id}}" onclick="">Remove from cart</button>
                     <script type="text/javascript">
                         document.getElementById("editButton{{cart.id}}").onclick = function () {
-                            location.href='{{ url_for("DeleteCart", cart_id=cart.id) }}';
+                            location.href='{{ url_for("carts.BuyCart", cart_id=cart.id) }}';
                         };
                     </script>
             </article>
@@ -35,7 +35,7 @@
         </div>
         <script type="text/javascript">
             document.getElementById("buyButton").onclick = function () {
-                location.href='{{ url_for("BuyCart") }}';
+                location.href='{{ url_for("carts.BuyCart") }}';
             };
         </script>
     {% endif %}

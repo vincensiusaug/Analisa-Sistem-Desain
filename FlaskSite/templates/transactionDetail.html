@@ -6,7 +6,7 @@
         <img class="rounded-circle article-img" src="{{ url_for('static', filename='Database/Pictures/Item/' + detail.item.image_file) }}">
         <div class="media-body">
             <div class="article-metadata">
-                <h3 class="article-title" href="{{ url_for('ViewItem' ,item_id=detail.item.id) }}">{{ detail.item.name }}</h3>
+                <h3 class="article-title" href="{{ url_for('items.ViewItem' ,item_id=detail.item.id) }}">{{ detail.item.name }}</h3>
                 </div>
                 <article>
                     <span style="float:left">Rp {{ detail.item.price }} / {{ detail.item.unit }}</span>

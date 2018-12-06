@@ -2,7 +2,7 @@
 
 {% block contentInfo %}
 {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
-<form method="POST" class="row" style="margin:10px" action="{{ url_for('AllTransaction')}}">
+<form method="POST" class="row" style="margin:10px" action="{{ url_for('transactions.AllTransaction')}}">
     <select style="margin-right:10px; display: block; padding: 10px 20px 10px 10px; border: none; border-radius: 5px;" name="statusSelect">
         {% for status in allStatus %}
         <option value ="{{status[0]}}" {% if status[0]==selected %} selected="selected"{% endif %}>{{status[1]}}</option>
@@ -14,7 +14,7 @@
 {% for transaction in transactions %}
     <article class="media content-section">
         <div class="media-body">
-            <h3><a class="article-title" href="{{ url_for('ViewTransaction', transaction_id=transaction.id) }}"> TransactionNumber #{{ transaction.id }}</a></h3>
+            <h3><a class="article-title" href="{{ url_for('transactions.ViewTransaction', transaction_id=transaction.id) }}"> TransactionNumber #{{ transaction.id }}</a></h3>
             {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
             <p>
                 Customer name: {{transaction.user}}
@@ -24,7 +24,7 @@
                 <button class="btn btn-outline-info" style= "float: right" id="editButton{{transaction.id}}" onclick="">Delete Transaction</button>
                 <script type="text/javascript">
                     document.getElementById("editButton{{transaction.id}}").onclick = function () {
-                        location.href='{{ url_for("DeleteTransaction", transaction_id=transaction.id) }}';
+                        location.href='{{ url_for("transactions.DeleteTransaction", transaction_id=transaction.id) }}';
                     };
                 </script>
             {% endif %}

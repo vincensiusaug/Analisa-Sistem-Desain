@@ -37,14 +37,14 @@
             <div class="form-group">
                 {{form.submit(class="btn btn-outline-info")}}
                 <small class="text_muted ml-2">
-                    Forget Your Password?<a class="ml-2" href="{{url_for('ResetRequest')}}">Forget Password</a>
+                    Forget Your Password?<a class="ml-2" href="{{url_for('users.ResetRequest')}}">Forget Password</a>
                 </small>
             </div>
         </form>
     </div>
     <div class="border-top pt-3">
             <small class="text_muted">
-                Don't Have An Account?<a class="ml-2" href="{{url_for('Register')}}">Sign Up<br></a>
+                Don't Have An Account?<a class="ml-2" href="{{url_for('users.Register')}}">Sign Up<br></a>
             </small>
     </div>
 {% endblock content %}
