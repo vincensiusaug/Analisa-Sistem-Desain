@@ -289,12 +289,14 @@ def CourrierTransaction(transaction_id):
 @login_required
 def RecievedTransaction(transaction_id):
     Transaction.query.get(transaction_id).status_id = 4
+    db.session.commit()
     return redirect(url_for('ViewTransaction', transaction_id=transaction_id))
 
 @app.route('/transaction/<int:transaction_id>/bad')
 @login_required
 def BadTransaction(transaction_id):
     Transaction.query.get(transaction_id).status_id = 5
+    db.session.commit()
     return redirect(url_for('ViewTransaction', transaction_id=transaction_id))
 
 @app.route('/history')
