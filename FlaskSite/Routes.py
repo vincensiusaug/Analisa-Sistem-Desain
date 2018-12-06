@@ -95,6 +95,7 @@ def BuyCart():
     db.session.add(transaction)
     db.session.commit()
     for cart in carts:
+        Item.query.get(cart.item_id).stock -= cart.quantity
         detail = TransactionDetail(quantity = cart.quantity, transaction_id = transaction.id, item_id = cart.item_id)
         db.session.add(detail)
         transaction.total_price = transaction.total_price + (cart.item.price * cart.quantity)
@@ -247,6 +248,7 @@ def DeleteTransaction(transaction_id):
     # transaction_id = request.args['transaction_id']
     transaction = Transaction.query.get(transaction_id)
     for detail in TransactionDetail.query.filter(TransactionDetail.transaction_id == transaction_id):
+        Item.query.get(cart.item_id).stock += detail.quantity
         db.session.delete(detail)
     db.session.delete(transaction)
     db.session.commit()
