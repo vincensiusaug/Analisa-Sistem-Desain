@@ -58,7 +58,7 @@ class Item(db.Model):
     cart = db.relationship('Cart', backref='item', lazy=True)
     transaction_detail = db.relationship('TransactionDetail', backref='item', lazy=True)
     # transaction = db.relationship('Transaction', backref='itemTransaction', lazy=True)
-    # history = db.relationship('History', backref='itemHistory', lazy=True)
+    history_detail = db.relationship('HistoryDetail', backref='item', lazy=True)
 
 
     def __repr__(self):
@@ -68,7 +68,7 @@ class Item(db.Model):
 class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer, unique=False, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
 
     def __repr__(self):
@@ -102,7 +102,7 @@ class TransactionDetail(db.Model):
 
 class Transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    customer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     status_id = db.Column(db.Integer, db.ForeignKey('status.id'), nullable=False)
     total_price = db.Column(db.Integer, nullable=False, default=0)
@@ -124,10 +124,7 @@ class ShippingRecord(db.Model):
     transaction_id = db.Column(db.Integer, db.ForeignKey('transaction.id'))
     history_id = db.Column(db.Integer, db.ForeignKey('history.id'))
     def __repr__(self):
-        output = ""
-        for i in self.shipping_number:
-            output += i
-        return output
+        return self.shipping_number
 
 class HistoryDetail(db.Model):
     id = db.Column(db.Integer, primary_key=True)

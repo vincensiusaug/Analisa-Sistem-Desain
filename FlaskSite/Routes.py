@@ -40,7 +40,7 @@ def ViewItem(item_id):
         if form.quantity.data > item.stock:
             flash('Sorry we don\'t have that much items!', 'danger')
             return redirect(url_for('ViewItem', item_id=item_id))
-        cart = Cart.query.filter(Cart.user_id == current_user.id, Cart.item_id == item.id).first()
+        cart = Cart.query.filter(Cart.customer_id == current_user.id, Cart.item_id == item.id).first()
         if cart:
             if cart.quantity + form.quantity.data > item.stock:
                 flash('Sorry we don\'t have that much items!', 'danger')
@@ -49,7 +49,7 @@ def ViewItem(item_id):
                 cart.quantity += form.quantity.data
 
         else:
-            cart = Cart(quantity=form.quantity.data, user_id = current_user.id, item_id=item_id)
+            cart = Cart(quantity=form.quantity.data, customer_id = current_user.id, item_id=item_id)
             db.session.add(cart)
         db.session.commit()
         flash('Item added to cart!', 'success')
@@ -71,7 +71,7 @@ def About():
 @app.route('/cart')
 @login_required
 def UserCart():
-    cart = Cart.query.filter_by(user_id=current_user.id).all()
+    cart = Cart.query.filter_by(customer_id=current_user.id).all()
     total = 0
     for c in cart:
         total += c.item.price * c.quantity
@@ -90,8 +90,8 @@ def DeleteCart():
 @app.route('/cart/buy')
 @login_required
 def BuyCart():
-    carts = Cart.query.filter_by(user_id=current_user.id).all()
-    transaction = Transaction(status_id = 1, user_id=current_user.id)
+    carts = Cart.query.filter_by(customer_id=current_user.id).all()
+    transaction = Transaction(status_id = 1, customer_id=current_user.id)
     db.session.add(transaction)
     db.session.commit()
     for cart in carts:
@@ -231,7 +231,7 @@ def AllTransaction():
     for status in Status.query.all():
         allStatus.append((status.id, status.description))
     if current_user.usertype.name in restrictedUser:
-        transactions = Transaction.query.filter(Transaction.user_id == current_user.id).all()
+        transactions = Transaction.query.filter(Transaction.customer_id == current_user.id).all()
     else:
         if status_id != 0:
             transactions = Transaction.query.join(Status).filter(Status.id==status_id).all()
@@ -257,12 +257,11 @@ def DeleteTransaction(transaction_id):
 def ViewTransaction(transaction_id):
     transaction = Transaction.query.get(transaction_id)
     details = TransactionDetail.query.filter(TransactionDetail.transaction_id == transaction_id).all()
-    if current_user.usertype.name in specialUser:
-        ships = []
-        for ship in Shipping.query.all():
-            ships.append((ship.id, ship.name))
-        return render_template('transactionDetailSpecial.html', title=title+' - Transaction', details=details, transaction=transaction, ships=ships)
-    return render_template('transactionDetailSpecial.html', title=title+' - Transaction', details=details, transaction=transaction)
+    ships = []
+    for ship in Shipping.query.all():
+        ships.append((ship.id, ship.name))
+    return render_template('transactionDetailSpecial.html', title=title+' - Transaction', details=details, transaction=transaction, ships=ships)
+    # return render_template('transactionDetailSpecial.html', title=title+' - Transaction', details=details, transaction=transaction)
 
 @app.route('/transaction/<int:transaction_id>/confirm')
 @login_required
@@ -288,23 +287,55 @@ def CourrierTransaction(transaction_id):
 @app.route('/transaction/<int:transaction_id>/recieve')
 @login_required
 def RecievedTransaction(transaction_id):
-    Transaction.query.get(transaction_id).status_id = 4
+    transaction = Transaction.query.get(transaction_id)
+    details = TransactionDetail.query.filter(TransactionDetail.transaction_id == transaction_id).all()
+    shipping_record = ShippingRecord.query.filter(transaction_id==transaction.id).first()
+    history = History(status_id = 4, customer_id=transaction.customer_id)
+    db.session.add(history)
     db.session.commit()
-    return redirect(url_for('ViewTransaction', transaction_id=transaction_id))
+    shipping_record.transaction_id = None
+    shipping_record.history_id = history.id
+    history.shipping_record.append(shipping_record)
+    for detail in details:
+        hd = HistoryDetail(quantity=detail.quantity, history_id=history.id, item_id=detail.item_id)
+        db.session.add(hd)
+        history.total_price += detail.item.price * detail.quantity
+        history.historyDetail.append(hd)
+        db.session.delete(detail)
+    db.session.delete(transaction)
+    db.session.commit()
+    return redirect(url_for('AllHistory'))
 
 @app.route('/transaction/<int:transaction_id>/bad')
 @login_required
 def BadTransaction(transaction_id):
-    Transaction.query.get(transaction_id).status_id = 5
+    history = History(status_id = 5, customer_id=current_user.id)
     db.session.commit()
     return redirect(url_for('ViewTransaction', transaction_id=transaction_id))
 
 @app.route('/history')
 @login_required
 def AllHistory():
+    status_id = request.form.get('statusSelect', 0, type=int)
+    allStatus = []
+    allStatus.append((0, "All transaction"))
+    for status in Status.query.all():
+        allStatus.append((status.id, status.description))
     if current_user.usertype.name in restrictedUser:
-        return render_template('historyUser.html', title=title+' - History')
-    return render_template('historyAdmin.html', title=title+' - History')
+        histories = History.query.filter(History.customer_id == current_user.id).all()
+    else:
+        if status_id != 0:
+            histories = History.query.join(Status).filter(Status.id==status_id).all()
+        else:
+            histories = History.query.all()
+    return render_template('historyList.html', title=title+' - History', histories=histories, allStatus=allStatus, selected=status_id)
+
+@app.route('/history/<int:history_id>/view')
+@login_required
+def ViewHistory(history_id):
+    history = History.query.get(history_id)
+    details = HistoryDetail.query.filter(HistoryDetail.history_id == history_id).all()
+    return render_template('historyDetail.html', title=title+' - Transaction', details=details, history=history)
 
 @app.route('/register', methods=['GET', 'POST'])
 def Register():
