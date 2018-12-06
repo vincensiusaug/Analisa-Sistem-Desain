@@ -6,16 +6,15 @@ import os
 from flask import url_for
 
 userImagePath = 'Database/Pictures/User/'
-itemImagePath = 'Database/Pictures/Item/'
 
 def SaveUserPicture(form_picture):
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_name = current_user.username + f_ext
     picture_path = os.path.join(app.root_path, 'static/'+userImagePath, picture_name)
     output_size = (125, 125)
-    i = Image.open(form_picture)
-    i.thumbnail(output_size)
-    i.save(picture_path)
+    img = Image.open(form_picture)
+    img.thumbnail(output_size)
+    img.save(picture_path)
     return picture_name
 
 def SendResetEmail(user):

@@ -4,8 +4,8 @@ from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from FlaskSite.Models import  User, Category
+from FlaskSite.Variables import *
 
-allowedPictureExt = ['png', 'jpg', 'jpeg']
 
 class AddItemForm(FlaskForm):
     name = StringField('Item Name', validators=[DataRequired(), Length(min=2, max=40)])

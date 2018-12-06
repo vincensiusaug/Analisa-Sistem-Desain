@@ -97,6 +97,10 @@ def EditItem():
         item.description = form.description.data
         item.category_id = form.category_id.data 
         item.stock = form.stock.data
+        if form.picture.data:
+            picture_file = SaveItemPicture(form.picture.data, Item.query.order_by(Item.id.desc()).first().id+1)
+            # current_user.image_file = picture_file
+            item.image_file = picture_file
         db.session.commit()
         flash('Item Changed!', 'success')
         return redirect(url_for('items.ViewItem', item_id=item_id))

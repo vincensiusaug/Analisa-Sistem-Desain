@@ -1,0 +1,1 @@
+allowedPictureExt = ['png', 'jpg', 'jpeg']
