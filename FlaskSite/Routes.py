@@ -304,14 +304,29 @@ def RecievedTransaction(transaction_id):
         db.session.delete(detail)
     db.session.delete(transaction)
     db.session.commit()
-    return redirect(url_for('AllHistory'))
+    return redirect(url_for('ViewHistory', history_id=history.id))
 
 @app.route('/transaction/<int:transaction_id>/bad')
 @login_required
 def BadTransaction(transaction_id):
-    history = History(status_id = 5, customer_id=current_user.id)
+    transaction = Transaction.query.get(transaction_id)
+    details = TransactionDetail.query.filter(TransactionDetail.transaction_id == transaction_id).all()
+    shipping_record = ShippingRecord.query.filter(transaction_id==transaction.id).first()
+    history = History(status_id = 5, customer_id=transaction.customer_id)
+    db.session.add(history)
     db.session.commit()
-    return redirect(url_for('ViewTransaction', transaction_id=transaction_id))
+    shipping_record.transaction_id = None
+    shipping_record.history_id = history.id
+    history.shipping_record.append(shipping_record)
+    for detail in details:
+        hd = HistoryDetail(quantity=detail.quantity, history_id=history.id, item_id=detail.item_id)
+        db.session.add(hd)
+        history.total_price += detail.item.price * detail.quantity
+        history.historyDetail.append(hd)
+        db.session.delete(detail)
+    db.session.delete(transaction)
+    db.session.commit()
+    return redirect(url_for('ViewHistory', history_id=history.id))
 
 @app.route('/history')
 @login_required

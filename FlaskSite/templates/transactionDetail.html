@@ -42,7 +42,6 @@
                     <p>Transaction Number:<br>{{ transaction.id }}</p>
                     <time>Transaction time:<br>{{ transaction.date.strftime('%d-%m-%Y %H:%M') }}</time>
                     {% if transaction.status.id == 3%}
-                        <p>Courrier name:<br>{{ transaction.shipping_record.shipping_id }}</p>
                         <p>Courrier code:<br>{{ transaction.shipping_record|join('') }}</p>
                     {% endif %}
                 </div>
