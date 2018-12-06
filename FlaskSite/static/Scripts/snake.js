@@ -13,22 +13,22 @@ function Snake(){
 
         if( d < size){
             let tail = createVector(this.body[this.total-1].x, this.body[this.total-1].y);
-            this.body.push(tail);
-            this.total++;
+            // this.body.push(tail);
+            // this.total++;
             return true;
         }
         return false;
     }
 
     this.dir = function(x, y){
-        if(this.xspeed != 0 && x != 0){
-            this.failx = true;
-            return;
-        }
-        if(this.yspeed != 0 && y != 0){
-            this.faily = true;
-            return;
-        }
+        // if(this.xspeed != 0 && x != 0){
+        //     this.failx = true;
+        //     return;
+        // }
+        // if(this.yspeed != 0 && y != 0){
+        //     this.faily = true;
+        //     return;
+        // }
         this.xspeed = x;
         this.yspeed = y;
         this.fail = false;
