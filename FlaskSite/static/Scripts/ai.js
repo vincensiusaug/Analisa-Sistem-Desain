@@ -5,22 +5,18 @@ function Ai(){
         this.y = snake.body[0].y - food.y;
         // food at right
         if(this.x < 0){
-            console.log("Right")
             snake.dir(1, 0);
         }
         // food at left
         else if(this.x > 0){
-            console.log("Left")
             snake.dir(-1, 0);
         }
         // food at bottom
         if(this.y < 0){
-            console.log("Bottom")
             snake.dir(0, 1);
         }
         // food at top
         else if(this.y > 0){
-            console.log("Top")
             snake.dir(0, -1);
         }
 

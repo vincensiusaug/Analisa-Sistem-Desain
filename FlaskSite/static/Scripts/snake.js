@@ -31,7 +31,7 @@ function Snake(){
         // }
         this.xspeed = x;
         this.yspeed = y;
-        this.fail = false;
+        // this.fail = false;
     }
   
     this.update = function(){
