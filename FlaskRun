@@ -1,1 +1,1 @@
-source bin/activate&&export FLASK_APP=Run.py&&export FLASK_ENV=development&&flask run --host=0.0.0.0
+source bin/activate&&export FLASK_APP=Run.py&&export &&flask run --host=0.0.0.0

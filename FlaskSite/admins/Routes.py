@@ -19,7 +19,7 @@ specialUser = ("Owner", "Admin")
 @login_required
 def ViewUser():
     if not current_user.is_authenticated or current_user.usertype.name != "Owner":
-        return redirect(url_for('main.Home'))
+        abort(403)
     page = request.args.get('page', 1, type=int)
     users = User.query.order_by(User.userType_id).paginate(page=page, per_page=perPageUser)
     
@@ -28,7 +28,7 @@ def ViewUser():
 @admins.route('/search_user')
 def SearchUser():
     if not current_user.is_authenticated or current_user.usertype.name != "Owner":
-        return redirect(url_for('main.Home'))
+        abort(403)
     query = request.args['search']
     page = request.args.get('page', 1, type=int)
     users = User.query.filter(User.username.like('%'+query+'%') | User.firstName.like('%'+query+'%') | User.lastName.like(query)).order_by(User.userType_id).paginate(page=page, per_page=perPageUser)
@@ -39,8 +39,8 @@ def SearchUser():
 @admins.route("/edit_user_type/<string:username>", methods=['GET', 'POST'])
 @login_required
 def EditUser(username):
-    if not current_user.is_authenticated or current_user.usertype.id != 1:
-        return redirect(url_for('main.Home'))
+    if not current_user.is_authenticated or current_user.usertype.name != "Owner":
+        abort(403)
     form = ChangeUserTypeForm()
     user = User.query.filter_by(username = username).first()
     form.userType.choices = [(ut.id, ut.name) for ut in UserType.query.all()]

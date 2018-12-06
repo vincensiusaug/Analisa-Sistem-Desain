@@ -25,6 +25,7 @@ from FlaskSite.items.Routes import items
 from FlaskSite.main.Routes import main
 from FlaskSite.transactions.Routes import transactions
 from FlaskSite.users.Routes import users
+from FlaskSite.errors.Handlers import errors
 
 app.register_blueprint(admins)
 app.register_blueprint(carts)
@@ -35,3 +36,4 @@ app.register_blueprint(items)
 app.register_blueprint(main)
 app.register_blueprint(transactions)
 app.register_blueprint(users)
+app.register_blueprint(errors)
