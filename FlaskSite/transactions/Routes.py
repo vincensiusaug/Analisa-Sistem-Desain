@@ -8,15 +8,9 @@ from FlaskSite.Models import (UserType, User, Item, Category, Cart, Transaction,
                             Status, Category, Chat, ChatDetail, ShippingRecord, Shipping)
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_mail import Message
+from FlaskSite.Variables import *
 
 transactions = Blueprint('transactions', __name__)
-title = 'VT Shop'
-userImagePath = 'Database/Pictures/User/'
-itemImagePath = 'Database/Pictures/Item/'
-perPageItem = 5
-perPageUser = 5
-restrictedUser = ("Customer")
-specialUser = ("Owner", "Admin")
 
 @transactions.route('/transaction', methods=['GET', 'POST'])
 @login_required
@@ -34,16 +28,14 @@ def AllTransaction():
         else:
             transactions = Transaction.query.all()
     return render_template('transactionList.html', title=title+' - Transaction', transactions=transactions, allStatus=allStatus, selected=status_id)
-    # else:
-    #     return render_template('transactionAdmin.html', title=title+' - Transaction')
 
 @transactions.route('/transaction/<int:transaction_id>/remove')
 @login_required
 def DeleteTransaction(transaction_id):
-    # transaction_id = request.args['transaction_id']
     transaction = Transaction.query.get(transaction_id)
     for detail in TransactionDetail.query.filter(TransactionDetail.transaction_id == transaction_id):
         Item.query.get(detail.item_id).stock += detail.quantity
+        Item.query.get(detail.item_id).sold -= detail.quantity
         db.session.delete(detail)
     db.session.delete(transaction)
     db.session.commit()
@@ -58,7 +50,6 @@ def ViewTransaction(transaction_id):
     for ship in Shipping.query.all():
         ships.append((ship.id, ship.name))
     return render_template('transactionDetailSpecial.html', title=title+' - Transaction', details=details, transaction=transaction, ships=ships)
-    # return render_template('transactionDetailSpecial.html', title=title+' - Transaction', details=details, transaction=transaction)
 
 @transactions.route('/transaction/<int:transaction_id>/confirm')
 @login_required

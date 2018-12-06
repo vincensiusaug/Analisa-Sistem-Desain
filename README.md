@@ -2,7 +2,16 @@
   
 
 username = superuser
-password = Superuser1 
+password = superuser
+
+Required package (install using pip3)
+pillow
+sqlalchemy
+flask
+flask_login
+flask_mail
+flask_sqlalchemy
+flask_bcrypt
 
 Cara menjalankan:
 1. Set working directory pada folder ini

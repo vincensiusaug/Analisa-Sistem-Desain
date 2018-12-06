@@ -38,6 +38,7 @@ def BuyCart():
     db.session.commit()
     for cart in carts:
         Item.query.get(cart.item_id).stock -= cart.quantity
+        Item.query.get(cart.item_id).sold += cart.quantity
         detail = TransactionDetail(quantity = cart.quantity, transaction_id = transaction.id, item_id = cart.item_id)
         db.session.add(detail)
         transaction.total_price = transaction.total_price + (cart.item.price * cart.quantity)

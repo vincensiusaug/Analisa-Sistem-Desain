@@ -26,7 +26,6 @@ def ViewItem(item_id):
                 return redirect(url_for('items.ViewItem', item_id=item_id))
             else:
                 cart.quantity += form.quantity.data
-
         else:
             cart = Cart(quantity=form.quantity.data, customer_id = current_user.id, item_id=item_id)
             db.session.add(cart)
@@ -51,8 +50,7 @@ def AddItem():
     if form.validate_on_submit():
         item = Item(name = form.name.data, price = form.price.data, unit=form.unit.data, description = form.description.data, category_id = form.category_id.data, stock = form.stock.data)
         if form.picture.data:
-            picture_file = SaveItemPicture(form.picture.data, Item.query.order_by(Item.id.desc()).first().id+1)
-            # current_user.image_file = picture_file
+            picture_file = SaveItemPicture(form.picture.data)
             item.image_file = picture_file
         db.session.add(item)
         db.session.commit()
@@ -91,8 +89,7 @@ def EditItem():
         item.category_id = form.category_id.data 
         item.stock = form.stock.data
         if form.picture.data:
-            picture_file = SaveItemPicture(form.picture.data, Item.query.order_by(Item.id.desc()).first().id+1)
-            # current_user.image_file = picture_file
+            picture_file = SaveItemPicture(form.picture.data)
             item.image_file = picture_file
         db.session.commit()
         flash('Item Changed!', 'success')

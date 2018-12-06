@@ -61,7 +61,7 @@ class Category(db.Model):
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(40), unique=True, nullable=False)
+    name = db.Column(db.String(40), unique=False, nullable=False)
     price = db.Column(db.Integer, unique=False, nullable=False)
     unit = db.Column(db.String(20), unique=False, nullable=True)
     description = db.Column(db.String(200), unique=False, nullable=True)
@@ -87,14 +87,6 @@ class Cart(db.Model):
 
     def __repr__(self):
         return self.id
-
-# class Cart(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     cartDetail = db.relationship('CartDetail', backref='cart', lazy=True)
-#     customer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
-#     def __repr__(self):
-#         return self.id
 
 class Status(db.Model):
     id = db.Column(db.Integer, primary_key=True)

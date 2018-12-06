@@ -7,10 +7,11 @@ from flask import url_for
 from FlaskSite.Variables import *
 
 def SaveUserPicture(form_picture):
+    random_hex = os.urandom(16).hex()
     _, f_ext = os.path.splitext(form_picture.filename)
-    picture_name = current_user.username + f_ext
+    picture_name = random_hex + f_ext
     picture_path = os.path.join(app.root_path, 'static/'+userImagePath, picture_name)
-    output_size = (125, 125)
+    output_size = (userOutputSize)
     img = Image.open(form_picture)
     img.thumbnail(output_size)
     img.save(picture_path)

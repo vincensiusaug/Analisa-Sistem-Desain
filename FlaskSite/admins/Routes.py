@@ -40,7 +40,7 @@ def EditUser(username):
     if form.validate_on_submit():
         user.userType_id = form.userType.data
         db.session.commit()
-        flash(username+' user type has been updated to '+user.usertype.name+"!", 'success')
+        flash(username+' user type is updated to '+user.usertype.name+"!", 'success')
         return redirect(url_for('admins.EditUser', username=user.username))
     elif request.method == 'GET':
         form.userType.data = user.userType_id
