@@ -18,7 +18,7 @@
                     <span style="float:right">{{ cart.quantity }} {{ cart.item.unit }}</span>
                     <br>
                     <span style="float:right">Rp {{ cart.quantity * cart.item.price }}</span>
-                    <button class="btn btn-outline-info" style= "" id="editButton{{cart.id}}" onclick="">Remove from cart</button>
+                    <button class="btn btn-outline-info" id="editButton{{cart.id}}" onclick="">Remove from cart</button>
                     <script type="text/javascript">
                         document.getElementById("editButton{{cart.id}}").onclick = function () {
                             location.href='{{ url_for("carts.BuyCart", cart_id=cart.id) }}';
