@@ -7,16 +7,9 @@ from FlaskSite.Models import (UserType, User, Item, Category, Cart, Transaction,
                             Status, Category, Chat, ChatDetail, ShippingRecord, Shipping)
 from flask_login import login_user, current_user, logout_user, login_required
 from FlaskSite.items.Utils import SaveItemPicture
+from FlaskSite.Variables import *
 
 items = Blueprint('items', __name__)
-title = 'VT Shop'
-userImagePath = 'Database/Pictures/User/'
-itemImagePath = 'Database/Pictures/Item/'
-perPageItem = 5
-perPageUser = 5
-restrictedUser = ("Customer")
-specialUser = ("Owner", "Admin")
-
 
 @items.route("/item/<int:item_id>", methods=['GET', 'POST'])
 def ViewItem(item_id):

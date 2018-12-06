@@ -2,9 +2,7 @@ from FlaskSite import app
 import os
 from flask import url_for
 from PIL import Image
-
-userImagePath = 'Database/Pictures/User/'
-itemImagePath = 'Database/Pictures/Item/'
+from FlaskSite.Variables import *
 
 def SaveItemPicture(form_picture, item_id):
     _, f_ext = os.path.splitext(form_picture.filename)

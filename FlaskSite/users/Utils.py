@@ -4,8 +4,7 @@ from PIL import Image
 from FlaskSite import app, bcrypt, db, mail
 import os
 from flask import url_for
-
-userImagePath = 'Database/Pictures/User/'
+from FlaskSite.Variables import *
 
 def SaveUserPicture(form_picture):
     _, f_ext = os.path.splitext(form_picture.filename)

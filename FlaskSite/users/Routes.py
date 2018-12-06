@@ -8,17 +8,10 @@ from FlaskSite.users.Forms import (RegistrationForm,  LoginForm, EditProfileForm
 from FlaskSite.Models import (UserType, User, Item, Category, Cart, Transaction, TransactionDetail, History, HistoryDetail,
                             Status, Category, Chat, ChatDetail, ShippingRecord, Shipping)
 from flask_login import login_user, current_user, logout_user, login_required
-
 from FlaskSite.users.Utils import SaveUserPicture, SendResetEmail
+from FlaskSite.Variables import *
 
 users = Blueprint('users', __name__)
-title = 'VT Shop'
-userImagePath = 'Database/Pictures/User/'
-itemImagePath = 'Database/Pictures/Item/'
-perPageItem = 5
-perPageUser = 5
-restrictedUser = ("Customer")
-specialUser = ("Owner", "Admin")
 
 @users.route('/register', methods=['GET', 'POST'])
 def Register():
@@ -116,7 +109,7 @@ def ResetRequest():
         SendResetEmail(user)
         flash('An email has been sent with instructions to reset your password.', 'info')
         return redirect(url_for('users.Login'))
-    return render_template('resetRequest.html', title='Reset Password', form=form)
+    return render_template('resetRequest.html', title=title+' - Reset Password', form=form)
 
 @users.route("/reset_password/<token>", methods=['GET', 'POST'])
 def ResetToken(token):
@@ -133,4 +126,4 @@ def ResetToken(token):
         db.session.commit()
         flash('Your password has been updated! You are now able to log in', 'success')
         return redirect(url_for('users.Login'))
-    return render_template('resetToken.html', title='Reset Password', form=form)
+    return render_template('resetToken.html', title=title+' - Reset Password', form=form)
