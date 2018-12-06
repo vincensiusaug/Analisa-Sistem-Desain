@@ -1,6 +1,22 @@
 {% extends "account.html" %}
 
 {% block contentInfo %}
+{% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
+<form method="POST" class="row" style="margin:10px" action="{{ url_for('AllTransaction')}}">
+    <select style="margin-right:10px; display: block; padding: 10px 20px 10px 10px; background: #d4d4d4; outline: none; border: none; border-radius: 5px;" name="statusSelect">
+        {% for status in allStatus %}
+        <option value ="{{status[0]}}" {% if status[0]==selected %} selected="selected"{% endif %}>{{status[1]}}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" style="display: block" class="btn btn-default">Go</button>
+</form>
+<!-- <script type="text/javascript">
+    document.getElementById("statusSelect").onchange = function () {
+        var value = document.getElementById("statusSelect").value
+        location.href='{{ url_for("AllTransaction", status_id=value) }}';
+    };
+</script> -->
+{% endif %}
 {% for transaction in transactions %}
     <article class="media content-section">
         <div class="media-body">

@@ -98,3 +98,7 @@ class ChangeUserTypeForm(FlaskForm):
 class ChatForm(FlaskForm):
     text = StringField('Text', validators=[DataRequired()])
     submit = SubmitField('Send')
+
+class TransactionForm(FlaskForm):
+    status = SelectField('Status', choices=[], coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Change')

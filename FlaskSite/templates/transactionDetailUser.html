@@ -17,14 +17,47 @@
         </div>
     </article>
 {% endfor %}
-        <div style="margin: 20px; margin-top: 40px">
-            <div style="float: left">
-                <p href="{{ url_for('ViewTransaction', transaction_id=transaction.id) }}">Id Number:<br>{{ transaction.id }}</p>
-                <time>Transaction time:<br>{{ transaction.date.strftime('%d-%m-%Y %H:%M') }}</time>
-            </div>
-            <div style="float: right">
-                <p>Status:<br>{{ transaction.status.description }}</p>
-                <p>Total price:<br>Rp.{{ transaction.total_price }}</p>
+{% if current_user.usertype.name == "Owner" or current_user.usertype.id == "Admin" %}
+    <article class="media content-section">
+        <div class="media-body">
+            <form method="POST" action="" enctype="multipart/form-data">
+                <fieldset class="form-group">
+                    <div class="article-metadata row">
+                        <div style="float: left; width: 40%; margin: 10px;">
+                            <p class="article-title">Name:<br>{{ transaction.user }}</p>
+                            <p class="article-content">Email:<br>{{ transaction.user.email }}</p>
+                            <p class="article-content">Bank Number:<br>{{ transaction.user.bank }}</p>
+                        </div>
+                        <div style="float: right; width: 40%; margin: 10px;">
+                            <p>Username:<br>{{ transaction.user.username }}</p>
+                            <p>Address:<br>{{ transaction.user.address }}</p>
+                            <p>Phone Number:<br>{{ transaction.user.phone }}</p>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <div style="margin: 20px; margin-top: 40px">
+                <div style="float: left">
+                    <p href="{{ url_for('ViewTransaction', transaction_id=transaction.id) }}">Id Number:<br>{{ transaction.id }}</p>
+                    <time>Transaction time:<br>{{ transaction.date.strftime('%d-%m-%Y %H:%M') }}</time>
+                </div>
+                <div style="float: right">
+                    <p>Status:<br>{{ transaction.status.description }}</p>
+                    <p>Total price:<br>Rp.{{ transaction.total_price }}</p>
+                </div>
             </div>
         </div>
+    </article>
+{% else %}
+    <div style="margin: 20px; margin-top: 40px">
+        <div style="float: left">
+            <p href="{{ url_for('ViewTransaction', transaction_id=transaction.id) }}">Id Number:<br>{{ transaction.id }}</p>
+            <time>Transaction time:<br>{{ transaction.date.strftime('%d-%m-%Y %H:%M') }}</time>
+        </div>
+        <div style="float: right">
+            <p>Status:<br>{{ transaction.status.description }}</p>
+            <p>Total price:<br>Rp.{{ transaction.total_price }}</p>
+        </div>
+    </div>
+{% endif %}
 {% endblock contentInfo %}

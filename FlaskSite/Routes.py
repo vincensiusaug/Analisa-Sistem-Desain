@@ -221,14 +221,18 @@ def SearchUser():
     # items = Item.query.order_by(Item.price).paginate(page=page, per_page=2)
     return render_template('viewUser.html', title=title+' - Search User', users=users)
 
-@app.route('/transaction')
+@app.route('/transaction', methods=['GET', 'POST'])
 @login_required
 def AllTransaction():
+    status_id = request.form.get('statusSelect', 1, type=int)
+    allStatus = []
+    for status in Status.query.all():
+        allStatus.append((status.id, status.description))
     if current_user.usertype.name in restrictedUser:
         transactions = Transaction.query.filter(Transaction.user_id == current_user.id).all()
     else:
-        transactions = Transaction.query.all()
-    return render_template('transactionList.html', title=title+' - Transaction', transactions=transactions)
+        transactions = Transaction.query.join(Status).filter(Status.id==status_id).all()
+    return render_template('transactionList.html', title=title+' - Transaction', transactions=transactions, allStatus=allStatus, selected=status_id)
     # else:
     #     return render_template('transactionAdmin.html', title=title+' - Transaction')
 
