@@ -2,7 +2,7 @@
 
 {% block contentInfo %}
   <form action="{{ url_for('admins.SearchUser') }}">
-      <input class="form-control" type="text" placeholder=" Search" name="search" style="padding: 5px; margin-bottom: 20px;">
+      <input class="form-control" type="text" style="font-family: FontAwesome; margin-bottom: 20px" placeholder="&#xf002;" name="search" style="padding: 5px; margin-bottom: 20px;">
       <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
   </form>
   {% for user in users.items %}
