@@ -1,12 +1,10 @@
 # Analisa Sistem Desain
   
 
-Packages needed:
-- flask
-- flask-bcrypt
-  
-$ source bin/activate  
+username = superuser
+password = Superuser1 
 
-$ ./FlaskRun
-
-$ deactivate
+Cara menjalankan:
+1. Set working directory pada folder ini
+2. $ ./FlaskRun
+3. Buka 0.0.0.0:5000/
