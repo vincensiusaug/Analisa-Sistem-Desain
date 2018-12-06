@@ -136,6 +136,16 @@ def AddItem():
         return redirect(url_for('AddItem'))
     return render_template('addItem.html', title=title+' - Add Item', form=form)
 
+@app.route('/item/delete')
+@login_required
+def DeleteItem():
+    item_id = request.args['item_id']
+    item = Item.query.get(item_id)
+    db.session.delete(item)
+    db.session.commit()
+    flash('Item Deleted!', 'success')
+    return redirect(url_for("Home"))
+
 @app.route('/item/edit', methods=['GET', 'POST'])
 @login_required
 def EditItem():
@@ -166,7 +176,7 @@ def EditItem():
         form.description.data = item.description
         form.category_id.data = item.category_id
         form.stock.data = item.stock
-    return render_template('editItem.html', title=title+' - Edit Item', form=form, categories=categories)
+    return render_template('editItem.html', title=title+' - Edit Item', form=form, categories=categories, item=item)
 
 @app.route('/add_category', methods=['GET', 'POST'])
 @login_required
@@ -200,7 +210,6 @@ def EditCategory():
         form.name.data = category.name
         form.description.data = category.description
     return render_template('editCategory.html', title=title+' - Edit Category', form=form, category=category)
-    # return render_template('editCategory.html', title=title+' - Edit Category')
 
 @app.route('/view_users')
 @login_required
@@ -248,7 +257,7 @@ def DeleteTransaction(transaction_id):
     # transaction_id = request.args['transaction_id']
     transaction = Transaction.query.get(transaction_id)
     for detail in TransactionDetail.query.filter(TransactionDetail.transaction_id == transaction_id):
-        Item.query.get(cart.item_id).stock += detail.quantity
+        Item.query.get(detail.item_id).stock += detail.quantity
         db.session.delete(detail)
     db.session.delete(transaction)
     db.session.commit()

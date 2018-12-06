@@ -27,6 +27,7 @@
     {% endfor %}
 {% endblock contentInfo %}
 {% block contentInfoBot %}
+<div class="border-top pt-3">
     {% for page_num in chats.iter_pages() %}
         {% if page_num %}
             <a class="btn btn-outline-info mb-4" href="{{ url_for('ChatList', page=page_num) }}">{{ page_num }}</a>
@@ -34,4 +35,5 @@
             ...
         {% endif %}
     {% endfor %}
+</div>
 {% endblock contentInfoBot %}

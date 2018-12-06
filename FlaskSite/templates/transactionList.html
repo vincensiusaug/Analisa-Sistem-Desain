@@ -3,7 +3,7 @@
 {% block contentInfo %}
 {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
 <form method="POST" class="row" style="margin:10px" action="{{ url_for('AllTransaction')}}">
-    <select style="margin-right:10px; display: block; padding: 10px 20px 10px 10px; background: #d4d4d4; outline: none; border: none; border-radius: 5px;" name="statusSelect">
+    <select style="margin-right:10px; display: block; padding: 10px 20px 10px 10px; border: none; border-radius: 5px;" name="statusSelect">
         {% for status in allStatus %}
         <option value ="{{status[0]}}" {% if status[0]==selected %} selected="selected"{% endif %}>{{status[1]}}</option>
         {% endfor %}

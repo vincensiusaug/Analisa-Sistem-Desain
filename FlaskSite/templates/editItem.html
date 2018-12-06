@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <form class="content-section" method="POST" action="" enctype="multipart/form-data">
+<div class="content-section">
+    <form method="POST" enctype="multipart/form-data">
         {{form.hidden_tag()}}
         <fieldset class="form-group">
             <legend class="border_bottom mb-4">
@@ -87,5 +88,12 @@
             {{form.submit(class="btn btn-outline-info")}}
         </div>
     </form>
+    <button id="deleteButton" class="btn btn-outline-info">Delete</button>
+</div>
+        <script type="text/javascript">
+            document.getElementById("deleteButton").onclick = function () {
+                location.href='{{ url_for("DeleteItem", item_id=item.id) }}';
+            };
+        </script>
 
 {% endblock content %}

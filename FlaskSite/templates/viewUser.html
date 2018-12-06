@@ -24,11 +24,14 @@
   {% endfor %}
 {% endblock contentInfo %}
 {% block contentInfoBot %}
-    {% for page_num in users.iter_pages() %}
-        {% if page_num %}
-            <a class="btn btn-outline-info mb-4" href="{{ url_for('ViewUser', page=page_num) }}">{{ page_num }}</a>
-        {% else %}
-            ...
-        {% endif %}
-    {% endfor %}
+<div class="border-top pt-3">
+  {% for page_num in users.iter_pages() %}
+      {% if page_num %}
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('ViewUser', page=page_num) }}">{{ page_num }}</a>
+      {% else %}
+          ...
+      {% endif %}
+  {% endfor %}
+
+</div>
 {% endblock contentInfoBot %}
