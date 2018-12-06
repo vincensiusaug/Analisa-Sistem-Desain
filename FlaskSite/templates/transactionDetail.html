@@ -48,6 +48,14 @@
             </div>
         </div>
     </article>
+    <form method="POST" class="row" style="margin:10px" action="{{ url_for('ViewTransaction')}}">
+        <select style="margin-right:10px; display: block; padding: 10px 20px 10px 10px; background: #d4d4d4; outline: none; border: none; border-radius: 5px;" name="statusSelect">
+            {% for status in allStatus %}
+            <option value ="{{status[0]}}" {% if status[0]==selected %} selected="selected"{% endif %}>{{status[1]}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" style="display: block" class="btn btn-outline-info">Go</button>
+    </form>
 {% else %}
     <div style="margin: 20px; margin-top: 40px">
         <div style="float: left">

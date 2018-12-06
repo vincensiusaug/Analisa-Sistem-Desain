@@ -8,14 +8,8 @@
         <option value ="{{status[0]}}" {% if status[0]==selected %} selected="selected"{% endif %}>{{status[1]}}</option>
         {% endfor %}
     </select>
-    <button type="submit" style="display: block" class="btn btn-default">Go</button>
+    <button type="submit" style="display: block" class="btn btn-outline-info">Go</button>
 </form>
-<!-- <script type="text/javascript">
-    document.getElementById("statusSelect").onchange = function () {
-        var value = document.getElementById("statusSelect").value
-        location.href='{{ url_for("AllTransaction", status_id=value) }}';
-    };
-</script> -->
 {% endif %}
 {% for transaction in transactions %}
     <article class="media content-section">
