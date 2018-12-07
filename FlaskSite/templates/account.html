@@ -2,7 +2,6 @@
 
 {% block content %}
     <div class="row">
-
         <div class="col-md-4">
             <div class="content-section">
                 <ul class="list-group">
@@ -21,12 +20,14 @@
                             <a class="list-group-item list-group-item-light" href="{{ url_for('admins.ViewUser') }}">View Users</a>
                         {% endif %}
                     {% endif %}
-                    <a class="list-group-item list-group-item-light" href="{{ url_for('transactions.AllTransaction') }}">Transaction</a>
-                    <a class="list-group-item list-group-item-light" href="{{ url_for('histories.AllHistory') }}">History</a>
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('transactions.AllTransaction') }}">Transaction</a>
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('histories.AllHistory') }}">History</a>
+                    {% if current_user.usertype.name == "Owner" %}
+                        <a class="list-group-item list-group-item-light" href="{{ url_for('admin.index') }}">Owner Page</a>
+                    {% endif %}
                     </ul>
                 </div>
             </div>
-        
         <div class="content-section col-md-8">
             {% block contentInfo %}{% endblock %}
             <article class="bottom center">
@@ -34,5 +35,4 @@
             </article>
         </div>
     </div>
-    
 {% endblock content %}

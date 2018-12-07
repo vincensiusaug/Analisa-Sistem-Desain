@@ -3,22 +3,17 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
 from FlaskSite.Config import Config
+from flask_login import current_user
 
 app = Flask(__name__)
 app.config.from_object(Config)
 app.jinja_env.auto_reload = True
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
-admin = Admin(app)
 loginManager = LoginManager(app)
 loginManager.login_view = 'users.Login'
 loginManager.login_message_category = 'info'
-from FlaskSite.Models import User
-admin.add_view(ModelView(User, db.session))
-
 mail = Mail(app)
 
 from FlaskSite.admins.Routes import admins
@@ -42,3 +37,5 @@ app.register_blueprint(main)
 app.register_blueprint(transactions)
 app.register_blueprint(users)
 app.register_blueprint(errors)
+
+import FlaskSite.Admin
