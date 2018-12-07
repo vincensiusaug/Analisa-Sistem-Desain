@@ -20,7 +20,10 @@ def Register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashedPassword = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(firstName = form.firstName.data, lastName = form.lastName.data, username = form.username.data, email = form.email.data, password = hashedPassword, address = form.address.data, phone = form.phone.data, bank = form.bank.data)
+        user = User(firstName = form.firstName.data, lastName = form.lastName.data, username = form.username.data, email = form.email.data,
+                    password = hashedPassword, address = form.address.data, phone = form.phone.data, bank = form.bank.data)
+        if not User.query.one():
+            user.userType_id = 1
         db.session.add(user)
         db.session.commit()
         flash('Account Created', 'success')
