@@ -16,7 +16,7 @@ histories = Blueprint('histories', __name__)
 def AllHistory():
     status_id = request.form.get('statusSelect', 0, type=int)
     allStatus = []
-    allStatus.append((0, "All transaction"))
+    allStatus.append((0, "All history"))
     for status in Status.query.all():
         allStatus.append((status.id, status.description))
     if current_user.usertype.name in restrictedUser:

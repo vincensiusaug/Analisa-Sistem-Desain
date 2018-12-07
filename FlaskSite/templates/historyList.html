@@ -10,6 +10,9 @@
     </select>
     <button type="submit" style="display: block" class="btn btn-outline-info">Go</button>
 </form>
+<form action="{{ url_for('admins.SearchUser') }}">
+    <input class="form-control" type="text" style="font-family: FontAwesome; margin-bottom: 20px" placeholder="&#xf002;" name="search" style="padding: 5px; margin-bottom: 20px;">
+</form>
 {% endif %}
 {% for history in histories %}
     <article class="media content-section">
