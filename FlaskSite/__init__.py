@@ -38,4 +38,4 @@ app.register_blueprint(transactions)
 app.register_blueprint(users)
 app.register_blueprint(errors)
 
-import FlaskSite.Admin
+import FlaskSite.admins.Admin

@@ -3,7 +3,6 @@
 {% block contentInfo %}
   <form action="{{ url_for('admins.SearchUser') }}">
       <input class="form-control" type="text" style="font-family: FontAwesome; margin-bottom: 20px" placeholder="&#xf002;" name="search" style="padding: 5px; margin-bottom: 20px;">
-      <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
   </form>
   {% for user in users.items %}
       <article class="media content-section">
@@ -17,7 +16,7 @@
               </div>
             </fieldset>
           </form>
-          <h2><a class="article-title">{{ user.firstName }} {{ user.lastName }}</a></h2>
+          <h2><a class="article-title">{{ user }} {{ user }}</a></h2>
           <p class="article-content">{{ user.email }}</p>
         </div>
       </article>
