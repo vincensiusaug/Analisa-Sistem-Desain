@@ -1,9 +1,11 @@
 {% extends "layout.html" %}
 
 {% block content %}
+{% if current_user.is_authenticated %}
   {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
       <button class="btn btn-outline-info" style= "float: right;" id="editButton" onclick="">Edit Category</button>
   {% endif %}
+{% endif %}
   <h5>{{ category.name }}</h5>
   <small class="text-muted" style="margin-bottom: 40px">
     {{ category.description }}

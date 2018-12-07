@@ -8,10 +8,11 @@ Required package (install using pip3)
 pillow
 sqlalchemy
 flask
-flask_login
-flask_mail
-flask_sqlalchemy
-flask_bcrypt
+flask-login
+flask-mail
+flask-sqlalchemy
+flask-bcrypt
+flask-admin
 
 Cara menjalankan:
 1. Set working directory pada folder ini

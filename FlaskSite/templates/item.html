@@ -12,10 +12,10 @@
                         <div class="row article-metadata">
                             <a class=" col-md-8" href="{{ url_for('categories.ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
                         </div>
-                        {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
-                            <button class="btn btn-outline-info" style= "margin: 10px; float:right;" id="editButton" onclick="">Edit Item</button>
-                        {% endif %}
                         {% if current_user.is_authenticated %}
+                            {% if current_user.usertype.name == "Admin" or current_user.usertype.name == "Owner" %}
+                                <button class="btn btn-outline-info" style= "margin: 10px; float:right;" id="editButton" onclick="">Edit Item</button>
+                            {% endif %}
                             {% if current_user.usertype.name == "Customer" %}
                                 <form method="POST" action="" enctype="multipart/form-data" class="col-md-4" style="float:right">
                                     {{form.hidden_tag()}}
