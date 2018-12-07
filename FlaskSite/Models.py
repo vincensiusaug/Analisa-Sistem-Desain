@@ -48,7 +48,7 @@ class User(db.Model, UserMixin):
         return User.query.get(user_id)
 
     def __repr__(self):
-        return self.firstName+" "+self.lastName
+        return str(self.firstName)+''+str(self.lastName)
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
