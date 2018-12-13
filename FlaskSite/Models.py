@@ -48,7 +48,7 @@ class User(db.Model, UserMixin):
         return User.query.get(user_id)
 
     def __repr__(self):
-        return str(self.firstName)+''+str(self.lastName)
+        return str(self.firstName)+' '+str(self.lastName)
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -68,6 +68,10 @@ class Item(db.Model):
     stock = db.Column(db.Integer, unique=False, nullable=False)
     sold = db.Column(db.Integer, default=0)
     image_file = db.Column(db.String(60), nullable=False, default = 'item-default.jpg')
+    image_file1 = db.Column(db.String(60), nullable=True)
+    image_file2 = db.Column(db.String(60), nullable=True)
+    image_file3 = db.Column(db.String(60), nullable=True)
+    image_file4 = db.Column(db.String(60), nullable=True)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     cart = db.relationship('Cart', backref='item', lazy=True)
     transaction_detail = db.relationship('TransactionDetail', backref='item', lazy=True)

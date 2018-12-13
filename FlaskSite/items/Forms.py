@@ -13,8 +13,12 @@ class AddItemForm(FlaskForm):
     description = StringField('Description', validators=[DataRequired(), Length(min=2, max=1200)])
     category_id = SelectField('Category', choices=[], coerce=int, validators=[DataRequired()])
     stock = IntegerField('Stock', validators=[DataRequired(), NumberRange(min=1)])
-    picture = FileField('Upload Item Picture', validators=[FileAllowed(allowedPictureExt)])
-    submit = SubmitField('Add')
+    picture = FileField('Upload Item Picture 1', validators=[FileAllowed(allowedPictureExt)])
+    picture1 = FileField('Upload Item Picture 2', validators=[FileAllowed(allowedPictureExt)])
+    picture2 = FileField('Upload Item Picture 3', validators=[FileAllowed(allowedPictureExt)])
+    picture3 = FileField('Upload Item Picture 4', validators=[FileAllowed(allowedPictureExt)])
+    picture4 = FileField('Upload Item Picture 5', validators=[FileAllowed(allowedPictureExt)])
+    submit = SubmitField('Add')  
 
 class EditItemForm(FlaskForm):
     name = StringField('Item Name', validators=[DataRequired(), Length(min=2, max=40)])
@@ -24,6 +28,10 @@ class EditItemForm(FlaskForm):
     category_id = SelectField('Category', choices=[], coerce=int, validators=[DataRequired()])
     stock = IntegerField('Stock', validators=[DataRequired(), NumberRange(min=1)])
     picture = FileField('Change Item Picture', validators=[FileAllowed(allowedPictureExt)])
+    picture1 = FileField('Upload Item Picture 2', validators=[FileAllowed(allowedPictureExt)])
+    picture2 = FileField('Upload Item Picture 3', validators=[FileAllowed(allowedPictureExt)])
+    picture3 = FileField('Upload Item Picture 4', validators=[FileAllowed(allowedPictureExt)])
+    picture4 = FileField('Upload Item Picture 5', validators=[FileAllowed(allowedPictureExt)])
     submit = SubmitField('Edit')
 
 class AddCartForm(FlaskForm):

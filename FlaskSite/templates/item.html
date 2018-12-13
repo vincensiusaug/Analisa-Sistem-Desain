@@ -5,10 +5,15 @@
         <div class="media-body" style="width: 100%">
             <div class="article-metadata" style="width: 100%">
                 <div class="row" style="margin-bottom: 20px">
-                    <div class="col-md-4">
-                        <img class="article-img-big" style="width: 60%: height: 60%;" src="{{ url_for('static', filename='Database/Pictures/Item/' + item.image_file) }}">
+                    <div class="col-md-5 row">
+                        <button id="prevBtn" class="btn btn-outline-info"><</button>
+                        <img id="image_to_show" class="article-img-big" style="width: 60%: height: 60%;">
+                        <button id="nextBtn" class="btn btn-outline-info">></button>
+                        <script>
+                            
+                        </script>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <div class="row article-metadata">
                             <a class=" col-md-8" href="{{ url_for('categories.ViewCategory' ,category_id=item.itemcategory.id) }}">{{ item.itemcategory.name }}</a>
                         </div>
@@ -32,7 +37,7 @@
                                             {% endif %}
                                         </div>
                                         {{form.submit(class="btn btn-outline-info")}}
-                                    </fieldset>
+                                     </fieldset>
                                 </form>
                             {% endif %}
                         {% endif %}
@@ -51,6 +56,33 @@
     <script type="text/javascript">
         document.getElementById("editButton").onclick = function () {
             location.href='{{ url_for("items.EditItem", item_id=item.id) }}';
+        };
+    </script>
+    <script>
+        let img_arr=[];
+        let index = 0;
+        
+        {% for img in images %}
+            img_arr.push("{{img}}");
+        {% endfor %}
+        console.log(img_arr);
+        window.onload = function ShowImage() {
+            console.log(img_arr[index]);
+            document.getElementById('image_to_show').src="{{ url_for('static', filename='Database/Pictures/Item/' ) }}"+img_arr[index];
+            }
+        document.getElementById("prevBtn").onclick = function () {
+            if (index>0){
+                --index;
+            }
+            console.log(img_arr[index]);
+            document.getElementById('image_to_show').src="{{ url_for('static', filename='Database/Pictures/Item/' ) }}"+img_arr[index];
+        };
+        document.getElementById("nextBtn").onclick = function () {
+            if (index+1 < img_arr.length){
+                ++index;
+            }
+            console.log(index);
+            document.getElementById('image_to_show').src="{{ url_for('static', filename='Database/Pictures/Item/' ) }}"+img_arr[index];
         };
     </script>
     

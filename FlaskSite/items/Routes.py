@@ -14,6 +14,17 @@ items = Blueprint('items', __name__)
 @items.route("/item/<int:item_id>", methods=['GET', 'POST'])
 def ViewItem(item_id):
     item = Item.query.get_or_404(item_id)
+    img_array = []
+    if item.image_file != None:
+        img_array.append(item.image_file)
+    if item.image_file1 != None:
+        img_array.append(item.image_file1)
+    if item.image_file2 != None:
+        img_array.append(item.image_file2)
+    if item.image_file3 != None:
+        img_array.append(item.image_file3)
+    if item.image_file4 != None:
+        img_array.append(item.image_file4)
     form = AddCartForm()
     if form.validate_on_submit():
         if form.quantity.data > item.stock:
@@ -34,7 +45,7 @@ def ViewItem(item_id):
         return redirect(url_for('items.ViewItem', item_id=item_id))
     elif request.method == 'GET':
         form.quantity.data = 1
-    return render_template('item.html', title=title+' - '+item.name, item=item, form=form)
+    return render_template('item.html', title=title+' - '+item.name, item=item, form=form, images=img_array)
 
 @items.route('/add_item', methods=['GET', 'POST'])
 @login_required
@@ -48,10 +59,23 @@ def AddItem():
         allCategory.append((category.id, category.name))
     form.category_id.choices = allCategory
     if form.validate_on_submit():
-        item = Item(name = form.name.data, price = form.price.data, unit=form.unit.data, description = form.description.data, category_id = form.category_id.data, stock = form.stock.data)
+        item = Item(name = form.name.data, price = form.price.data, unit=form.unit.data, description = form.description.data,
+                    category_id = form.category_id.data, stock = form.stock.data)
         if form.picture.data:
             picture_file = SaveItemPicture(form.picture.data)
             item.image_file = picture_file
+        if form.picture1.data:
+            picture_file = SaveItemPicture(form.picture1.data)
+            item.image_file1 = picture_file
+        if form.picture2.data:
+            picture_file = SaveItemPicture(form.picture2.data)
+            item.image_file2 = picture_file
+        if form.picture3.data:
+            picture_file = SaveItemPicture(form.picture3.data)
+            item.image_file3 = picture_file
+        if form.picture4.data:
+            picture_file = SaveItemPicture(form.picture4.data)
+            item.image_file4 = picture_file
         db.session.add(item)
         db.session.commit()
         flash('Item Added!', 'success')
@@ -91,6 +115,18 @@ def EditItem():
         if form.picture.data:
             picture_file = SaveItemPicture(form.picture.data)
             item.image_file = picture_file
+        if form.picture1.data:
+            picture_file = SaveItemPicture(form.picture1.data)
+            item.image_file1 = picture_file
+        if form.picture2.data:
+            picture_file = SaveItemPicture(form.picture2.data)
+            item.image_file2 = picture_file
+        if form.picture3.data:
+            picture_file = SaveItemPicture(form.picture3.data)
+            item.image_file3 = picture_file
+        if form.picture4.data:
+            picture_file = SaveItemPicture(form.picture4.data)
+            item.image_file4 = picture_file
         db.session.commit()
         flash('Item Changed!', 'success')
         return redirect(url_for('items.ViewItem', item_id=item_id))
