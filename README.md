@@ -4,7 +4,7 @@
 username = superuser  
 password = superuser  
   
-Required package (install using pip3)  
+Required package (install using pip)  
 flask  
 flask-sqlalchemy  
 flask-bcrypt  
