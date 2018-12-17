@@ -11,7 +11,7 @@ from FlaskSite.Variables import *
 
 histories = Blueprint('histories', __name__)
 
-@histories.route('/history')
+@histories.route('/history', methods=['GET', 'POST'])
 @login_required
 def AllHistory():
     status_id = request.form.get('statusSelect', 0, type=int)
